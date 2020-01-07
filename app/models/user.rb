@@ -1,6 +1,6 @@
 class User < ApplicationRecord
     validates :username, :password_digest, presence: true
-    validates :status, presence: true
+    validates :status, inclusion: { in: ["Online", "Away", "Do not disturb", "Offline"] }
     validates :password, length: { minimum: 6, allow_nil: true }
     before_validation :ensure_session_token
 
