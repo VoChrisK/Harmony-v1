@@ -1,16 +1,54 @@
-/* #background {
-    background-image: url(./../images/discord-background.jpg);
-} */
-
 #session-form-container {
-    width: 500px;
+    position: relative;
+    width: 400px;
     height: auto;
-    text-align: center;
     background-color: #36393f;
-    color: white;
+    color: gray;
+    border-radius: 5px;
+    left: 30%;
+    transform: translateX(-30%);
+    top: 25%;
+    padding: 35px;
+    font-family: sans-serif;
+    box-shadow: 1px 2px 3px black;
 }
 
-.session-form {
+#session-form {
     display: flex;
     flex-direction: column;
+}
+
+.form-header {
+    font-size: 26px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: white;
+    font-family: 
+}
+
+.sub-form-header {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.form-submit, #demo-login {
+    height: 40px;
+    margin-bottom: 20px;
+    background-color: #7289da;
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+
+#session-form-container h3 {
+    font-size: 14px;
+}
+
+#session-form-container a {
+    font-size: 14px;
+    color: #7289da
+}
+
+#forgot-password-link {
+    margin: 15px 0;
 }

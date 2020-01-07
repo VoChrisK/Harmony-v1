@@ -6,8 +6,9 @@ import SignupFormContainer from './session/signup_form_container';
 const App = () => {
     return(
         <div className="harmony-app">
-            <div id="background"></div>
-            <Route to="/login" component={LoginFormContainer} />
+            <div id="background">
+                <Route to="/login" component={LoginFormContainer} />
+            </div>
         </div>
     );
 };

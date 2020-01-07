@@ -181,10 +181,10 @@ var App = function App() {
     className: "harmony-app"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     id: "background"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
     to: "/login",
     component: _session_login_form_container__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }));
+  })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (App); // <Route to="/signup" component={SignupFormContainer} />
@@ -306,27 +306,35 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "session-form-container"
       }, this.renderHeader(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "session-form"
+        id: "session-form"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "email-input",
+        className: "input-field"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "email",
         className: "form-label"
-      }, "Email", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         name: "email",
         id: "email",
         className: "form-input"
-      })), this.renderUsernameInput(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      })), this.renderUsernameInput(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "password-input",
+        className: "input-field"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "password",
         className: "form-label"
-      }, "Password", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "password",
         name: "password",
         id: "password",
         className: "form-input"
       })), this.loginForm() ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        id: "forgot-password-link",
         href: "#"
       }, "Forgot your password?") : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
+        className: "form-submit",
         value: this.loginForm() ? "Login" : "Continue"
       }), this.renderDemoLogin()), this.switchLinks());
     } //helper methods
@@ -363,10 +371,13 @@ function (_React$Component) {
       if (this.loginForm()) {
         return null;
       } else {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          id: "username-input",
+          className: "input-field"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
           htmlFor: "username",
           className: "form-label"
-        }, "Username", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        }, "Username"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "text",
           name: "username",
           id: "username",
@@ -378,7 +389,7 @@ function (_React$Component) {
     key: "renderDemoLogin",
     value: function renderDemoLogin() {
       if (this.loginForm()) {
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           id: "demo-login"
         }, "Demo Login");
       } else {

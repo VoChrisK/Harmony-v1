@@ -11,22 +11,22 @@ class SessionForm extends React.Component {
             <div id="session-form-container">
                 { this.renderHeader() }
 
-                <form className="session-form">
-                    <label htmlFor="email" className="form-label">
-                        Email
+                <form id="session-form">
+                    <div id="email-input" className="input-field">
+                        <label htmlFor="email" className="form-label">Email</label>
                         <input type="text" name="email" id="email" className="form-input" />
-                    </label>
+                    </div>
 
                     { this.renderUsernameInput() }
 
-                    <label htmlFor="password" className="form-label">
-                        Password
+                    <div id="password-input" className="input-field">
+                        <label htmlFor="password" className="form-label">Password</label>
                         <input type="password" name="password" id="password" className="form-input"/>
-                    </label>
+                    </div>
 
-                    {this.loginForm() ? <a href="#">Forgot your password?</a> : null }
+                    {this.loginForm() ? <a id="forgot-password-link" href="#">Forgot your password?</a> : null }
 
-                    <input type="submit" value={this.loginForm() ? "Login" : "Continue"}/>
+                    <input type="submit" className="form-submit" value={this.loginForm() ? "Login" : "Continue"}/>
 
                     { this.renderDemoLogin() }
                 </form>
@@ -64,17 +64,18 @@ class SessionForm extends React.Component {
             return null;
         } else {
             return (
-                <label htmlFor="username" className="form-label">
-                    Username
+                <div id="username-input" className="input-field">
+                    <label htmlFor="username" className="form-label">Username</label>
                     <input type="text" name="username" id="username" className="form-input" />
-                </label>
+                </div>
+                
             );
         }
     }
 
     renderDemoLogin() {
         if(this.loginForm()) {
-            <button id="demo-login">Demo Login</button>
+            return <button id="demo-login">Demo Login</button>
         } else {
             return null;
         }
