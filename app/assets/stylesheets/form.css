@@ -1,0 +1,16 @@
+/* #background {
+    background-image: url(./../images/discord-background.jpg);
+} */
+
+#session-form-container {
+    width: 500px;
+    height: auto;
+    text-align: center;
+    background-color: #36393f;
+    color: white;
+}
+
+.session-form {
+    display: flex;
+    flex-direction: column;
+}
