@@ -10,10 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_06_231811) do
+ActiveRecord::Schema.define(version: 2020_01_08_031938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "affiliations", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "server_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "server_id"], name: "index_affiliations_on_user_id_and_server_id", unique: true
+  end
+
+  create_table "servers", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_servers_on_name", unique: true
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
