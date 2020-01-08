@@ -22,7 +22,7 @@ const receiveSessionErrors = errors => {
 
 export const login = user => dispatch => {
     return SessionApiUtil.login(user).then(
-        currentUser => dispatch(currentUser),
+        currentUser => dispatch(receiveCurrentUser(currentUser)),
         errors => dispatch(receiveSessionErrors(errors))
     );
 };

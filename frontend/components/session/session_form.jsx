@@ -1,37 +1,87 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import uniqueId from './../../util/uniqueId';
 
 class SessionForm extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            email: "",
+            username: "",
+            password: ""
+        };
+        this.totalTimer = 0;
+
+        this.handleInput = this.handleInput.bind(this);
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        const user = Object.assign({}, this.state);
+        if(!this.loginForm()) user["id"] = uniqueId();
+        setTimeout(() => this.props.processForm(user), this.totalTimer);
+        this.setState({email: "", password: ""});
+    }
+
+    handleInput(input) {
+        return e => {
+            this.setState({ [input]: e.target.value });
+        };
+    }
+
+    demoUser() {
+        const demoUser = { email: "TestUser@test.com", password: "TestPassword" };
+        this.state = demoUser;
+        const intervalLength = 75;
+        const timer = demoUser.email.length * intervalLength;
+        this.totalTimer = timer + (demoUser.password.length * intervalLength) + 1000;
+        
+        this.typeInputInfo("email", demoUser.email, intervalLength);
+        setTimeout(() => this.typeInputInfo("password", demoUser.password, intervalLength), timer);
+    }
+
+    typeInputInfo(field, value, intervalLength) {
+        let incrementedValue = "";
+
+        setInterval(() => {
+            if(value.length > 0) {
+                incrementedValue += value.slice(0, 1);
+                value = value.slice(1);
+                this.setState({[field]: incrementedValue });
+            } else {
+                clearInterval();
+            }
+        }, intervalLength);
     }
 
     render() {
         return(
-            <div id="session-form-container">
-                { this.renderHeader() }
+            <div id="background">
+                <div id="session-form-container">
+                    { this.renderHeader() }
 
-                <form id="session-form">
-                    <div id="email-input" className="input-field">
-                        <label htmlFor="email" className="form-label">Email</label>
-                        <input type="text" name="email" id="email" className="form-input" />
-                    </div>
+                    <form id="session-form" onSubmit={this.handleSubmit.bind(this)}>
+                        <div id="email-input" className="input-field">
+                            <label htmlFor="email" className="form-label">Email</label>
+                            <input type="text" name="email" id="email" value={this.state.email} className="form-input" autoComplete="off" onChange={this.handleInput("email")} />
+                        </div>
 
-                    { this.renderUsernameInput() }
+                        { this.renderUsernameInput() }
 
-                    <div id="password-input" className="input-field">
-                        <label htmlFor="password" className="form-label">Password</label>
-                        <input type="password" name="password" id="password" className="form-input"/>
-                    </div>
+                        <div id="password-input" className="input-field">
+                            <label htmlFor="password" className="form-label">Password</label>
+                            <input type="password" name="password" id="password" value={this.state.password} className="form-input" onChange={this.handleInput("password")}/>
+                        </div>
 
-                    {this.loginForm() ? <a id="forgot-password-link" href="#">Forgot your password?</a> : null }
+                        {this.loginForm() ? <a id="forgot-password-link" href="#">Forgot your password?</a> : null }
 
-                    <input type="submit" className="form-submit" value={this.loginForm() ? "Login" : "Continue"}/>
+                        <input type="submit" className="form-submit" value={this.loginForm() ? "Login" : "Continue"}/>
 
-                    { this.renderDemoLogin() }
-                </form>
+                        { this.renderDemoLogin() }
+                    </form>
 
-                { this.switchLinks() }
+                    { this.switchLinks() }
+                </div>
             </div>
         );
     }
@@ -66,7 +116,7 @@ class SessionForm extends React.Component {
             return (
                 <div id="username-input" className="input-field">
                     <label htmlFor="username" className="form-label">Username</label>
-                    <input type="text" name="username" id="username" className="form-input" />
+                    <input type="text" name="username" id="username" autoComplete="off" value={this.state.username} className="form-input" onChange={this.handleInput("username")}/>
                 </div>
                 
             );
@@ -75,7 +125,7 @@ class SessionForm extends React.Component {
 
     renderDemoLogin() {
         if(this.loginForm()) {
-            return <button id="demo-login">Demo Login</button>
+            return <button id="demo-login" onClick={this.demoUser.bind(this)}>Demo Login</button>
         } else {
             return null;
         }
@@ -86,8 +136,12 @@ class SessionForm extends React.Component {
         if(this.loginForm()) {
             return <h3>Need an account? <Link to="/signup">Register</Link></h3>
         } else {
-            return <Link to="/login">Already have an account?</Link>
+            return <Link onClick={this.addTransition.bind(this)} to="/login">Already have an account?</Link>
         }
+    }
+
+    addTransition() {
+        document.getElementById("session-form-container").classList.add("fade-in-animation");
     }
 }
 

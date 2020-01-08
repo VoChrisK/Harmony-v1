@@ -7,15 +7,35 @@
     border-radius: 5px;
     left: 30%;
     transform: translateX(-30%);
-    top: 25%;
+    top: 20%;
     padding: 35px;
-    font-family: sans-serif;
-    box-shadow: 1px 2px 3px black;
+    box-shadow: 0 2px 2px black;
 }
+
+/* .fade-in-animation {
+    animation-name: fade-in;
+    animation-duration: 0.25s;
+}
+
+.fade-out-animation {
+    animation-name: fade-out;
+    animation-duration: 0.25s;
+}
+
+@keyframes fade-out {
+    from {top: 20%; opacity: 1;}
+    to {top: 17%; opacity: 0;}
+}
+
+@keyframes fade-in {
+    from {top: 17%; opacity: 0;}
+    to {top: 20%; opacity: 1;}
+} */
 
 #session-form {
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .form-header {
@@ -23,7 +43,6 @@
     margin-bottom: 20px;
     text-align: center;
     color: white;
-    font-family: 
 }
 
 .sub-form-header {
@@ -33,11 +52,18 @@
 
 .form-submit, #demo-login {
     height: 40px;
-    margin-bottom: 20px;
+    margin-top: 20px;
     background-color: #7289da;
+    border-radius: 2px;
     border: none;
     color: white;
     font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.25s;
+}
+
+.form-submit:hover, #demo-login:hover {
+    background-color: #677bc4;
 }
 
 #session-form-container h3 {
@@ -45,10 +71,15 @@
 }
 
 #session-form-container a {
+    text-decoration: none;
     font-size: 14px;
     color: #7289da
 }
 
+#session-form-container a:hover {
+    text-decoration: underline;
+}
+
 #forgot-password-link {
-    margin: 15px 0;
+    margin-top: 20px;
 }

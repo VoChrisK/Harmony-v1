@@ -16,13 +16,17 @@
 }
 
 .form-input {
-    width: 100%;
+    width: calc(100% - 10px);
     height: 25px;
     padding: 5px;
     background-color:  #303236;
     border: 1px inset black;
     border-radius: 4px;
     color: white;
+}
+
+.form-input:focus {
+    outline: #7e97f1 1px auto;
 }
 
 .input-field {

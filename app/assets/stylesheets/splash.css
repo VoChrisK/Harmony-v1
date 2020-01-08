@@ -1,0 +1,49 @@
+#splash {
+    height: 100%;
+    background-color: #26272b;
+    color: white;
+}
+
+#login-link {
+    padding: 10px;
+    border: 2px solid hsla(0,0%,100%,0.8);
+    border-radius: 18px;
+}
+
+#header-nav {
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#splash a {
+    text-decoration: none;
+    color: white;
+}
+
+.nav-links > li {
+    display: inline;
+    padding: 0 30px;
+}
+
+#splash-content {
+    position: relative;
+    width: 40%;
+    margin-top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+#splash-content > h1 {
+    font-size: 33px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: white;
+}
+
+#splash-content > p {
+    color: gray;
+    line-height: 1.5;
+}

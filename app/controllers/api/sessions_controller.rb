@@ -7,6 +7,7 @@ class Api::SessionsController < ApplicationController
 
         if @user
             login(@user)
+            render json: @user
         else
             render json: ["Incorrect Email and/or Password"], status: 401
         end
