@@ -5,20 +5,84 @@
 .servers-sidebar {
     float: left;
     background-color: #202225;
-    width: 4%;
+    width: 80px;
+    min-width: 80px;
     height: 100%;
 }
 
 .channels-and-dms-sidebar {
     float: left;
     background-color: #2f3136;
-    width: 12.5%;
+    width: 238px;
+    min-width: 238px;
     height: 100%;
 }
 
 .main-content {
     float: left;
     background-color: #36393f;
-    width: 83.5%;
+    width: calc(100% - 238px - 80px);
     height: 100%;
+}
+
+.channel-header {
+    height: 46px;
+    border-bottom: 1px outset rgb(27, 27, 27);
+    box-shadow: 0 0px 1px black;
+}
+
+.channel-header > strong {
+    padding: 0 10px 0 20px;
+    font-size: 28px;
+    color: rgb(95, 95, 95);
+}
+
+.channel-header > h1 {
+    display: inline;
+    font-size: 18px;
+    color: white;
+}
+
+.chat-container {
+    float: left;
+    width: 85%;
+    height: calc(100% - 47px);
+}
+
+.chat-log {
+    background-image: url("./images//discord-chat-example.png"); /*this is an example*/
+    height: 89%;
+}
+
+.message-input-container {
+    position: relative;
+    margin: auto;
+    height: 11%;
+    width: 97%;
+    border-top: 1px solid #40444b;
+}
+
+.message-input {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-40%);
+    width: 97%;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    padding-left: 10px;
+    background-color: #40444b;
+    color: white;
+}
+
+.message-input:focus {
+    outline: none;
+}
+
+.users-list {
+    float: right;
+    width: 15%;
+    height: calc(100% - 47px);
+    background-color: #2f3136;
 }

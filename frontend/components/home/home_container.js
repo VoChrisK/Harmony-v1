@@ -1,18 +1,16 @@
 import { connect } from 'react-redux';
 import Home from './home';
-import { requestServers, requestServer, createServer } from './../../actions/server_actions';
+import { requestServers, createServer } from './../../actions/server_actions';
 
 const mapStateToProps = (state) => {
     return ({
-        servers: Object.values(state.entities.servers),
-        currentUserId: state.session.id 
+        servers: Object.values(state.entities.servers)
     })
 };
 
 const mapDispatchToProps = (dispatch) => {
     return({
         requestServers: () => dispatch(requestServers()),
-        requestServer: serverId => dispatch(requestServer(serverId)),
         createServer: server => dispatch(createServer(server))
     });
 };

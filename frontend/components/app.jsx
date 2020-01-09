@@ -11,6 +11,7 @@ const App = () => {
         <div className="harmony-app">
             <Switch>
                 <Route path="/servers/@me" component={HomeContainer} />
+                <Route path="/servers/:serverId" component={HomeContainer} />
                 <AuthRoute path="/login" component={LoginFormContainer} />
                 <AuthRoute path="/signup" component={SignupFormContainer} />
                 <Route component={Splash} />

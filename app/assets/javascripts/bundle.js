@@ -270,6 +270,9 @@ var App = function App() {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: "/servers/@me",
     component: _home_home_container__WEBPACK_IMPORTED_MODULE_6__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+    path: "/servers/:serverId",
+    component: _home_home_container__WEBPACK_IMPORTED_MODULE_6__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_5__["AuthRoute"], {
     path: "/login",
     component: _session_login_form_container__WEBPACK_IMPORTED_MODULE_3__["default"]
@@ -296,7 +299,8 @@ var App = function App() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _server_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./server_index_item */ "./frontend/components/home/server_index_item.jsx");
+/* harmony import */ var _server_server_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../server/server_index */ "./frontend/components/server/server_index.jsx");
+/* harmony import */ var _server_server_show_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../server/server_show_container */ "./frontend/components/server/server_show_container.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -320,6 +324,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var Home =
 /*#__PURE__*/
 function (_React$Component) {
@@ -332,11 +337,9 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Home).call(this, props));
     _this.state = {
-      name: "",
-      server: null
+      name: ""
     };
     _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
-    _this.getServerInfo = _this.getServerInfo.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -344,16 +347,6 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       this.props.requestServers();
-    }
-  }, {
-    key: "addServer",
-    value: function addServer(e) {
-      e.preventDefault();
-      var addServerModal = document.getElementsByClassName("add-server-modal")[0];
-      addServerModal.classList.add("is-open");
-      document.getElementsByClassName("modal-screen")[0].addEventListener("click", function () {
-        addServerModal.classList.remove("is-open");
-      });
     }
   }, {
     key: "handleInput",
@@ -380,46 +373,32 @@ function (_React$Component) {
       document.getElementsByClassName("add-server-modal")[0].classList.remove("is-open");
     }
   }, {
-    key: "getServerInfo",
-    value: function getServerInfo(event, server) {
-      // this.props.requestServer(server.id);
-      this.setState({
-        server: server
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
-
+      if (this.props.servers.length === 0) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "home-interface"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
-        className: "servers-sidebar"
-      }, this.props.servers.map(function (server, idx) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          onClick: function onClick(event) {
-            return _this3.getServerInfo(event, server);
-          },
-          className: "server-icon-container",
-          key: idx
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-          className: "server-icon"
-        }, server.name.substring(0, 1)));
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: this.addServer.bind(this),
-        className: "server-icon-container add-server"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "server-icon"
-      }, "+"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_server_index__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        servers: this.props.servers
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "channels-and-dms-sidebar"
-      }, this.state.server ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "server-name-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "server-name"
-      }, this.state.server.name)) : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_server_show_container__WEBPACK_IMPORTED_MODULE_2__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
         className: "main-content"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
+        className: "channel-header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "#"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "this will display the channel header")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "chat-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "chat-log"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "message-input-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "message-input",
+        placeholder: "message #channel"
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
+        className: "users-list"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal add-server-modal"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "modal-screen"
@@ -491,8 +470,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    servers: Object.values(state.entities.servers),
-    currentUserId: state.session.id
+    servers: Object.values(state.entities.servers)
   };
 };
 
@@ -501,9 +479,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     requestServers: function requestServers() {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServers"])());
     },
-    requestServer: function requestServer(serverId) {
-      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServer"])(serverId));
-    },
     createServer: function createServer(server) {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["createServer"])(server));
     }
@@ -511,62 +486,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_home__WEBPACK_IMPORTED_MODULE_1__["default"]));
-
-/***/ }),
-
-/***/ "./frontend/components/home/server_index_item.jsx":
-/*!********************************************************!*\
-  !*** ./frontend/components/home/server_index_item.jsx ***!
-  \********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-
-
-var ServerIndexItem =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(ServerIndexItem, _React$Component);
-
-  function ServerIndexItem(props) {
-    _classCallCheck(this, ServerIndexItem);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(ServerIndexItem).call(this, props));
-  }
-
-  _createClass(ServerIndexItem, [{
-    key: "render",
-    value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "henlo");
-    }
-  }]);
-
-  return ServerIndexItem;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (ServerIndexItem);
 
 /***/ }),
 
@@ -597,6 +516,275 @@ var Root = function Root(_ref) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Root);
+
+/***/ }),
+
+/***/ "./frontend/components/server/server_index.jsx":
+/*!*****************************************************!*\
+  !*** ./frontend/components/server/server_index.jsx ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _server_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./server_index_item */ "./frontend/components/server/server_index_item.jsx");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var ServerIndex =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ServerIndex, _React$Component);
+
+  function ServerIndex(props) {
+    _classCallCheck(this, ServerIndex);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ServerIndex).call(this, props));
+  }
+
+  _createClass(ServerIndex, [{
+    key: "addServer",
+    value: function addServer(e) {
+      e.preventDefault();
+      var addServerModal = document.getElementsByClassName("add-server-modal")[0];
+      addServerModal.classList.add("is-open");
+      document.getElementsByClassName("modal-screen")[0].addEventListener("click", function () {
+        addServerModal.classList.remove("is-open");
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
+        className: "servers-sidebar"
+      }, this.props.servers.map(function (server, idx) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          key: idx,
+          server: server
+        });
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.addServer.bind(this),
+        className: "server-icon-container add-server"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "server-icon"
+      }, "+")));
+    }
+  }]);
+
+  return ServerIndex;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ServerIndex);
+
+/***/ }),
+
+/***/ "./frontend/components/server/server_index_item.jsx":
+/*!**********************************************************!*\
+  !*** ./frontend/components/server/server_index_item.jsx ***!
+  \**********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var ServerIndexItem =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ServerIndexItem, _React$Component);
+
+  function ServerIndexItem(props) {
+    _classCallCheck(this, ServerIndexItem);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ServerIndexItem).call(this, props));
+  }
+
+  _createClass(ServerIndexItem, [{
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        className: "server-icon-container",
+        to: "/servers/".concat(this.props.server.id)
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "server-icon"
+      }, this.props.server.name.substring(0, 1)));
+    }
+  }]);
+
+  return ServerIndexItem;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ServerIndexItem);
+
+/***/ }),
+
+/***/ "./frontend/components/server/server_show.jsx":
+/*!****************************************************!*\
+  !*** ./frontend/components/server/server_show.jsx ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var ServerShow =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ServerShow, _React$Component);
+
+  function ServerShow(props) {
+    _classCallCheck(this, ServerShow);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ServerShow).call(this, props));
+  }
+
+  _createClass(ServerShow, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      if (this.props.match.params.serverId) {
+        this.props.requestServer(this.props.match.params.serverId);
+      }
+    }
+  }, {
+    key: "showDropdown",
+    value: function showDropdown(event) {
+      document.getElementsByClassName("server-dropdown")[0].classList.add("is-showing");
+      document.getElementsByClassName("harmony-app")[0].addEventListener("click", function () {
+        document.getElementsByClassName("server-dropdown")[0].classList.remove("is-showing");
+      });
+    }
+  }, {
+    key: "handleDelete",
+    value: function handleDelete() {
+      this.props.deleteServer(this.props.server.id);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var server = this.props.server;
+      if (!server) return null;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.showDropdown.bind(this),
+        className: "server-name-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "server-name"
+      }, server.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "server-dropdown dropdown-menu"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "Edit Server"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        onClick: this.handleDelete.bind(this)
+      }, "Delete Server")));
+    }
+  }]);
+
+  return ServerShow;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ServerShow);
+
+/***/ }),
+
+/***/ "./frontend/components/server/server_show_container.js":
+/*!*************************************************************!*\
+  !*** ./frontend/components/server/server_show_container.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _server_show__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./server_show */ "./frontend/components/server/server_show.jsx");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    server: state.entities.servers[ownProps.match.params.serverId]
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    requestServer: function requestServer(serverId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServer"])(serverId));
+    },
+    deleteServer: function deleteServer(serverId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["deleteServer"])(serverId));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_server_show__WEBPACK_IMPORTED_MODULE_1__["default"])));
 
 /***/ }),
 
@@ -1129,7 +1317,7 @@ var serversReducer = function serversReducer() {
 
     case _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_SERVER"]:
       nextState = Object.assign({}, state);
-      delete nextState[action.server.id];
+      delete nextState[action.serverId];
       return nextState;
 
     default:

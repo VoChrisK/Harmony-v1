@@ -1,29 +1,19 @@
 import React from 'react';
-import ServerIndexItem from './server_index_item';
+import ServerIndex from './../server/server_index';
+import ServerShowContainer from './../server/server_show_container';
 
 class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: "",
-            server: null
+            name: ""
         };
 
         this.handleInput = this.handleInput.bind(this);
-        this.getServerInfo = this.getServerInfo.bind(this);
     }
 
     componentDidMount() {
         this.props.requestServers();
-    }
-
-    addServer(e) {
-        e.preventDefault();
-        const addServerModal = document.getElementsByClassName("add-server-modal")[0];
-        addServerModal.classList.add("is-open");
-        document.getElementsByClassName("modal-screen")[0].addEventListener("click", () => {
-            addServerModal.classList.remove("is-open");
-        })
     }
 
     handleInput(input) {
@@ -40,34 +30,33 @@ class Home extends React.Component {
         document.getElementsByClassName("add-server-modal")[0].classList.remove("is-open");
     }
 
-    getServerInfo(event, server) {
-        // this.props.requestServer(server.id);
-        this.setState({ server: server });
-    }
-
     render() {
+        if(this.props.servers.length === 0) return null;
+
         return (
             <div className="home-interface">
-                <aside className="servers-sidebar">
-                    {
-                        this.props.servers.map((server, idx) => (
-                        <div onClick={(event) => this.getServerInfo(event, server)} className="server-icon-container" key={idx}>
-                            <h1 className="server-icon">{server.name.substring(0, 1)}</h1>
-                        </div>
-                        ))
-                    }
-                    <div onClick={this.addServer.bind(this)} className="server-icon-container add-server"><h1 className="server-icon">+</h1></div>
-                </aside>
+                <ServerIndex servers={this.props.servers} />
 
                 <aside className="channels-and-dms-sidebar">
-                    {
-                        this.state.server ? 
-                        <div className="server-name-container"><h1 className="server-name">{this.state.server.name}</h1></div> : null
-                    }
+                    <ServerShowContainer />
                 </aside>
 
                 <main className="main-content">
+                    <header className="channel-header">
+                        <strong>#</strong><h1>this will display the channel header</h1>
+                    </header>
 
+                    <section className="chat-container">
+                        <section className="chat-log"></section>
+
+                        <form className="message-input-container">
+                            <input type="text" className="message-input" placeholder="message #channel" />
+                        </form>
+                    </section>
+
+                    <aside className="users-list">
+
+                    </aside>
                 </main>
 
                 <div className="modal add-server-modal">

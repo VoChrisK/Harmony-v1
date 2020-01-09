@@ -28,7 +28,7 @@ class Api::ServersController < ApplicationController
         end
     end
 
-    def delete
+    def destroy
         @server = Server.find(params[:id])
         @server.destroy
         render json: @server
