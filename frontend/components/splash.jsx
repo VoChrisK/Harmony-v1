@@ -11,8 +11,8 @@ class Splash extends React.Component {
             <div id="splash">
                 <header id="header-nav">
                     <ul className="nav-links">
-                        <li><Link>Github</Link></li>
-                        <li><Link>LinkedIn</Link></li>
+                        <li><Link to="#">Github</Link></li>
+                        <li><Link to="#">LinkedIn</Link></li>
                     </ul>
 
                     <Link id="login-link" to="/login">Login</Link>

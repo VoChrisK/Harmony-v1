@@ -86,6 +86,88 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./frontend/actions/server_actions.js":
+/*!********************************************!*\
+  !*** ./frontend/actions/server_actions.js ***!
+  \********************************************/
+/*! exports provided: requestServers, requestServer, createServer, updateServer, deleteServer, RECEIVE_SERVERS, RECEIVE_SERVER, REMOVE_SERVER */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestServers", function() { return requestServers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestServer", function() { return requestServer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createServer", function() { return createServer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateServer", function() { return updateServer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteServer", function() { return deleteServer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SERVERS", function() { return RECEIVE_SERVERS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SERVER", function() { return RECEIVE_SERVER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_SERVER", function() { return REMOVE_SERVER; });
+/* harmony import */ var _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../util/server_api_util */ "./frontend/util/server_api_util.js");
+
+
+var receiveServers = function receiveServers(servers) {
+  return {
+    type: "RECEIVE_SERVERS",
+    servers: servers
+  };
+};
+
+var receiveServer = function receiveServer(server) {
+  return {
+    type: "RECEIVE_SERVER",
+    server: server
+  };
+};
+
+var removeServer = function removeServer(serverId) {
+  return {
+    type: "REMOVE_SERVER",
+    serverId: serverId
+  };
+};
+
+var requestServers = function requestServers() {
+  return function (dispatch) {
+    return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchServers"]().then(function (servers) {
+      return dispatch(receiveServers(servers));
+    });
+  };
+};
+var requestServer = function requestServer(serverId) {
+  return function (dispatch) {
+    return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchServer"](serverId).then(function (server) {
+      return dispatch(receiveServer(server));
+    });
+  };
+};
+var createServer = function createServer(server) {
+  return function (dispatch) {
+    return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["createServer"](server).then(function (newServer) {
+      return dispatch(receiveServer(newServer));
+    });
+  };
+};
+var updateServer = function updateServer(server) {
+  return function (dispatch) {
+    return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["updateServer"](server).then(function (updatedServer) {
+      return dispatch(receiveServer(updatedServer));
+    });
+  };
+};
+var deleteServer = function deleteServer(serverId) {
+  return function (dispatch) {
+    return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteServer"](serverId).then(function () {
+      return dispatch(removeServer(serverId));
+    });
+  };
+};
+var RECEIVE_SERVERS = "RECEIVE_SERVERS";
+var RECEIVE_SERVER = "RECEIVE_SERVER";
+var REMOVE_SERVER = "REMOVE_SERVER";
+
+/***/ }),
+
 /***/ "./frontend/actions/session_actions.js":
 /*!*********************************************!*\
   !*** ./frontend/actions/session_actions.js ***!
@@ -172,6 +254,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _session_login_form_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./session/login_form_container */ "./frontend/components/session/login_form_container.js");
 /* harmony import */ var _session_signup_form_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./session/signup_form_container */ "./frontend/components/session/signup_form_container.js");
+/* harmony import */ var _util_route_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../util/route.util */ "./frontend/util/route.util.jsx");
+/* harmony import */ var _home_home_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./home/home_container */ "./frontend/components/home/home_container.js");
+
+
 
 
 
@@ -182,9 +268,12 @@ var App = function App() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "harmony-app"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+    path: "/servers/@me",
+    component: _home_home_container__WEBPACK_IMPORTED_MODULE_6__["default"]
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_5__["AuthRoute"], {
     path: "/login",
     component: _session_login_form_container__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_5__["AuthRoute"], {
     path: "/signup",
     component: _session_signup_form_container__WEBPACK_IMPORTED_MODULE_4__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
@@ -193,6 +282,291 @@ var App = function App() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (App);
+
+/***/ }),
+
+/***/ "./frontend/components/home/home.jsx":
+/*!*******************************************!*\
+  !*** ./frontend/components/home/home.jsx ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _server_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./server_index_item */ "./frontend/components/home/server_index_item.jsx");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var Home =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(Home, _React$Component);
+
+  function Home(props) {
+    var _this;
+
+    _classCallCheck(this, Home);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Home).call(this, props));
+    _this.state = {
+      name: "",
+      server: null
+    };
+    _this.handleInput = _this.handleInput.bind(_assertThisInitialized(_this));
+    _this.getServerInfo = _this.getServerInfo.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(Home, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.requestServers();
+    }
+  }, {
+    key: "addServer",
+    value: function addServer(e) {
+      e.preventDefault();
+      var addServerModal = document.getElementsByClassName("add-server-modal")[0];
+      addServerModal.classList.add("is-open");
+      document.getElementsByClassName("modal-screen")[0].addEventListener("click", function () {
+        addServerModal.classList.remove("is-open");
+      });
+    }
+  }, {
+    key: "handleInput",
+    value: function handleInput(input) {
+      var _this2 = this;
+
+      return function (e) {
+        _this2.setState(_defineProperty({}, input, e.target.value));
+      };
+    }
+  }, {
+    key: "createServer",
+    value: function createServer(event) {
+      event.preventDefault();
+      var server = Object.assign({}, {
+        "name": this.state.name
+      }, {
+        "owner_id": this.props.currentUserId
+      });
+      this.props.createServer(server);
+      this.setState({
+        name: ""
+      });
+      document.getElementsByClassName("add-server-modal")[0].classList.remove("is-open");
+    }
+  }, {
+    key: "getServerInfo",
+    value: function getServerInfo(event, server) {
+      // this.props.requestServer(server.id);
+      this.setState({
+        server: server
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "home-interface"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
+        className: "servers-sidebar"
+      }, this.props.servers.map(function (server, idx) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          onClick: function onClick(event) {
+            return _this3.getServerInfo(event, server);
+          },
+          className: "server-icon-container",
+          key: idx
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+          className: "server-icon"
+        }, server.name.substring(0, 1)));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.addServer.bind(this),
+        className: "server-icon-container add-server"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "server-icon"
+      }, "+"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
+        className: "channels-and-dms-sidebar"
+      }, this.state.server ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "server-name-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "server-name"
+      }, this.state.server.name)) : null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
+        className: "main-content"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal add-server-modal"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "modal-screen"
+      }), this.addModal()));
+    }
+  }, {
+    key: "addModal",
+    value: function addModal() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "modal-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "OH, ANOTHER SERVER HUH?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-option options"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "CREATE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Create a new server and invite your friends. It's free!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-icon"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.addNextModal.bind(this)
+      }, "Create a server")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "join-option options"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "JOIN"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Enter an invite and join your friend's server."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "join-icon"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, "Join a server")));
+    }
+  }, {
+    key: "addNextModal",
+    value: function addNextModal() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "modal-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "CREATE YOUR SERVER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "By creating a new server, you will have access to free ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "text"), " chat to use amongst your friends."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.createServer.bind(this)
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "server-name",
+        className: "form-label"
+      }, "SERVER NAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "create-server-input",
+        type: "text",
+        name: "name",
+        id: "server-name",
+        onChange: this.handleInput("name")
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "create-server",
+        type: "submit",
+        value: "Create"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u2190 BACK"));
+    }
+  }]);
+
+  return Home;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Home);
+
+/***/ }),
+
+/***/ "./frontend/components/home/home_container.js":
+/*!****************************************************!*\
+  !*** ./frontend/components/home/home_container.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _home__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./home */ "./frontend/components/home/home.jsx");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../actions/server_actions */ "./frontend/actions/server_actions.js");
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    servers: Object.values(state.entities.servers),
+    currentUserId: state.session.id
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    requestServers: function requestServers() {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServers"])());
+    },
+    requestServer: function requestServer(serverId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServer"])(serverId));
+    },
+    createServer: function createServer(server) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["createServer"])(server));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_home__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/home/server_index_item.jsx":
+/*!********************************************************!*\
+  !*** ./frontend/components/home/server_index_item.jsx ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var ServerIndexItem =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ServerIndexItem, _React$Component);
+
+  function ServerIndexItem(props) {
+    _classCallCheck(this, ServerIndexItem);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ServerIndexItem).call(this, props));
+  }
+
+  _createClass(ServerIndexItem, [{
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "henlo");
+    }
+  }]);
+
+  return ServerIndexItem;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ServerIndexItem);
 
 /***/ }),
 
@@ -604,7 +978,11 @@ function (_React$Component) {
         id: "header-nav"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "nav-links"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], null, "Github")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], null, "LinkedIn"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "#"
+      }, "Github")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "#"
+      }, "LinkedIn"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         id: "login-link",
         to: "/login"
       }, "Login")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -635,6 +1013,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./actions/server_actions */ "./frontend/actions/server_actions.js");
+
 
 
 
@@ -642,6 +1022,8 @@ __webpack_require__.r(__webpack_exports__);
 document.addEventListener('DOMContentLoaded', function () {
   var store = Object(_store_store__WEBPACK_IMPORTED_MODULE_2__["default"])();
   var root = document.getElementById("root");
+  window.store = store;
+  window.requestServers = _actions_server_actions__WEBPACK_IMPORTED_MODULE_4__["requestServers"];
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_3__["default"], {
     store: store
   }), root);
@@ -660,10 +1042,13 @@ document.addEventListener('DOMContentLoaded', function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./users_reducer */ "./frontend/reducers/users_reducer.js");
+/* harmony import */ var _servers_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./servers_reducer */ "./frontend/reducers/servers_reducer.js");
+
 
 
 var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  servers: _servers_reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
 
@@ -712,6 +1097,47 @@ var RootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
   errors: _errors_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (RootReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/servers_reducer.js":
+/*!**********************************************!*\
+  !*** ./frontend/reducers/servers_reducer.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../actions/server_actions */ "./frontend/actions/server_actions.js");
+
+
+var serversReducer = function serversReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+  var nextState;
+
+  switch (action.type) {
+    case _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SERVERS"]:
+      return Object.assign({}, action.servers);
+
+    case _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SERVER"]:
+      nextState = Object.assign({}, state);
+      nextState[action.server.id] = action.server;
+      return nextState;
+
+    case _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_SERVER"]:
+      nextState = Object.assign({}, state);
+      delete nextState[action.server.id];
+      return nextState;
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (serversReducer);
 
 /***/ }),
 
@@ -844,6 +1270,104 @@ var configureStore = function configureStore() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
+
+/***/ }),
+
+/***/ "./frontend/util/route.util.jsx":
+/*!**************************************!*\
+  !*** ./frontend/util/route.util.jsx ***!
+  \**************************************/
+/*! exports provided: AuthRoute */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthRoute", function() { return AuthRoute; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+
+
+
+
+var Auth = function Auth(_ref) {
+  var Component = _ref.component,
+      path = _ref.path,
+      loggedIn = _ref.loggedIn,
+      exact = _ref.exact;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+    path: path,
+    exact: exact,
+    render: function render(props) {
+      return !loggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, props) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+        to: "/servers/@me"
+      });
+    }
+  });
+};
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    loggedIn: Boolean(state.session.id)
+  };
+};
+
+var AuthRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, null)(Auth));
+
+/***/ }),
+
+/***/ "./frontend/util/server_api_util.js":
+/*!******************************************!*\
+  !*** ./frontend/util/server_api_util.js ***!
+  \******************************************/
+/*! exports provided: fetchServers, fetchServer, createServer, updateServer, deleteServer */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchServers", function() { return fetchServers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchServer", function() { return fetchServer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createServer", function() { return createServer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateServer", function() { return updateServer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteServer", function() { return deleteServer; });
+var fetchServers = function fetchServers() {
+  return $.ajax({
+    method: "GET",
+    url: "api/servers"
+  });
+};
+var fetchServer = function fetchServer(serverId) {
+  return $.ajax({
+    method: "GET",
+    url: "api/servers/".concat(serverId)
+  });
+};
+var createServer = function createServer(server) {
+  return $.ajax({
+    method: "POST",
+    url: "api/servers",
+    data: {
+      server: server
+    }
+  });
+};
+var updateServer = function updateServer(server) {
+  return $.ajax({
+    method: "PATCH",
+    url: "api/servers/".concat(server.id),
+    data: {
+      server: server
+    }
+  });
+};
+var deleteServer = function deleteServer(serverId) {
+  return $.ajax({
+    method: "DELETE",
+    url: "api/servers/".concat(serverId)
+  });
+};
 
 /***/ }),
 

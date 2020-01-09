@@ -50,22 +50,6 @@
     text-align: center;
 }
 
-.form-submit, #demo-login {
-    height: 40px;
-    margin-top: 20px;
-    background-color: #7289da;
-    border-radius: 2px;
-    border: none;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.25s;
-}
-
-.form-submit:hover, #demo-login:hover {
-    background-color: #677bc4;
-}
-
 #session-form-container h3 {
     font-size: 14px;
 }

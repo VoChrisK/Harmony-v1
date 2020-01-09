@@ -1,0 +1,67 @@
+.server-icon-container {
+    padding: 15px;
+    background-color: #2f3136;
+    color: white;
+    text-align: center;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin: 10px auto;
+    cursor: pointer;
+    transition: background-color 0.25s;
+    transition: border-radius 0.25s;
+}
+
+.server-icon-container:hover {
+    background-color: #7e97f1;
+    border-radius: 20px;
+}
+
+.server-icon {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+}
+
+.add-server > h1 {
+    color: #43b581;
+    font-size: 48px;
+}
+
+.create-server-input {
+    height: 30px;
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid lightgray;
+}
+
+.create-server-input:focus {
+    outline: none;
+}
+
+.create-server {
+    display: block;
+}
+
+.server-name-container {
+    padding: 15px 0;
+    border-bottom: 1px outset rgb(27, 27, 27);
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 0px 1px black;
+    transition: background-color 0.5s;
+}
+
+.server-name-container:hover {
+    background-color: #383c41;
+}
+
+.server-name {
+    width: 80%;
+    font-weight: bold;
+    color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0 auto;
+}

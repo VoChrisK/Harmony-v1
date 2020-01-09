@@ -29,6 +29,145 @@
     outline: #7e97f1 1px auto;
 }
 
+.form-submit, button {
+    width: 100%;
+    height: 40px;
+    margin-top: 20px;
+    background-color: #7289da;
+    border-radius: 2px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.25s;
+}
+
+.form-submit:hover, button:hover {
+    background-color: #677bc4;
+}
+
 .input-field {
     margin-top: 20px;
+}
+
+
+.modal {
+    position: relative;
+    height: 100%;
+    visibility: hidden;
+}
+
+.is-open {
+    visibility: visible;
+}
+
+.modal-screen {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modal-container {
+    position: absolute;
+    width: 575px;
+    height: 425px;
+    background-color: white;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 25%;
+    z-index: 2;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.modal-container > h1 {
+    position: relative;
+    top: 25px;
+    color: #7289da;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.modal-container p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #99aab5;
+    margin-bottom: 30px;
+}
+
+.modal-container > p {
+    width: 70%;
+    font-size: 18px;
+    margin: 40px auto;
+}
+
+.modal-container > p > strong {
+    font-weight: bold;
+}
+
+.options {
+    width: 40%;
+    height: 70%;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgb(230, 230, 230);
+}
+
+.options > h1 {
+    margin: 20px 0 30px 0;
+}
+
+.options > div {
+    margin-bottom: 10px;
+}
+
+.options > button {
+    width: 90%;
+}
+
+.create-option {
+    float: left;
+    margin: 50px 0 25px 45px;
+}
+
+.create-option > h1 {
+    color: #7289da;
+}
+
+.create-icon, .join-icon {
+    width: 100%;
+    height: 80px;
+    background-image: url("./images/create-icon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+.modal-container > strong {
+    float: left;
+}
+
+.join-option {
+    float: right;
+    margin: 50px 45px 25px 0;
+}
+
+.join-option > h1 {
+    color: #3ca374;
+}
+
+.join-icon {
+    background-image: url("./images/join-icon.png");
+}
+
+.join-option > button {
+    background-color: #3ca374;
+}
+
+.join-option > button:hover {
+    background-color: #2c8b60;
 }
