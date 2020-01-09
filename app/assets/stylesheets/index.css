@@ -109,6 +109,10 @@
     font-weight: bold;
 }
 
+.modal-container > strong {
+    float: left;
+}
+
 .options {
     width: 40%;
     height: 70%;
@@ -145,10 +149,6 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 50%;
-}
-
-.modal-container > strong {
-    float: left;
 }
 
 .join-option {

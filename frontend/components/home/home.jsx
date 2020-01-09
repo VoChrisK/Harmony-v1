@@ -32,6 +32,8 @@ class Home extends React.Component {
 
     render() {
         if(this.props.servers.length === 0) return null;
+        const currentUser = window.localStorage.getItem("currentUserId") || this.props.currentUserId;
+        window.localStorage.setItem("currentUserId", currentUser);
 
         return (
             <div className="home-interface">
@@ -61,7 +63,7 @@ class Home extends React.Component {
 
                 <div className="modal add-server-modal">
                     <section className="modal-screen"></section>
-                    { this.addModal() }
+                    { this.addNextModal() }
                 </div>
             </div>
         );

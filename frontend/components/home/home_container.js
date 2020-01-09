@@ -4,7 +4,8 @@ import { requestServers, createServer } from './../../actions/server_actions';
 
 const mapStateToProps = (state) => {
     return ({
-        servers: Object.values(state.entities.servers)
+        servers: Object.values(state.entities.servers),
+        currentUserId: state.session.id
     })
 };
 
