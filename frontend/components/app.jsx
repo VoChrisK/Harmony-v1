@@ -10,6 +10,7 @@ const App = () => {
     return(
         <div className="harmony-app">
             <Switch>
+                <ProtectedRoute path="/servers/:serverId/:channelId" component={HomeContainer} />
                 <ProtectedRoute path="/servers/@me" component={HomeContainer} />
                 <ProtectedRoute path="/servers/:serverId" component={HomeContainer} />
                 <AuthRoute path="/login" component={LoginFormContainer} />

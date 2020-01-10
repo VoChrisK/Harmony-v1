@@ -17,3 +17,11 @@ affiliation1 = Affiliation.create(user_id: test_user.id, server_id: server1.id)
 affiliation1 = Affiliation.create(user_id: user1.id, server_id: server2.id)
 affiliation1 = Affiliation.create(user_id: user1.id, server_id: server3.id)
 affiliation1 = Affiliation.create(user_id: test_user.id, server_id: server3.id)
+
+channel1 = Channel.create(name: "General1", server_id: server1.id)
+channel2 = Channel.create(name: "General2", server_id: server2.id)
+channel3 = Channel.create(name: "General3", server_id: server3.id)
+channel4 = Channel.create(name: "Test Channel 1", server_id: server1.id)
+channel5 = Channel.create(name: "Test Channel 2", server_id: server1.id)
+
+

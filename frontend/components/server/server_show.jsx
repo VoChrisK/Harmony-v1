@@ -1,4 +1,5 @@
 import React from 'react';
+import ChannelIndex from './../channel/channel_index';
 
 class ServerShow extends React.Component {
     constructor(props) {
@@ -7,6 +8,12 @@ class ServerShow extends React.Component {
 
     componentDidMount() {
         if(this.props.match.params.serverId) {
+            this.props.requestServer(this.props.match.params.serverId);
+        }
+    }
+
+    componentDidUpdate(preProps) {
+        if(this.props.match.params.serverId !== preProps.match.params.serverId) {
             this.props.requestServer(this.props.match.params.serverId);
         }
     }
@@ -28,12 +35,16 @@ class ServerShow extends React.Component {
         if(!server) return null;
 
         return (
-            <div onClick={this.showDropdown.bind(this)} className="server-name-container">
-                <h1 className="server-name">{server.name}</h1>
-                <ul className="server-dropdown dropdown-menu">
-                    <li onClick={() => this.props.updateServerModal()}>Edit Server</li>
-                    <li onClick={this.handleDelete.bind(this)}>Delete Server</li>
-                </ul>
+            <div className="server-show-container">
+                <div onClick={this.showDropdown.bind(this)} className="server-name-container">
+                    <h1 className="server-name">{server.name}</h1>
+                    <ul className="server-dropdown dropdown-menu">
+                        <li onClick={() => this.props.updateServerModal()}>Edit Server</li>
+                        <li onClick={this.handleDelete.bind(this)}>Delete Server</li>
+                    </ul>
+                </div>
+                <h2>TEXT CHANNELS</h2>
+                <ChannelIndex server={server} />
             </div>
         );
     }

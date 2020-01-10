@@ -20,9 +20,10 @@ class ServerForm extends React.Component {
         event.preventDefault();
         const server = Object.assign({}, { "name": this.state.name });
         server["owner_id"] = this.props.currentUserId;
-        if(this.props.match) {
+        if(!this.isCreate()) {
             server["id"] = this.props.match.params.serverId;
         }
+
         this.props.processForm(server);
         this.setState({ name: "" });
         this.props.closeModal();

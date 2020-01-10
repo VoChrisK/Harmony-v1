@@ -25,7 +25,8 @@ class Home extends React.Component {
     }
     
     render() {
-        // if (this.props.servers.length === 0) return null;
+        if (this.props.servers.length === 0) return null;
+        
         return (
             <div className="home-interface">
                 <Modal />

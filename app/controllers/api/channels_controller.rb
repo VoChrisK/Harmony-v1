@@ -20,7 +20,7 @@ class Api::ChannelsController < ApplicationController
 
     def update
         @channel = Channel.find(params[:id])
-        render json: ["Cannot find channel"], status 404 unless @channel
+        render json: ["Cannot find channel"], status: 404 unless @channel
         if @channel.update(channel_params)
             render json: @channel
         else
