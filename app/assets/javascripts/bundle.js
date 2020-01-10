@@ -86,6 +86,88 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./frontend/actions/channel_actions.js":
+/*!*********************************************!*\
+  !*** ./frontend/actions/channel_actions.js ***!
+  \*********************************************/
+/*! exports provided: requestChannels, requestChannel, createChannel, updateChannel, deleteChannel, RECEIVE_CHANNELS, RECEIVE_CHANNEL, REMOVE_CHANNEL */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestChannels", function() { return requestChannels; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestChannel", function() { return requestChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createChannel", function() { return createChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChannel", function() { return updateChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannel", function() { return deleteChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNELS", function() { return RECEIVE_CHANNELS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNEL", function() { return RECEIVE_CHANNEL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_CHANNEL", function() { return REMOVE_CHANNEL; });
+/* harmony import */ var _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../util/channel_api_util */ "./frontend/util/channel_api_util.js");
+
+
+var receiveChannels = function receiveChannels(channels) {
+  return {
+    type: "RECEIVE_CHANNELS",
+    channels: channels
+  };
+};
+
+var receiveChannel = function receiveChannel(channel) {
+  return {
+    type: "RECEIVE_CHANNEL",
+    channel: channel
+  };
+};
+
+var removeChannel = function removeChannel(channelId) {
+  return {
+    type: "REMOVE_CHANNEL",
+    channelId: channelId
+  };
+};
+
+var requestChannels = function requestChannels() {
+  return function (dispatch) {
+    return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchChannels"]().then(function (channels) {
+      return dispatch(receiveChannels(channels));
+    });
+  };
+};
+var requestChannel = function requestChannel(channelId) {
+  return function (dispatch) {
+    return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchChannel"](channelId).then(function (channel) {
+      return dispatch(receiveChannel(channel));
+    });
+  };
+};
+var createChannel = function createChannel(channel) {
+  return function (dispatch) {
+    return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["createChannel"](channel).then(function (newChannel) {
+      return dispatch(receiveChannel(newChannel));
+    });
+  };
+};
+var updateChannel = function updateChannel(channel) {
+  return function (dispatch) {
+    return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["updateChannel"](channel).then(function (newChannel) {
+      return dispatch(receiveChannel(newChannel));
+    });
+  };
+};
+var deleteChannel = function deleteChannel(channelId) {
+  return function (dispatch) {
+    return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["deleteChannel"](channelId).then(function () {
+      return dispatch(removeChannel(channelId));
+    });
+  };
+};
+var RECEIVE_CHANNELS = "RECEIVE_CHANNELS";
+var RECEIVE_CHANNEL = "RECEIVE_CHANNEL";
+var REMOVE_CHANNEL = "REMOVE_CHANNEL";
+
+/***/ }),
+
 /***/ "./frontend/actions/modal_actions.js":
 /*!*******************************************!*\
   !*** ./frontend/actions/modal_actions.js ***!
@@ -1176,6 +1258,7 @@ function (_React$Component) {
     key: "showDropdown",
     value: function showDropdown(event) {
       document.getElementsByClassName("server-dropdown")[0].classList.add("is-showing");
+      document.getElementsByClassName("harmony-app")[0].removeEventListener;
       document.getElementsByClassName("harmony-app")[0].addEventListener("click", function () {
         document.getElementsByClassName("server-dropdown")[0].classList.remove("is-showing");
       });
@@ -1691,6 +1774,49 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /***/ }),
 
+/***/ "./frontend/reducers/channels_reducer.js":
+/*!***********************************************!*\
+  !*** ./frontend/reducers/channels_reducer.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../actions/channel_actions */ "./frontend/actions/channel_actions.js");
+
+
+var channelsReducer = function channelsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+  var nextState;
+
+  switch (action.type) {
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNELS"]:
+      return Object.assign({}, action.channels);
+
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNEL"]:
+      nextState = Object.assign({}, state);
+      nextState[action.channel.id] = action.channel;
+      return nextState;
+
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_CHANNEL"]:
+      nextState = Object.assign({}, state);
+      delete nextState[action.channelId];
+      return nextState;
+
+    default:
+      return state;
+  }
+
+  ;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (channelsReducer);
+
+/***/ }),
+
 /***/ "./frontend/reducers/entities_reducer.js":
 /*!***********************************************!*\
   !*** ./frontend/reducers/entities_reducer.js ***!
@@ -1703,12 +1829,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./users_reducer */ "./frontend/reducers/users_reducer.js");
 /* harmony import */ var _servers_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./servers_reducer */ "./frontend/reducers/servers_reducer.js");
+/* harmony import */ var _channels_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channels_reducer */ "./frontend/reducers/channels_reducer.js");
+
 
 
 
 var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  servers: _servers_reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
+  servers: _servers_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  channels: _channels_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
 
@@ -1991,6 +2120,59 @@ var configureStore = function configureStore() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
+
+/***/ }),
+
+/***/ "./frontend/util/channel_api_util.js":
+/*!*******************************************!*\
+  !*** ./frontend/util/channel_api_util.js ***!
+  \*******************************************/
+/*! exports provided: fetchChannels, fetchChannel, createChannel, updateChannel, deleteChannel */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchChannels", function() { return fetchChannels; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchChannel", function() { return fetchChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createChannel", function() { return createChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChannel", function() { return updateChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannel", function() { return deleteChannel; });
+var fetchChannels = function fetchChannels() {
+  return $.ajax({
+    method: "GET",
+    url: "api/channels"
+  });
+};
+var fetchChannel = function fetchChannel(channelId) {
+  return $.ajax({
+    method: "GET",
+    url: "api/channels/".concat(channelId)
+  });
+};
+var createChannel = function createChannel(channel) {
+  return $.ajax({
+    method: "POST",
+    url: "api/channels",
+    data: {
+      channel: channel
+    }
+  });
+};
+var updateChannel = function updateChannel(channel) {
+  return $.ajax({
+    method: "PATCH",
+    url: "api/channels/".concat(channel.id),
+    data: {
+      channel: channel
+    }
+  });
+};
+var deleteChannel = function deleteChannel(channelId) {
+  return $.ajax({
+    method: "DELETE",
+    url: "api/channels/".concat(channelId)
+  });
+};
 
 /***/ }),
 

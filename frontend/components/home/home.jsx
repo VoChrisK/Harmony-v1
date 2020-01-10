@@ -16,6 +16,7 @@ class Home extends React.Component {
         } else {
             window.localStorage.setItem("currentUserId", this.props.currentUserId);
         }
+        
     }
 
     logout() {
