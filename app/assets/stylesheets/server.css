@@ -53,18 +53,18 @@
     color: white;
 }
 
-.create-server-input {
+.server-input {
     height: 30px;
     font-size: 16px;
     border: none;
     border-bottom: 1px solid lightgray;
 }
 
-.create-server-input:focus {
+.server-input:focus {
     outline: none;
 }
 
-.create-server {
+.server-submit {
     display: block;
 }
 

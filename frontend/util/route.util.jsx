@@ -2,17 +2,19 @@ import React from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
+//&& !window.localStorage.getItem("currentUserId")
+// || window.localStorage.getItem("currentUserId") 
 
 const Auth = ({ component: Component, path, loggedIn, exact }) => (
     <Route path={path} exact={exact} render={props =>
-            !loggedIn && !window.localStorage.getItem("currentUserId") ? <Component {...props} /> : <Redirect to="/servers/@me" />
+            !loggedIn && !Boolean(window.localStorage.getItem("currentUserId")) ? <Component {...props} /> : <Redirect to="/servers/@me" />
         }
     />
 );
 
 const Protected = ({ component: Component, path, loggedIn, exact }) => (
     <Route path={path} exact={exact} render={(props) => (
-        loggedIn || window.localStorage.getItem("currentUserId") ? (
+        loggedIn || Boolean(window.localStorage.getItem("currentUserId")) ? (
             <Component {...props} />
         ) : (
                 <Redirect to="/login" />

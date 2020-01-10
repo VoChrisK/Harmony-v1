@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import Home from './home';
-import { requestServers, createServer } from './../../actions/server_actions';
+import { requestServers } from './../../actions/server_actions';
+import { openModal } from './../../actions/modal_actions';
+import { receiveCurrentUserId } from './../../actions/session_actions';
 
 const mapStateToProps = (state) => {
     return ({
@@ -12,7 +14,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return({
         requestServers: () => dispatch(requestServers()),
-        createServer: server => dispatch(createServer(server))
+        optionsModal: () => dispatch(openModal("options")),
+        receiveCurrentUserId: userId => dispatch(receiveCurrentUserId(userId))
     });
 };
 
