@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import ServerForm from './server_form';
 import { updateServer } from './../../actions/server_actions';
 import { withRouter } from 'react-router-dom';
+import { closeModal } from './../../actions/modal_actions';
 
 const mapStateToProps = (state) => {
     return ({
@@ -12,7 +13,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        processForm: server => dispatch(updateServer(server))
+        processForm: server => dispatch(updateServer(server)),
+        closeModal: () => dispatch(closeModal())
     });
 };
 

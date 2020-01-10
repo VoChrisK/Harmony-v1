@@ -9,18 +9,17 @@ class ServerShow extends React.Component {
         if(this.props.match.params.serverId) {
             this.props.requestServer(this.props.match.params.serverId);
         }
+    }
 
+    showDropdown(event) {
+        document.getElementsByClassName("server-dropdown")[0].classList.add("is-showing");
         document.getElementsByClassName("harmony-app")[0].addEventListener("click", () => {
             document.getElementsByClassName("server-dropdown")[0].classList.remove("is-showing");
         });
     }
 
-    showDropdown(event) {
-        document.getElementsByClassName("server-dropdown")[0].classList.add("is-showing");
-    }
-
     handleDelete() {
-        this.props.deleteServer(this.props.server.id);
+        this.props.deleteServerModal();
     }
 
     render() {

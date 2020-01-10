@@ -6,15 +6,6 @@ class ServerIndex extends React.Component {
         super(props);
     }
 
-    addServer(e) {
-        e.preventDefault();
-        const addServerModal = document.getElementsByClassName("add-server-modal")[0];
-        addServerModal.classList.add("is-open");
-        document.getElementsByClassName("modal-screen")[0].addEventListener("click", () => {
-            addServerModal.classList.remove("is-open");
-        })
-    }
-
     render() {
         return (
             <aside className="servers-sidebar">

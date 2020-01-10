@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Options from './options';
 import CreateServerContainer from './create_server_container';
 import UpdateServerContainer from './update_server_container';
+import DeleteServerNotification from './delete_server_notification';
 
 const Modal = ({ modal, closeModal }) => {
     if (!modal) return null;
@@ -18,6 +19,9 @@ const Modal = ({ modal, closeModal }) => {
             break;
         case 'updateServer':
             component = <UpdateServerContainer />
+            break;
+        case 'deleteServer':
+            component = <DeleteServerNotification />
             break;
         default:
             return null;

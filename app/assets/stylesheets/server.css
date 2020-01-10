@@ -26,30 +26,17 @@
     font-size: 24px;
 }
 
-/* .add-server {
-    display: block;
-    padding: 15px;
-    background-color: #2f3136;
-    color: white;
-    text-align: center;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    margin: 10px auto;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.25s;
-    transition: border-radius 0.25s;
-} */
-
 #add-server > h1 {
     color: #43b581;
     font-size: 48px;
-    transition: background-color 0.25s;
+    transition: color 0.25s;
 }
 
 #add-server:hover {
     background-color: #4ace92;
+}
+
+#add-server:hover > h1 {
     color: white;
 }
 
@@ -107,10 +94,15 @@
 
 .server-dropdown > li {
     font-size: 14px;
-    padding: 12px 0;
+    padding: 3px 0;
+    margin: 10px 0;
     border-bottom: 1px solid #2f3136;
     border-radius: 2px;
 }
+
+/* .server-dropdown > li:first-child {
+    padding-bottom: 13px;
+} */
 
 .server-dropdown > li:hover {
     background-color: rgba(46, 46, 46, 0.9);
@@ -122,4 +114,84 @@
 
 .is-showing {
     visibility: visible;
+}
+
+.server-form-header {
+    color: #7289da;
+    font-weight: bold;
+    padding: 30px 0 15px 0;
+}
+
+.description {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    font-size: 14px;
+}
+
+.server-input-div {
+    position: absolute;
+    top: 35%;
+    left: 10%;
+}
+
+.server-label {
+    margin-right: 114px;
+    color: gray;
+}
+
+.server-input {
+    font-size: 16px;
+}
+
+#preview-icon-container {
+    background-color: #7e97f1;
+    position: absolute;
+    top: 33%;
+    left: 62%;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+}
+
+#preview-icon-container:hover {
+    background-color: #7e97f1;
+    border-radius: 50%;
+    transition: none;
+    cursor: default;
+}
+
+.preview-icon {
+    font-size: 64px;
+}
+
+.server-buttons {
+    position: absolute;
+    bottom: 1px;
+    width: calc(100% - 40px);
+    padding: 20px 20px 30px 20px;
+    background-color: #f6f6f7;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.server-submit {
+    display: inline;
+    margin-left: 60%;
+}
+
+.back-text {
+    display: inline;
+    color: #99aab5;
+    cursor: pointer;
+}
+
+.back-text > strong {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.server-submit {
+    width: 20%;
 }

@@ -15,11 +15,11 @@
     left: 0;
     bottom: 0;
     z-index: 1;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .modal-container {
-    position: absolute;
+    position: relative;
     width: 575px;
     height: 425px;
     background-color: white;
@@ -50,4 +50,46 @@
 
 .modal-container > strong {
     float: left;
+}
+
+.modal-container.notification {
+    top: 30%;
+    width: 400px;
+    height: 200px;
+}
+
+.notification {
+    text-align: center;
+}
+
+.notification-message {
+    margin: auto;
+    width: 70%;
+    font-size: 18px;
+    padding: 40px 0 30px 0;
+}
+
+.notification-message > strong {
+    color: red;
+}
+
+.notification > button {
+    width: 25%;
+}
+
+.notification-yes {
+    display: inline;
+    margin-right: 60px;
+}
+
+.notification-no {
+    display: inline;
+}
+
+.notification-yes:hover {
+    background-color: #4ace92;
+}
+
+.notification-no:hover {
+    background-color: rgb(236, 39, 39);
 }
