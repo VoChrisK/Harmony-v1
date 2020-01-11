@@ -24,8 +24,12 @@ class ChannelForm extends React.Component {
         channel["server_id"] = this.props.match.params.serverId;
         if (!this.isCreate()) {
             channel["id"] = this.props.match.params.channelId;
+            this.props.processForm(channel);
+        } else {
+            this.props.processForm(channel).then(
+                () => this.props.requestServer(this.props.match.params.serverId)
+            )
         }
-        this.props.processForm(channel);
         this.setState({ name: "" });
         this.props.closeModal();
     }

@@ -1,7 +1,8 @@
 import {
     RECEIVE_SERVERS,
     RECEIVE_SERVER,
-    REMOVE_SERVER
+    REMOVE_SERVER,
+    ADD_CHANNEL
 } from './../actions/server_actions';
 
 const serversReducer = (state = {}, action) => {
