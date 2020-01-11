@@ -39,8 +39,8 @@ class ServerShow extends React.Component {
                 <div onClick={this.showDropdown.bind(this)} className="server-name-container">
                     <h1 className="server-name">{server.name}</h1>
                     <ul className="server-dropdown dropdown-menu">
-                        <li onClick={() => this.props.updateServerModal()}>Edit Server</li>
-                        <li onClick={this.handleDelete.bind(this)}>Delete Server</li>
+                        <li className="update-server" onClick={() => this.props.updateServerModal()}>Edit Server</li>
+                        <li className="delete-server" onClick={this.handleDelete.bind(this)}>Delete Server</li>
                     </ul>
                 </div>
                 <h2 className="text-channels">TEXT CHANNELS</h2><i onClick={() => this.props.createChannelModal()} className="fa fa-plus"></i>

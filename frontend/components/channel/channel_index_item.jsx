@@ -20,14 +20,14 @@ class ChannelIndexItem extends React.Component {
         if(!this.props.channel) return null;
 
         return (
-            <div className="channel-info">
+            <Link to={`/servers/${this.props.match.params.serverId}/${this.props.channelId}`} className="channel-info">
                 <i className="fa fa-hashtag"></i>
-                <Link to={`/servers/${this.props.match.params.serverId}/${this.props.channelId}`} className="channel-name">{this.props.channel.name}</Link>
+                <strong className="channel-name">{this.props.channel.name}</strong>
                 <div className="channel-options">
                     <i onClick={() => this.props.updateChannelModal()} className="fa fa-edit"></i>
                     <i onClick={() => this.props.deleteChannelModal()} className="fa fa-trash"></i>
                 </div>
-            </div>
+            </Link>
         )
     }
 }

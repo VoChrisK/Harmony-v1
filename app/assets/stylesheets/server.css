@@ -177,6 +177,10 @@
     border-bottom-right-radius: 10px;
 }
 
+.delete-server {
+    color: red;
+}
+
 .server-submit {
     display: inline;
     margin-left: 60%;

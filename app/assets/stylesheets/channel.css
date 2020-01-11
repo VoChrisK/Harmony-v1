@@ -20,6 +20,8 @@
 }
 
 .channel-info {
+    display: block;
+    text-decoration: none;
     width: calc(100% - 8px - 8px - 10px);
     padding: 5px;
     margin: 4px 4px;
@@ -32,11 +34,21 @@
     background-color: #3e4147;
 }
 
+.channel-info:hover > .channel-options {
+    visibility: visible;
+}
+
+.channel-info:focus {
+    background-color: #3e4147;
+    outline: none;
+}
+
 .channel-options {
+    color: black;
     visibility: hidden;
 }
 
-.channel-info:hover > .channel-options {
+.channel-info:focus > .channel-options {
     visibility: visible;
 }
 
@@ -48,7 +60,6 @@
 
 .channel-name {
     color: #6d737e;
-    text-decoration: none;
     font-size: 14px;
 }
 

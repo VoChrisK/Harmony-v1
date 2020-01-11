@@ -423,6 +423,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _channel_index_item_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./channel_index_item_container */ "./frontend/components/channel/channel_index_item_container.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -444,6 +445,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var ChannelIndex =
 /*#__PURE__*/
 function (_React$Component) {
@@ -456,6 +458,13 @@ function (_React$Component) {
   }
 
   _createClass(ChannelIndex, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(preProps) {
+      if (this.props.match.params.channelId === preProps.match.params.channelId) {
+        document.getElementsByClassName("channel-info")[0].focus();
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       if (this.props.server.channelIds.length === 0) return null;
@@ -473,7 +482,7 @@ function (_React$Component) {
   return ChannelIndex;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (ChannelIndex);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(ChannelIndex));
 
 /***/ }),
 
@@ -539,12 +548,12 @@ function (_React$Component) {
       var _this = this;
 
       if (!this.props.channel) return null;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/servers/".concat(this.props.match.params.serverId, "/").concat(this.props.channelId),
         className: "channel-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-hashtag"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: "/servers/".concat(this.props.match.params.serverId, "/").concat(this.props.channelId),
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
         className: "channel-name"
       }, this.props.channel.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-options"
@@ -1045,10 +1054,10 @@ function (_React$Component) {
     key: "handleDelete",
     value: function handleDelete() {
       this.props.deleteServer(this.props.match.params.serverId);
+      this.props.closeModal();
       react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Redirect"], {
         to: "/servers/@me"
       });
-      this.props.closeModal();
     }
   }, {
     key: "render",
@@ -1725,10 +1734,12 @@ function (_React$Component) {
       }, server.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "server-dropdown dropdown-menu"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "update-server",
         onClick: function onClick() {
           return _this.props.updateServerModal();
         }
       }, "Edit Server"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "delete-server",
         onClick: this.handleDelete.bind(this)
       }, "Delete Server"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         className: "text-channels"
@@ -2563,8 +2574,8 @@ var usersReducer = function usersReducer() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
-/* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
-/* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux-logger */ "./node_modules/redux-logger/dist/redux-logger.js");
+/* harmony import */ var redux_logger__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(redux_logger__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../reducers/root_reducer */ "./frontend/reducers/root_reducer.js");
 
 
@@ -2573,7 +2584,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var configureStore = function configureStore() {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_4___default.a));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);

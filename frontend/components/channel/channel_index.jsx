@@ -1,9 +1,16 @@
 import React from 'react';
 import ChannelIndexItemContainer from './channel_index_item_container';
+import { withRouter } from 'react-router-dom';
 
 class ChannelIndex extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    componentDidUpdate(preProps) {
+        if(this.props.match.params.channelId === preProps.match.params.channelId) {
+            document.getElementsByClassName("channel-info")[0].focus();
+        }
     }
 
     render() {
@@ -19,4 +26,4 @@ class ChannelIndex extends React.Component {
     }
 }
 
-export default ChannelIndex;
+export default withRouter(ChannelIndex);
