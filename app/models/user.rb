@@ -6,6 +6,11 @@ class User < ApplicationRecord
 
     attr_reader :password
 
+    has_many :messages,
+    primary_key: :id,
+    foreign_key: :author_id,
+    classname: 'Message'
+
     has_many :affiliations,
     primary_key: :id,
     foreign_key: :user_id,

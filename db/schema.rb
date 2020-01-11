@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_10_222042) do
+ActiveRecord::Schema.define(version: 2020_01_11_214342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,14 @@ ActiveRecord::Schema.define(version: 2020_01_10_222042) do
     t.index ["user_id", "server_id"], name: "index_affiliations_on_user_id_and_server_id", unique: true
   end
 
+  create_table "channel_messages", force: :cascade do |t|
+    t.integer "message_id", null: false
+    t.integer "channel_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_id"], name: "index_channel_messages_on_channel_id"
+  end
+
   create_table "channels", force: :cascade do |t|
     t.string "name", null: false
     t.integer "server_id", null: false
@@ -30,6 +38,14 @@ ActiveRecord::Schema.define(version: 2020_01_10_222042) do
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_channels_on_name"
     t.index ["server_id"], name: "index_channels_on_server_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.text "body", null: false
+    t.integer "author_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_messages_on_author_id"
   end
 
   create_table "servers", force: :cascade do |t|
