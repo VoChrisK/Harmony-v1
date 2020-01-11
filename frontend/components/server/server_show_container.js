@@ -13,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return ({
         requestServer: serverId => dispatch(requestServer(serverId)),
+        createChannelModal: () => dispatch(openModal("createChannel")),
         updateServerModal: () => dispatch(openModal("updateServer")),
         deleteServerModal: () => dispatch(openModal("deleteServer"))
     });

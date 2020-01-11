@@ -14,7 +14,7 @@
     right: 0;
     left: 0;
     bottom: 0;
-    z-index: 1;
+    z-index: 2;
     background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -26,7 +26,7 @@
     left: 50%;
     transform: translateX(-50%);
     top: 25%;
-    z-index: 2;
+    z-index: 3;
     border-radius: 10px;
     text-align: center;
 }
@@ -92,4 +92,10 @@
 
 .notification-no:hover {
     background-color: rgb(236, 39, 39);
+}
+
+.channel-modal {
+    width: 400px;
+    height: 250px;
+    background-color: #36393f;
 }

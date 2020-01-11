@@ -1,3 +1,89 @@
+.text-channels {
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding-left: 15px;
+    font-size: 12px;
+    color: #8e9297
+}
+
+.fa.fa-plus {
+    position: absolute;
+    top: 65px;
+    right: 20px;
+    color: #7a7e83;
+    cursor: pointer;
+}
+
+.fa.fa-plus:hover {
+    color: #c4cad1;
+}
+
+.channel-info {
+    width: calc(100% - 8px - 8px - 10px);
+    padding: 5px;
+    margin: 4px 4px;
+    margin-left: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.channel-info:hover {
+    background-color: #3e4147;
+}
+
+.channel-options {
+    visibility: hidden;
+}
+
+.channel-info:hover > .channel-options {
+    visibility: visible;
+}
+
+.fa.fa-hashtag {
+    color: gray;
+    font-size: 18px;
+    padding-right: 5px;
+}
+
 .channel-name {
+    color: #6d737e;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.fa.fa-edit {
+    padding-right: 5px;
+}
+
+.channel-options {
+    position: absolute;
+    right: 10px;
     display: inline;
+}
+
+.channel-form-header {
+    color: #7289da;
+    font-weight: bold;
+    padding: 30px 0 15px 0;
+}
+
+.channel-input-div {
+    margin-top: 20px;
+}
+
+.channel-label {
+    color: white;
+    margin-right: 234px;
+}
+
+#channel-input {
+    width: 80%;
+}
+
+#channel-submit {
+    position: absolute;
+    right: 35px;
+    bottom: 40px;
+    width: 25%;
 }

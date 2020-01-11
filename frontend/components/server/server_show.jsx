@@ -43,7 +43,7 @@ class ServerShow extends React.Component {
                         <li onClick={this.handleDelete.bind(this)}>Delete Server</li>
                     </ul>
                 </div>
-                <h2>TEXT CHANNELS</h2>
+                <h2 className="text-channels">TEXT CHANNELS</h2><i onClick={() => this.props.createChannelModal()} className="fa fa-plus"></i>
                 <ChannelIndex server={server} />
             </div>
         );

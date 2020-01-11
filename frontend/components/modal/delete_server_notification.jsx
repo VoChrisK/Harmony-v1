@@ -16,7 +16,7 @@ class DeleteServerNotification extends React.Component {
 
     handleDelete() {
         this.props.deleteServer(this.props.match.params.serverId);
-        <Redirect to="/" />
+        <Redirect to="/servers/@me" />
         this.props.closeModal();
     }
 
