@@ -14,7 +14,7 @@ const mapDispatchToProps = (dispatch) => {
     return ({
         requestChannel: channelId => dispatch(requestChannel(channelId)),
         updateChannelModal: () => dispatch(openModal("updateChannel")),
-        deleteChannelModal: () => dispatch(openModal("deleteServer"))
+        deleteChannelModal: () => dispatch(openModal("deleteChannel"))
     });
 };
 

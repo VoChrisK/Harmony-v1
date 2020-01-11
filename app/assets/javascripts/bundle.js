@@ -470,10 +470,12 @@ function (_React$Component) {
       if (this.props.server.channelIds.length === 0) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "channels-list"
-      }, this.props.server.channelIds.map(function (channelId, idx) {
+      }, this.props.server.channelIds.sort(function (a, b) {
+        return a - b;
+      }).map(function (channelId, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_index_item_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: idx,
-          channelId: channelId.id
+          channelId: channelId
         });
       }));
     }
@@ -613,7 +615,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__["openModal"])("updateChannel"));
     },
     deleteChannelModal: function deleteChannelModal() {
-      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__["openModal"])("deleteServer"));
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__["openModal"])("deleteChannel"));
     }
   };
 };
@@ -994,99 +996,36 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
-/***/ "./frontend/components/modal/delete_server_notification.jsx":
-/*!******************************************************************!*\
-  !*** ./frontend/components/modal/delete_server_notification.jsx ***!
-  \******************************************************************/
+/***/ "./frontend/components/modal/delete_channel_container.js":
+/*!***************************************************************!*\
+  !*** ./frontend/components/modal/delete_channel_container.js ***!
+  \***************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../actions/channel_actions */ "./frontend/actions/channel_actions.js");
+/* harmony import */ var _notification__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./notification */ "./frontend/components/modal/notification.jsx");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
 
 
 
 
 
 
-
-
-var DeleteServerNotification =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(DeleteServerNotification, _React$Component);
-
-  function DeleteServerNotification(props) {
-    _classCallCheck(this, DeleteServerNotification);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(DeleteServerNotification).call(this, props));
-  }
-
-  _createClass(DeleteServerNotification, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      document.getElementsByClassName("modal-container")[0].classList.add("notification");
-    }
-  }, {
-    key: "handleDelete",
-    value: function handleDelete() {
-      this.props.deleteServer(this.props.match.params.serverId);
-      this.props.closeModal();
-      react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Redirect"], {
-        to: "/servers/@me"
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this = this;
-
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "notification"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "notification-message"
-      }, "Are you sure you want to ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "DELETE"), " your server?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: this.handleDelete.bind(this),
-        className: "notification-yes"
-      }, "Yes"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: function onClick() {
-          return _this.props.closeModal();
-        },
-        className: "notification-no"
-      }, "No"));
-    }
-  }]);
-
-  return DeleteServerNotification;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    formType: 'channel'
+  };
+};
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    deleteServer: function deleteServer(serverId) {
-      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_1__["deleteServer"])(serverId));
+    processEntity: function processEntity(channelId) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["deleteChannel"])(channelId));
     },
     closeModal: function closeModal() {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__["closeModal"])());
@@ -1094,7 +1033,48 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(null, mapDispatchToProps)(DeleteServerNotification)));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_notification__WEBPACK_IMPORTED_MODULE_3__["default"])));
+
+/***/ }),
+
+/***/ "./frontend/components/modal/delete_server_container.js":
+/*!**************************************************************!*\
+  !*** ./frontend/components/modal/delete_server_container.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _notification__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./notification */ "./frontend/components/modal/notification.jsx");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    formType: 'server'
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    processEntity: function processEntity(serverId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["deleteServer"])(serverId));
+    },
+    closeModal: function closeModal() {
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__["closeModal"])());
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_notification__WEBPACK_IMPORTED_MODULE_3__["default"])));
 
 /***/ }),
 
@@ -1114,9 +1094,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _options__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./options */ "./frontend/components/modal/options.jsx");
 /* harmony import */ var _create_server_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./create_server_container */ "./frontend/components/modal/create_server_container.js");
 /* harmony import */ var _update_server_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./update_server_container */ "./frontend/components/modal/update_server_container.js");
-/* harmony import */ var _delete_server_notification__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./delete_server_notification */ "./frontend/components/modal/delete_server_notification.jsx");
-/* harmony import */ var _create_channel_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./create_channel_container */ "./frontend/components/modal/create_channel_container.js");
-/* harmony import */ var _update_channel_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./update_channel_container */ "./frontend/components/modal/update_channel_container.js");
+/* harmony import */ var _create_channel_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./create_channel_container */ "./frontend/components/modal/create_channel_container.js");
+/* harmony import */ var _update_channel_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./update_channel_container */ "./frontend/components/modal/update_channel_container.js");
+/* harmony import */ var _delete_server_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./delete_server_container */ "./frontend/components/modal/delete_server_container.js");
+/* harmony import */ var _delete_channel_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./delete_channel_container */ "./frontend/components/modal/delete_channel_container.js");
+
 
 
 
@@ -1147,15 +1129,19 @@ var Modal = function Modal(_ref) {
       break;
 
     case 'deleteServer':
-      component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_delete_server_notification__WEBPACK_IMPORTED_MODULE_6__["default"], null);
+      component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_delete_server_container__WEBPACK_IMPORTED_MODULE_8__["default"], null);
       break;
 
     case 'createChannel':
-      component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_channel_container__WEBPACK_IMPORTED_MODULE_7__["default"], null);
+      component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_create_channel_container__WEBPACK_IMPORTED_MODULE_6__["default"], null);
       break;
 
     case 'updateChannel':
-      component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_update_channel_container__WEBPACK_IMPORTED_MODULE_8__["default"], null);
+      component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_update_channel_container__WEBPACK_IMPORTED_MODULE_7__["default"], null);
+      break;
+
+    case 'deleteChannel':
+      component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_delete_channel_container__WEBPACK_IMPORTED_MODULE_9__["default"], null);
       break;
 
     default:
@@ -1188,6 +1174,102 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps)(Modal));
+
+/***/ }),
+
+/***/ "./frontend/components/modal/notification.jsx":
+/*!****************************************************!*\
+  !*** ./frontend/components/modal/notification.jsx ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var Notification =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(Notification, _React$Component);
+
+  function Notification(props) {
+    _classCallCheck(this, Notification);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Notification).call(this, props));
+  }
+
+  _createClass(Notification, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      document.getElementsByClassName("modal-container")[0].classList.add("notification");
+    }
+  }, {
+    key: "handleDelete",
+    value: function handleDelete() {
+      var id;
+      this.props.formType === "server" ? id = this.props.match.params.serverId : id = this.props.match.params.channelId;
+      this.props.processEntity(id);
+      this.props.closeModal();
+
+      if (this.props.formType === "server") {
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+          to: "/servers/@me"
+        });
+      } else {
+        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+          to: "/servers"
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this = this;
+
+      var formType = this.props.formType;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "notification"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "notification-message"
+      }, "Are you sure you want to ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "DELETE"), " this ", formType, "?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleDelete.bind(this),
+        className: "notification-yes"
+      }, "Yes"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick() {
+          return _this.props.closeModal();
+        },
+        className: "notification-no"
+      }, "No"));
+    }
+  }]);
+
+  return Notification;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Notification);
 
 /***/ }),
 
@@ -1631,7 +1713,7 @@ function (_React$Component) {
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "server-icon-container",
-        to: "/servers/".concat(this.props.server.id, "/").concat(this.props.server.channelIds[0].id)
+        to: "/servers/".concat(this.props.server.id, "/").concat(this.props.server.channelIds[0])
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "server-icon"
       }, this.props.server.name.substring(0, 1)));

@@ -19,7 +19,7 @@ class ChannelIndex extends React.Component {
         return(
             <ul className="channels-list">
                 {
-                    this.props.server.channelIds.map((channelId, idx) => <ChannelIndexItemContainer key={idx} channelId={channelId.id} />)
+                    this.props.server.channelIds.sort((a, b) => a - b).map((channelId, idx) => <ChannelIndexItemContainer key={idx} channelId={channelId} />)
                 }
             </ul>
         )

@@ -22,7 +22,7 @@ class Api::ChannelsController < ApplicationController
         @channel = Channel.find(params[:id])
         render json: ["Cannot find channel"], status: 404 unless @channel
         if @channel.update(channel_params)
-            render json: @channel
+            render :show
         else
             render json: @channel.errors.full_messages, status: 422
         end
