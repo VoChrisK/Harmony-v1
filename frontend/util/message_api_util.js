@@ -1,8 +1,13 @@
-export const createMessage = message => {
+export const createMessage = (message, channelId) => {
     return $.ajax({
         method: "POST",
         url: "api/messages",
-        data: { message }
+        data: { 
+            message,
+            channel: {
+                id: channelId
+            }
+        }
     });
 };
 

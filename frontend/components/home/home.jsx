@@ -34,7 +34,7 @@ class Home extends React.Component {
         e.preventDefault();
         let message = Object.assign({}, this.state);
         message["author_id"] = this.props.currentUserId;
-        this.props.createMessage(message);
+        this.props.createMessage(message, 1);
         //document.getElementById("chat-log").scrollTo(0, document.getElementById("chat-log").scrollHeight);
         this.setState({ body: "" });
     }

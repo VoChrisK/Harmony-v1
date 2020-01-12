@@ -14,8 +14,8 @@ const removeMessage = messageId => {
     });
 };
 
-export const createMessage = message => dispatch => {
-    return MessageApiUtil.createMessage(message).then(
+export const createMessage = (message, channelId) => dispatch => {
+    return MessageApiUtil.createMessage(message, channelId).then(
         newMessage => dispatch(receiveMessage(newMessage))
     );
 };

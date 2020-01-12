@@ -199,9 +199,9 @@ var removeMessage = function removeMessage(messageId) {
   };
 };
 
-var createMessage = function createMessage(message) {
+var createMessage = function createMessage(message, channelId) {
   return function (dispatch) {
-    return _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__["createMessage"](message).then(function (newMessage) {
+    return _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__["createMessage"](message, channelId).then(function (newMessage) {
       return dispatch(receiveMessage(newMessage));
     });
   };
@@ -765,7 +765,7 @@ function (_React$Component) {
       e.preventDefault();
       var message = Object.assign({}, this.state);
       message["author_id"] = this.props.currentUserId;
-      this.props.createMessage(message); //document.getElementById("chat-log").scrollTo(0, document.getElementById("chat-log").scrollHeight);
+      this.props.createMessage(message, 1); //document.getElementById("chat-log").scrollTo(0, document.getElementById("chat-log").scrollHeight);
 
       this.setState({
         body: ""
@@ -851,8 +851,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     requestServers: function requestServers() {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServers"])());
     },
-    createMessage: function createMessage(message) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["createMessage"])(message));
+    createMessage: function createMessage(message, channelId) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["createMessage"])(message, channelId));
     },
     optionsModal: function optionsModal() {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])("options"));
@@ -2882,12 +2882,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMessage", function() { return createMessage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMessage", function() { return updateMessage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMessage", function() { return deleteMessage; });
-var createMessage = function createMessage(message) {
+var createMessage = function createMessage(message, channelId) {
   return $.ajax({
     method: "POST",
     url: "api/messages",
     data: {
-      message: message
+      message: message,
+      channel: {
+        id: channelId
+      }
     }
   });
 };

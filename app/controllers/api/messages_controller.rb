@@ -7,6 +7,9 @@ class Api::MessagesController < ApplicationController
     def create
         @message = Message.new(message_params)
         if @message.save
+            channel = Channel.find(params[:channel][:id])
+            render json: ["Channel not found"], status: 404 unless channel
+            @message.channel = channel
             ActionCable.server.broadcast 'channel_channel', author: @message.author, body: @message.body, date: @message.created_at.localtime.strftime("%m/%d/%Y"), time: @message.created_at.localtime.strftime("%I:%M:%S %p")
             render :show
         else

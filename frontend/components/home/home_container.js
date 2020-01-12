@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return({
         requestServers: () => dispatch(requestServers()),
-        createMessage: message => dispatch(createMessage(message)),
+        createMessage: (message, channelId) => dispatch(createMessage(message, channelId)),
         optionsModal: () => dispatch(openModal("options")),
         receiveCurrentUserId: userId => dispatch(receiveCurrentUserId(userId)),
         logout: () => dispatch(logout())
