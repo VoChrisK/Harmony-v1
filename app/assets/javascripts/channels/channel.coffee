@@ -6,12 +6,5 @@ App.channel = App.cable.subscriptions.create "ChannelChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-    alert data.message.body
+    $('#chat-log').append '<div class="message">' + '<p>' + data.message.body + '</p>' + '<strong>' + data.message.created_at + '</strong>' + '</div>'
     # Called when there's incoming data on the websocket for this channel
-
-
-# # $(".message-input").on 'keypress', '[data-behavior~=channel_speaker]', (event) ->
-# #   if event.keyCode is 13 # return/enter = send
-# App.channel.speak "test drive"
-#     # event.target.value = ''
-#     # event.preventDefault()

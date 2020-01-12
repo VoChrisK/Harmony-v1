@@ -1,5 +1,5 @@
 export const createMessage = message => {
-    return ({
+    return $.ajax({
         method: "POST",
         url: "api/messages",
         data: { message }
@@ -7,7 +7,7 @@ export const createMessage = message => {
 };
 
 export const updateMessage = message => {
-    return ({
+    return $.ajax({
         method: "PATCH",
         url: `api/messages/${message.id}`,
         data: { message }
@@ -15,7 +15,7 @@ export const updateMessage = message => {
 };
 
 export const deleteMessage = messageId => {
-    return ({
+    return $.ajax({
         method: "DELETE",
         url: `api/messages/${messageId}`
     });

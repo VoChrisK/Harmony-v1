@@ -724,9 +724,15 @@ function (_React$Component) {
   _inherits(Home, _React$Component);
 
   function Home(props) {
+    var _this;
+
     _classCallCheck(this, Home);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Home).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Home).call(this, props));
+    _this.state = {
+      body: ""
+    };
+    return _this;
   }
 
   _createClass(Home, [{
@@ -745,6 +751,24 @@ function (_React$Component) {
     value: function logout() {
       this.props.logout();
       window.localStorage.clear();
+    }
+  }, {
+    key: "handleBody",
+    value: function handleBody(e) {
+      this.setState({
+        body: e.target.value
+      });
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      e.preventDefault();
+      var message = Object.assign({}, this.state);
+      message["author_id"] = this.props.currentUserId;
+      this.props.createMessage(message);
+      this.setState({
+        body: ""
+      });
     }
   }, {
     key: "render",
@@ -769,13 +793,16 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "#"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "this will display the channel header")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "chat-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-        className: "chat-log"
+        id: "chat-log"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "message-input-container"
+        className: "message-input-container",
+        onSubmit: this.handleSubmit.bind(this)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "message-input",
-        placeholder: "message #channel"
+        placeholder: "message #channel",
+        value: this.state.body,
+        onChange: this.handleBody.bind(this)
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "users-list"
       })));
@@ -803,6 +830,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../actions/server_actions */ "./frontend/actions/server_actions.js");
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../actions/message_actions */ "./frontend/actions/message_actions.js");
+
 
 
 
@@ -820,6 +849,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     requestServers: function requestServers() {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServers"])());
+    },
+    createMessage: function createMessage(message) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["createMessage"])(message));
     },
     optionsModal: function optionsModal() {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])("options"));
@@ -2850,28 +2882,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMessage", function() { return updateMessage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMessage", function() { return deleteMessage; });
 var createMessage = function createMessage(message) {
-  return {
+  return $.ajax({
     method: "POST",
     url: "api/messages",
     data: {
       message: message
     }
-  };
+  });
 };
 var updateMessage = function updateMessage(message) {
-  return {
+  return $.ajax({
     method: "PATCH",
     url: "api/messages/".concat(message.id),
     data: {
       message: message
     }
-  };
+  });
 };
 var deleteMessage = function deleteMessage(messageId) {
-  return {
+  return $.ajax({
     method: "DELETE",
     url: "api/messages/".concat(messageId)
-  };
+  });
 };
 
 /***/ }),

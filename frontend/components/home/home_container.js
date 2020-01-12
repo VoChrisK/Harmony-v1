@@ -3,6 +3,7 @@ import Home from './home';
 import { requestServers } from './../../actions/server_actions';
 import { openModal } from './../../actions/modal_actions';
 import { receiveCurrentUserId, logout } from './../../actions/session_actions';
+import { createMessage } from './../../actions/message_actions';
 
 const mapStateToProps = (state) => {
     return ({
@@ -14,6 +15,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return({
         requestServers: () => dispatch(requestServers()),
+        createMessage: message => dispatch(createMessage(message)),
         optionsModal: () => dispatch(openModal("options")),
         receiveCurrentUserId: userId => dispatch(receiveCurrentUserId(userId)),
         logout: () => dispatch(logout())

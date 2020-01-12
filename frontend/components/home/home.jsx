@@ -6,6 +6,9 @@ import Modal from './../modal/modal';
 class Home extends React.Component {
     constructor(props) {
         super(props);
+        this.state = { 
+            body: ""
+        };
     }
 
     componentDidMount() {
@@ -16,12 +19,23 @@ class Home extends React.Component {
         } else {
             window.localStorage.setItem("currentUserId", this.props.currentUserId);
         }
-        
     }
 
     logout() {
         this.props.logout();
         window.localStorage.clear();
+    }
+
+    handleBody(e) {
+        this.setState({ body: e.target.value });
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        let message = Object.assign({}, this.state);
+        message["author_id"] = this.props.currentUserId;
+        this.props.createMessage(message);
+        this.setState({ body: "" });
     }
     
     render() {
@@ -45,10 +59,10 @@ class Home extends React.Component {
                     </header>
 
                     <section className="chat-container">
-                        <section className="chat-log"></section>
+                        <section id="chat-log"></section>
 
-                        <form className="message-input-container">
-                            <input type="text" className="message-input" placeholder="message #channel" />
+                        <form className="message-input-container" onSubmit={this.handleSubmit.bind(this)}>
+                            <input type="text" className="message-input" placeholder="message #channel" value={this.state.body} onChange={this.handleBody.bind(this)} />
                         </form>
                     </section>
 

@@ -8,6 +8,7 @@ class Api::MessagesController < ApplicationController
         @message = Message.new(message_params)
         if @message.save
             ActionCable.server.broadcast 'channel_channel', message: @message
+            render json: @message
         else
             render json: @message.errors.full_messages, status: 422
         end

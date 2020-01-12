@@ -50,8 +50,7 @@
     height: calc(100% - 47px);
 }
 
-.chat-log {
-    background-image: url("./images//discord-chat-example.png"); /*this is an example*/
+#chat-log {
     height: 89%;
 }
 
