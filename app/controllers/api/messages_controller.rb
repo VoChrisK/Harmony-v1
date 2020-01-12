@@ -1,14 +1,14 @@
 class Api::MessagesController < ApplicationController
     def index
         @messages = Message.all
-        render @messages 
+        render :index
     end
 
     def create
         @message = Message.new(message_params)
         if @message.save
-            ActionCable.server.broadcast 'channel_channel', message: @message
-            render json: @message
+            ActionCable.server.broadcast 'channel_channel', author: @message.author, body: @message.body, date: @message.created_at.localtime.strftime("%m/%d/%Y"), time: @message.created_at.localtime.strftime("%I:%M:%S %p")
+            render :show
         else
             render json: @message.errors.full_messages, status: 422
         end

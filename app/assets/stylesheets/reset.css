@@ -51,3 +51,9 @@ table {
 button:focus {
 	outline: none;
 }
+
+.group:after {
+	content: "";
+	display: table;
+	clear: both;
+}

@@ -17,13 +17,14 @@
     width: 238px;
     min-width: 238px;
     height: 100%;
+    overflow: auto;
 }
 
 .main-content {
     float: left;
     background-color: #36393f;
+    height: calc(100% - 0px);
     width: calc(100% - 238px - 80px);
-    height: 100%;
 }
 
 .channel-header {
@@ -52,13 +53,14 @@
 
 #chat-log {
     height: 89%;
+    overflow: auto;
 }
 
 .message-input-container {
     position: relative;
     margin: auto;
     height: 11%;
-    width: 97%;
+    width: 95%;
     border-top: 1px solid #40444b;
 }
 

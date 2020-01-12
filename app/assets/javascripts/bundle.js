@@ -765,7 +765,8 @@ function (_React$Component) {
       e.preventDefault();
       var message = Object.assign({}, this.state);
       message["author_id"] = this.props.currentUserId;
-      this.props.createMessage(message);
+      this.props.createMessage(message); //document.getElementById("chat-log").scrollTo(0, document.getElementById("chat-log").scrollHeight);
+
       this.setState({
         body: ""
       });
