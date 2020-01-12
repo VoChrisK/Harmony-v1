@@ -5,11 +5,12 @@ Rails.application.routes.draw do
     resources :users, only: [:create]
     resource :session, only: [:create, :destroy]
     resources :servers, except: [:new, :edit]
-    resources :channels, except: [:new, :edit] do
-      resources :messages, only: [:create]
-    end
-    resources :messages, only: [:index, :update, :destroy]
+    resources :channels, except: [:new, :edit]
+    #   resources :messages, only: [:create]
+    # end
+    resources :messages, only: [:index, :create, :update, :destroy]
   end
 
   root to: "static_pages#root"
+  mount ActionCable.server => '/cable'
 end

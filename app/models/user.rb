@@ -9,7 +9,7 @@ class User < ApplicationRecord
     has_many :messages,
     primary_key: :id,
     foreign_key: :author_id,
-    classname: 'Message'
+    class_name: 'Message'
 
     has_many :affiliations,
     primary_key: :id,
