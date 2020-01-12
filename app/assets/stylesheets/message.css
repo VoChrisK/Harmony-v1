@@ -16,7 +16,7 @@
     border-right: 4px solid #36393f;
 }
 
-.message-container {
+.message-container, .live-message-container {
     position: relative;
     width: 95%;
     margin: auto;
@@ -54,6 +54,6 @@
     cursor: pointer;
 }
 
-.message-container:hover .fa.fa-ellipsis-v {
+.message-container:hover .fa.fa-ellipsis-v, .live-message-container:hover .fa.fa-ellipsis-v {
     visibility: visible;
 }

@@ -3,19 +3,16 @@ import Home from './home';
 import { requestServers } from './../../actions/server_actions';
 import { openModal } from './../../actions/modal_actions';
 import { receiveCurrentUserId, logout } from './../../actions/session_actions';
-import { createMessage } from './../../actions/message_actions';
 
 const mapStateToProps = (state) => {
     return ({
-        servers: Object.values(state.entities.servers),
-        currentUserId: state.session.id
+        servers: Object.values(state.entities.servers)
     })
 };
 
 const mapDispatchToProps = (dispatch) => {
     return({
         requestServers: () => dispatch(requestServers()),
-        createMessage: (message, channelId) => dispatch(createMessage(message, channelId)),
         optionsModal: () => dispatch(openModal("options")),
         receiveCurrentUserId: userId => dispatch(receiveCurrentUserId(userId)),
         logout: () => dispatch(logout())

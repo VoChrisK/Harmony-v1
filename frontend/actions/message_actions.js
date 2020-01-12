@@ -1,5 +1,12 @@
 import * as MessageApiUtil from './../util/message_api_util';
 
+const receiveMessages = messages => {
+    return ({
+        type: "RECEIVE_MESSAGES",
+        messages
+    });
+}
+
 const receiveMessage = message => {
     return ({
         type: "RECEIVE_MESSAGE",
@@ -14,10 +21,17 @@ const removeMessage = messageId => {
     });
 };
 
-export const createMessage = (message, channelId) => dispatch => {
-    return MessageApiUtil.createMessage(message, channelId).then(
-        newMessage => dispatch(receiveMessage(newMessage))
+export const requestMessages = (channelId) => dispatch => {
+    return MessageApiUtil.fetchMessages(channelId).then(
+        messages => dispatch(receiveMessages(messages))
     );
+};
+
+export const createMessage = (message, channelId) => dispatch => {
+    return MessageApiUtil.createMessage(message, channelId);
+    // .then(
+    //     newMessage => dispatch(receiveMessage(newMessage))
+    // );
 };
 
 export const updateMessage = message => dispatch => {
@@ -32,5 +46,6 @@ export const deleteMessage = messageId => dispatch => {
     );
 };
 
+export const RECEIVE_MESSAGES = "RECEIVE_MESSAGES";
 export const RECEIVE_MESSAGE = "RECEIVE_MESSAGE";
 export const REMOVE_MESSAGE = "REMOVE_MESSAGE";
