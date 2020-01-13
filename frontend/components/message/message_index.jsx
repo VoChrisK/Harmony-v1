@@ -49,7 +49,7 @@ class MessageIndex extends React.Component {
                 <section id="chat-log">
                     {
                         
-                        this.props.messages.map((message, idx) => <MessageIndexItem key={idx} message={message} />)
+                        this.props.messages.map((message, idx) => <MessageIndexItem key={idx} message={message} users={this.props.users} />)
                     }
                 </section>
 

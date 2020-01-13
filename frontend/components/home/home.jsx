@@ -14,7 +14,8 @@ class Home extends React.Component {
 
         if(Boolean(window.localStorage.getItem("currentUserId"))) {
             this.props.receiveCurrentUserId(window.localStorage.getItem("currentUserId"));
-        } else {
+        } 
+        else {
             window.localStorage.setItem("currentUserId", this.props.currentUserId);
         }
     }

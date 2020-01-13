@@ -1,6 +1,9 @@
 import React from 'react';
 
-const MessageIndexItem = ({ message }) => {
+const MessageIndexItem = ({ users, message }) => {
+    if(!users) return null;
+    //{users[message.author_id - 1].username}
+
     return (
         <div className="message-container">
             <div className="message-info">

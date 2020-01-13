@@ -13,13 +13,14 @@ class Notification extends React.Component {
     handleDelete() {
         let id;
         this.props.formType === "server" ? id = this.props.match.params.serverId : id = this.props.match.params.channelId;
-        this.props.processEntity(id);
-        this.props.closeModal();
-        if(this.props.formType === "server") {
-            <Redirect to="/servers/@me" />
-        } else {
-            <Redirect to="/servers" />
+
+        if(this.props.formType == "server") {
+            this.props.processEntity(id).then(this.props.history.push("/servers/@me"));
         }
+        else {
+            this.props.processEntity(id).then(this.props.history.push("/servers/"));
+        }
+        this.props.closeModal();
     }
 
     render() {

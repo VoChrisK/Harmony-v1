@@ -1,0 +1,77 @@
+.user-list-header {
+    color: #8c93a0;
+    font-size: 12px;
+    font-weight: bold;  
+    margin: 20px 10px 0px 20px;
+}
+
+.user-info {
+    position: relative;
+    color: #767d88;
+}
+
+.user-icon.icon-container {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-image: url("./images/discord-icon.png");
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: 2.5px 2px;
+    margin-left: 20px;
+    cursor: default;
+}
+
+.username {
+    position: absolute;
+    margin-left: 20px;
+    left: 17.5%;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-bottom: 10px;
+}
+
+
+.user-icon.icon-container.yellow {
+    background-color: rgb(250, 208, 19);
+} 
+
+.user-icon.icon-container.green {
+    background-color: green;
+}
+
+.user-icon.icon-container.gray {
+    background-color: gray;
+}
+
+.user-icon.icon-container.red {
+    background-color: red;
+}
+
+.user-icon.icon-container.blue {
+    background-color: rgb(14, 115, 199);
+}
+
+.fa.fa-circle {
+    position: absolute;
+    left: 42px;
+    top: 30px;
+    color: gray;
+    text-shadow: 0px 0px 3px black;
+}
+
+.fa.fa-circle.Do.not.disturb {
+    color: red;
+}
+
+.fa.fa-circle.Away {
+    color: rgb(230, 190, 11);
+}
+
+.fa.fa-circle.Online {
+    color: green
+}
+
+.fa.fa-circle.Offline {
+    color: gray;
+}

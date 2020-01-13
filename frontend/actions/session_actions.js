@@ -7,7 +7,7 @@ export const receiveCurrentUserId = currentUserId => {
     });
 };
 
-const receiveCurrentUser = currentUser => {
+export const receiveCurrentUser = currentUser => {
     return({
         type: "RECEIVE_CURRENT_USER",
         currentUser

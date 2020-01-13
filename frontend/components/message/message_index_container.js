@@ -6,6 +6,7 @@ import { requestMessages, createMessage } from './../../actions/message_actions'
 const mapStateToProps = (state) => {
     return ({
         messages: Object.values(state.entities.messages),
+        users: Object.values(state.entities.users),
         currentUserId: state.session.id
     })
 }

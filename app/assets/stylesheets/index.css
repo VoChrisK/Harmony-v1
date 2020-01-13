@@ -50,3 +50,19 @@
 .input-field {
     margin-top: 20px;
 }
+
+.icon-container {
+    display: block;
+    padding: 15px;
+    background-color: #2f3136;
+    color: white;
+    text-align: center;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin: 10px auto;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.25s;
+    transition: border-radius 0.25s;
+}

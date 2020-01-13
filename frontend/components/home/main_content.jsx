@@ -1,5 +1,6 @@
 import React from 'react';
 import MessageIndexContainer from './../message/message_index_container';
+import UserIndexContainer from './../user/user_index_container';
 import { withRouter } from 'react-router-dom';
 
 class MainContent extends React.Component {
@@ -27,9 +28,7 @@ class MainContent extends React.Component {
                         <h1 className="channel-name-header">test</h1>
                     </header>
                     <MessageIndexContainer />
-                    <aside className="users-list">
-
-                    </aside>
+                    <UserIndexContainer />
                 </main>
             )
         }

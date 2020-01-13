@@ -82,7 +82,7 @@
     outline: none;
 }
 
-.users-list {
+.users-list-container {
     float: right;
     width: 15%;
     height: calc(100% - 47px);

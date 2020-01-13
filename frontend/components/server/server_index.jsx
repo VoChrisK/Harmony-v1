@@ -12,7 +12,7 @@ class ServerIndex extends React.Component {
                 {
                     this.props.servers.map((server, idx) => <ServerIndexItem key={idx} server={server} />)
                 }
-                <div onClick={() => this.props.optionsModal()} id="add-server" className="server-icon-container"><h1 className="server-icon">+</h1></div>
+                <div onClick={() => this.props.optionsModal()} className="add-server icon-container"><h1 className="server-icon">+</h1></div>
             </aside>
         );
     }
