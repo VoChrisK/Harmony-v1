@@ -10,11 +10,14 @@ class MessageIndex extends React.Component {
     }
 
     componentDidMount() {
-        this.props.requestMessages(this.props.match.params.channelId);
+        this.props.requestMessages(this.props.match.params.channelId).then(
+            () => document.getElementById("chat-log").lastChild.scrollIntoView()
+        );
     }
 
     componentDidUpdate(preProps) {
         if(this.props.match.params.channelId !== preProps.match.params.channelId) {
+            console.log("hi")
             this.clearLiveMessages();
             this.props.requestMessages(this.props.match.params.channelId);
         }
@@ -35,8 +38,9 @@ class MessageIndex extends React.Component {
         e.preventDefault();
         let message = Object.assign({}, this.state);
         message["author_id"] = this.props.currentUserId;
-        this.props.createMessage(message, this.props.match.params.channelId);
-        //document.getElementById("chat-log").scrollTo(0, document.getElementById("chat-log").scrollHeight);
+        this.props.createMessage(message, this.props.match.params.channelId).then(
+            () => document.getElementById("chat-log").lastChild.scrollIntoView()
+        );
         this.setState({ body: "" });
     }
 

@@ -1073,12 +1073,15 @@ function (_React$Component) {
   _createClass(MessageIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.requestMessages(this.props.match.params.channelId);
+      this.props.requestMessages(this.props.match.params.channelId).then(function () {
+        return document.getElementById("chat-log").lastChild.scrollIntoView();
+      });
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(preProps) {
       if (this.props.match.params.channelId !== preProps.match.params.channelId) {
+        console.log("hi");
         this.clearLiveMessages();
         this.props.requestMessages(this.props.match.params.channelId);
       }
@@ -1105,8 +1108,9 @@ function (_React$Component) {
       e.preventDefault();
       var message = Object.assign({}, this.state);
       message["author_id"] = this.props.currentUserId;
-      this.props.createMessage(message, this.props.match.params.channelId); //document.getElementById("chat-log").scrollTo(0, document.getElementById("chat-log").scrollHeight);
-
+      this.props.createMessage(message, this.props.match.params.channelId).then(function () {
+        return document.getElementById("chat-log").lastChild.scrollIntoView();
+      });
       this.setState({
         body: ""
       });
