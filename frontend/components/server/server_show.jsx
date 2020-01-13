@@ -1,5 +1,5 @@
 import React from 'react';
-import ChannelIndex from './../channel/channel_index';
+import ChannelIndexContainer from './../channel/channel_index_container';
 
 class ServerShow extends React.Component {
     constructor(props) {
@@ -44,7 +44,7 @@ class ServerShow extends React.Component {
                         </ul>
                     </div>
                     <h2 className="text-channels">TEXT CHANNELS</h2><i onClick={() => this.props.createChannelModal()} className="fa fa-plus"></i>
-                    <ChannelIndex server={server} />
+                    <ChannelIndexContainer server={server} />
                 </div>
         );
     }
