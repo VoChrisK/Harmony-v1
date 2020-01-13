@@ -31,14 +31,12 @@ class Home extends React.Component {
             <div className="home-interface">
                 <Modal />
                 <ServerIndex servers={this.props.servers} optionsModal={this.props.optionsModal} />
-
                 <aside className="channels-and-dms-sidebar">
                     <ServerShowContainer />
-                    <div className="user-options">
-                        <button className="logout" onClick={this.logout.bind(this)}>Logout</button>
-                    </div>
                 </aside>
-
+                <div className="user-options">
+                    <button className="logout" onClick={this.logout.bind(this)}>Logout</button>
+                </div>
                 <MainContent />
             </div>
         );

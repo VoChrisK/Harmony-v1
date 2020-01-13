@@ -17,11 +17,11 @@ class ChannelIndex extends React.Component {
         if(this.props.server.channelIds.length === 0) return null;
 
         return(
-            <ul className="channels-list">
-                {
-                    this.props.server.channelIds.sort((a, b) => a - b).map((channelId, idx) => <ChannelIndexItemContainer key={idx} channelId={channelId} />)
-                }
-            </ul>
+                <ul className="channels-list">
+                    {
+                        this.props.server.channelIds.sort((a, b) => a - b).map((channelId, idx) => <ChannelIndexItemContainer key={idx} channelId={channelId} />)
+                    }
+                </ul>
         )
     }
 }

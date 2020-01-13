@@ -776,12 +776,12 @@ function (_React$Component) {
         optionsModal: this.props.optionsModal
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "channels-and-dms-sidebar"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_server_show_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_server_show_container__WEBPACK_IMPORTED_MODULE_2__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-options"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "logout",
         onClick: this.logout.bind(this)
-      }, "Logout"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_main_content__WEBPACK_IMPORTED_MODULE_4__["default"], null));
+      }, "Logout")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_main_content__WEBPACK_IMPORTED_MODULE_4__["default"], null));
     }
   }]);
 
@@ -851,6 +851,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _message_message_index_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../message/message_index_container */ "./frontend/components/message/message_index_container.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -872,40 +873,54 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var MainContent =
 /*#__PURE__*/
 function (_React$Component) {
   _inherits(MainContent, _React$Component);
 
   function MainContent(props) {
-    var _this;
-
     _classCallCheck(this, MainContent);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MainContent).call(this, props));
-    _this.state = {
-      body: ""
-    };
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(MainContent).call(this, props));
   }
 
   _createClass(MainContent, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
-        className: "main-content"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
-        className: "channel-header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "#"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "this will display the channel header")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_message_index_container__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
-        className: "users-list"
-      }));
+      return this.renderContent();
+    }
+  }, {
+    key: "renderContent",
+    value: function renderContent() {
+      if (this.props.match.path === "/servers/@me") {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
+          className: "main-content"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
+          className: "channel-header"
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
+          className: "users-list"
+        }));
+      } else {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
+          className: "main-content"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
+          className: "channel-header"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fa fa-hashtag"
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+          className: "channel-name-header"
+        }, "test")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_message_index_container__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
+          className: "users-list"
+        }));
+      }
     }
   }]);
 
   return MainContent;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (MainContent);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(MainContent));
 
 /***/ }),
 
