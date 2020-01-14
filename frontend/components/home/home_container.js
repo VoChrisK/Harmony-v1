@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return({
-        requestServers: () => dispatch(requestServers()),
+        requestServers: userId => dispatch(requestServers(userId)),
         optionsModal: () => dispatch(openModal("options")),
         receiveCurrentUserId: userId => dispatch(receiveCurrentUserId(userId)),
         logout: () => dispatch(logout())

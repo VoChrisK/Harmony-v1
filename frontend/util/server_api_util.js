@@ -1,7 +1,12 @@
-export const fetchServers = () => {
+export const fetchServers = (userId) => {
     return $.ajax({
         method: "GET",
-        url: "api/servers"
+        url: "api/servers",
+        data: {
+            user: {
+                id: userId
+            }
+        }
     });
 };
 

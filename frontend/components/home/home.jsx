@@ -10,14 +10,14 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
-        this.props.requestServers();
-
         if(Boolean(window.localStorage.getItem("currentUserId"))) {
             this.props.receiveCurrentUserId(window.localStorage.getItem("currentUserId"));
         } 
         else {
             window.localStorage.setItem("currentUserId", this.props.currentUserId);
         }
+        
+        this.props.requestServers(window.localStorage.getItem("currentUserId"));
     }
 
     logout() {

@@ -312,9 +312,9 @@ var removeServer = function removeServer(serverId) {
   };
 };
 
-var requestServers = function requestServers() {
+var requestServers = function requestServers(userId) {
   return function (dispatch) {
-    return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchServers"]().then(function (servers) {
+    return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchServers"](userId).then(function (servers) {
       return dispatch(receiveServers(servers));
     });
   };
@@ -846,13 +846,13 @@ function (_React$Component) {
   _createClass(Home, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.requestServers();
-
       if (Boolean(window.localStorage.getItem("currentUserId"))) {
         this.props.receiveCurrentUserId(window.localStorage.getItem("currentUserId"));
       } else {
         window.localStorage.setItem("currentUserId", this.props.currentUserId);
       }
+
+      this.props.requestServers(window.localStorage.getItem("currentUserId"));
     }
   }, {
     key: "logout",
@@ -916,8 +916,8 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    requestServers: function requestServers() {
-      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServers"])());
+    requestServers: function requestServers(userId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServers"])(userId));
     },
     optionsModal: function optionsModal() {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])("options"));
@@ -1073,15 +1073,16 @@ function (_React$Component) {
   _createClass(MessageIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.requestMessages(this.props.match.params.channelId).then(function () {
-        return document.getElementById("chat-log").lastChild.scrollIntoView();
-      });
+      if (document.getElementById("chat-log").childElementCount === 0) {
+        this.props.requestMessages(this.props.match.params.channelId).then(function () {
+          return document.getElementById("chat-log").lastChild.scrollIntoView();
+        });
+      }
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(preProps) {
       if (this.props.match.params.channelId !== preProps.match.params.channelId) {
-        console.log("hi");
         this.clearLiveMessages();
         this.props.requestMessages(this.props.match.params.channelId);
       }
@@ -1216,7 +1217,7 @@ var MessageIndexItem = function MessageIndexItem(_ref) {
     className: "message-info"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
     className: "message-author"
-  }, "Test"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
+  }, message.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
     className: "message-date"
   }, message.date), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
     className: "message-time"
@@ -2244,12 +2245,11 @@ function (_React$Component) {
     }
   }, {
     key: "showDropdown",
-    value: function showDropdown(event) {
-      document.getElementsByClassName("server-dropdown")[0].classList.add("is-showing");
-      document.getElementsByClassName("harmony-app")[0].removeEventListener;
-      document.getElementsByClassName("harmony-app")[0].addEventListener("click", function () {
-        document.getElementsByClassName("server-dropdown")[0].classList.remove("is-showing");
-      });
+    value: function showDropdown(event) {// document.getElementsByClassName("server-dropdown")[0].classList.add("is-showing");
+      // document.getElementsByClassName("harmony-app")[0].removeEventListener
+      // document.getElementsByClassName("harmony-app")[0].addEventListener("click", () => {
+      //     document.getElementsByClassName("server-dropdown")[0].classList.remove("is-showing");
+      // });
     }
   }, {
     key: "handleDelete",
@@ -3554,10 +3554,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createServer", function() { return createServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateServer", function() { return updateServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteServer", function() { return deleteServer; });
-var fetchServers = function fetchServers() {
+var fetchServers = function fetchServers(userId) {
   return $.ajax({
     method: "GET",
-    url: "api/servers"
+    url: "api/servers",
+    data: {
+      user: {
+        id: userId
+      }
+    }
   });
 };
 var fetchServer = function fetchServer(serverId) {

@@ -19,11 +19,11 @@ class ServerShow extends React.Component {
     }
 
     showDropdown(event) {
-        document.getElementsByClassName("server-dropdown")[0].classList.add("is-showing");
-        document.getElementsByClassName("harmony-app")[0].removeEventListener
-        document.getElementsByClassName("harmony-app")[0].addEventListener("click", () => {
-            document.getElementsByClassName("server-dropdown")[0].classList.remove("is-showing");
-        });
+        // document.getElementsByClassName("server-dropdown")[0].classList.add("is-showing");
+        // document.getElementsByClassName("harmony-app")[0].removeEventListener
+        // document.getElementsByClassName("harmony-app")[0].addEventListener("click", () => {
+        //     document.getElementsByClassName("server-dropdown")[0].classList.remove("is-showing");
+        // });
     }
 
     handleDelete() {

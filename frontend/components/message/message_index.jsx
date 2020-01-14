@@ -10,14 +10,15 @@ class MessageIndex extends React.Component {
     }
 
     componentDidMount() {
-        this.props.requestMessages(this.props.match.params.channelId).then(
-            () => document.getElementById("chat-log").lastChild.scrollIntoView()
-        );
+        if (document.getElementById("chat-log").childElementCount === 0 ) {
+            this.props.requestMessages(this.props.match.params.channelId).then(
+                () => document.getElementById("chat-log").lastChild.scrollIntoView()
+            );
+        }
     }
 
     componentDidUpdate(preProps) {
         if(this.props.match.params.channelId !== preProps.match.params.channelId) {
-            console.log("hi")
             this.clearLiveMessages();
             this.props.requestMessages(this.props.match.params.channelId);
         }

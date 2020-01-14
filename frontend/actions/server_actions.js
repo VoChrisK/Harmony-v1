@@ -21,8 +21,8 @@ const removeServer = serverId => {
     });
 };
 
-export const requestServers = () => dispatch => {
-    return ServerApiUtil.fetchServers().then(
+export const requestServers = (userId) => dispatch => {
+    return ServerApiUtil.fetchServers(userId).then(
         servers => dispatch(receiveServers(servers))
     );
 };
