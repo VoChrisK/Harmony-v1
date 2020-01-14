@@ -185,3 +185,16 @@
 .server-submit {
     width: 20%;
 }
+
+.home-server {
+    background-image: url('./images//harmony-icon.png');
+    background-size: 50px;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.servers-sidebar > .line {
+    width: 50%;
+    margin: auto;
+    border-bottom: 2px solid #36393f;
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { openModal } from './../../actions/modal_actions'; 
 
-const Options = ({createServerModal}) => {
+const Options = ({createServerModal, JoinServerModal}) => {
     return(
         <div className="options-modal">
             <h1>OH, ANOTHER SERVER HUH?</h1>
@@ -14,9 +14,9 @@ const Options = ({createServerModal}) => {
             </div>
             <div className="join-option options">
                 <h1>JOIN</h1>
-                <p>Enter an invite and join your friend's server.</p>
+                <p>Enter a username and have your friends join your server.</p>
                 <div className="join-icon"></div>
-                <button>Join a server</button>
+                <button onClick={() => JoinServerModal()}>Join a server</button>
             </div>
         </div>
     )
@@ -24,7 +24,8 @@ const Options = ({createServerModal}) => {
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        createServerModal: () => dispatch(openModal("createServer"))
+        createServerModal: () => dispatch(openModal("createServer")),
+        JoinServerModal: () => dispatch(openModal("joinServer"))
     });
 }
 

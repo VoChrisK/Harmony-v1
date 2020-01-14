@@ -1,5 +1,6 @@
 import React from 'react';
 import ServerIndexItem from './server_index_item';
+import { Link } from 'react-router-dom';
 
 class ServerIndex extends React.Component {
     constructor(props) {
@@ -9,6 +10,8 @@ class ServerIndex extends React.Component {
     render() {
         return (
             <aside className="servers-sidebar">
+                <Link className="home-server server-icon-container icon-container" to="/servers/@me"></Link>
+                <div className="line"></div>
                 {
                     this.props.servers.map((server, idx) => <ServerIndexItem key={idx} server={server} />)
                 }

@@ -10,6 +10,14 @@ export const fetchUsers = serverId => {
     });
 };
 
+export const findUser = username => {
+    return $.ajax({
+        method: "GET",
+        url: "api/users/find",
+        data: {username: username}
+    });
+};
+
 export const updateUser = user => {
     return $.ajax({
         method: "PATCH",

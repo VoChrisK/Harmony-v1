@@ -4,9 +4,13 @@ class Api::UsersController < ApplicationController
         render :index
     end
 
-    def show
-        @user = User.find(params[:id])
-        render :show
+    def find
+        @user = User.find_by(username: params[:username])
+        if @user
+            render :show
+        else
+            render json: ["Cannot find user. Please try again"], status: 404
+        end
     end
 
     def create

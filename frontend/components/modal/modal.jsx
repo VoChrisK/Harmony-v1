@@ -8,6 +8,7 @@ import CreateChannelContainer from './create_channel_container';
 import UpdateChannelContainer from './update_channel_container';
 import DeleteServerContainer from './delete_server_container';
 import DeleteChannelContainer from './delete_channel_container';
+import JoinServer from './../modal/join_server';
 
 const Modal = ({ modal, closeModal }) => {
     if (!modal) return null;
@@ -34,6 +35,9 @@ const Modal = ({ modal, closeModal }) => {
             break;
         case 'deleteChannel':
             component = <DeleteChannelContainer />
+            break;
+        case 'joinServer':
+            component = <JoinServer />
             break;
         default:
             return null;

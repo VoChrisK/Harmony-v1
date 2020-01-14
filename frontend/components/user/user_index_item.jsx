@@ -1,12 +1,10 @@
 import React from 'react';
+import chooseColor from '../../util/choose_color';
 
 const UserIndexItem = ({user}) => {
-    const colors = ["red", "blue", "green", "yellow", "gray"];
-    const randomIndex = Math.floor(Math.random() * (colors.length - 1));
-
     return (
         <div className="user-info">
-            <div className={`user-icon icon-container ${colors[randomIndex]}`}></div>
+            <div className={`user-icon icon-container ${chooseColor(user.id)}`}></div>
             <i className={`fa fa-circle ${user.status}`}></i>
             <h1 className="username">{user.username}</h1>
         </div>

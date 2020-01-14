@@ -75,3 +75,8 @@
 .fa.fa-circle.Offline {
     color: gray;
 }
+
+.message-container > .user-icon.icon-container, .live-message-container > .user-icon.icon-container {
+    position: absolute;
+    top: 15%;
+}
