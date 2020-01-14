@@ -1616,10 +1616,11 @@ function (_React$Component) {
       e.preventDefault();
       Object(_util_user_api_util__WEBPACK_IMPORTED_MODULE_2__["findUser"])(this.state.name).then(function (user) {
         return Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_1__["createAffiliation"])(user.id, _this2.props.match.params.serverId).then(function () {
-          return _this2.props.requestServer(_this2.props.match.params.serverId);
+          return _this2.props.requestServer(_this2.props.match.params.serverId).then(function () {
+            return _this2.props.closeModal();
+          });
         });
       });
-      this.props.closeModal();
     }
   }, {
     key: "render",
@@ -1889,7 +1890,7 @@ var Options = function Options(_ref) {
     }
   }, "Create a server")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "join-option options"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "JOIN"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Enter a username and have your friends join your server."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "JOIN"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Enter a username and have your friend join your server."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "join-icon"
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     onClick: function onClick() {
@@ -2379,8 +2380,10 @@ function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(preProps) {
-      if (this.props.match.params.serverId !== preProps.match.params.serverId) {
-        this.props.requestServer(this.props.match.params.serverId);
+      if (this.props.server) {
+        if (this.props.match.params.serverId !== preProps.match.params.serverId || this.props.server.userIds.length !== preProps.server.userIds.length) {
+          this.props.requestServer(this.props.match.params.serverId);
+        }
       }
     }
   }, {
@@ -2945,6 +2948,10 @@ function (_React$Component) {
     value: function componentDidUpdate(preProps) {
       if (this.props.match.params.serverId !== preProps.match.params.serverId) {
         this.props.requestUsers(this.props.match.params.serverId);
+      } else if (this.props.server) {
+        if (this.props.server.userIds.length !== preProps.server.userIds.length) {
+          this.props.requestUsers(this.props.match.params.serverId);
+        }
       }
     }
   }, {
@@ -3015,9 +3022,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var mapStateToProps = function mapStateToProps(state) {
+var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    users: Object.values(state.entities.users)
+    users: Object.values(state.entities.users),
+    server: state.entities.servers[ownProps.match.params.serverId]
   };
 };
 

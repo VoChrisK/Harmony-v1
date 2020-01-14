@@ -13,8 +13,10 @@ class ServerShow extends React.Component {
     }
 
     componentDidUpdate(preProps) {
-        if(this.props.match.params.serverId !== preProps.match.params.serverId) {
-            this.props.requestServer(this.props.match.params.serverId);
+        if(this.props.server) {
+            if (this.props.match.params.serverId !== preProps.match.params.serverId || this.props.server.userIds.length !== preProps.server.userIds.length) {
+                this.props.requestServer(this.props.match.params.serverId);
+            }
         }
     }
 

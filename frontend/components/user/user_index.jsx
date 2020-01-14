@@ -14,6 +14,11 @@ class UserIndex extends React.Component {
         if(this.props.match.params.serverId !== preProps.match.params.serverId) {
             this.props.requestUsers(this.props.match.params.serverId);
         }
+        else if(this.props.server) {
+            if (this.props.server.userIds.length !== preProps.server.userIds.length) {
+                this.props.requestUsers(this.props.match.params.serverId);
+            }
+        }
     }
 
     render() {

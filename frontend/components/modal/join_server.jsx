@@ -22,10 +22,11 @@ class JoinServer extends React.Component {
         e.preventDefault();
         findUser(this.state.name).then(
             user => createAffiliation(user.id, this.props.match.params.serverId).then(
-                () => this.props.requestServer(this.props.match.params.serverId)
+                () => this.props.requestServer(this.props.match.params.serverId).then(
+                    () => this.props.closeModal()
+                )
             )
         );
-        this.props.closeModal();
     }
 
     render() {
