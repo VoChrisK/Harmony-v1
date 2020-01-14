@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import ServerShow from './server_show';
-import { requestServer } from './../../actions/server_actions';
+import { requestServers, requestServer } from './../../actions/server_actions';
 import { withRouter } from 'react-router-dom';
 import { openModal } from './../../actions/modal_actions';
 
@@ -13,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return ({
+        requestServers: userId => dispatch(requestServers(userId)),
         requestServer: serverId => dispatch(requestServer(serverId)),
         createChannelModal: () => dispatch(openModal("createChannel")),
         updateServerModal: () => dispatch(openModal("updateServer")),

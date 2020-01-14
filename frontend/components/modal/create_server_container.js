@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 const mapStateToProps = (state) => {
     return ({
         currentUserId: state.session.id,
+        servers: state.entities.servers,
         formType: 'create'
     });
 }

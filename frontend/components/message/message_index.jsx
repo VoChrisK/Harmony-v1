@@ -47,6 +47,7 @@ class MessageIndex extends React.Component {
 
     render() {
         if(!this.props.messages) return null;
+        const { channel } = this.props
 
         return (
             <section className="chat-container">
@@ -59,7 +60,7 @@ class MessageIndex extends React.Component {
                 </section>
 
                 <form className="message-input-container" onSubmit={this.handleSubmit.bind(this)}>
-                    <input type="text" className="message-input" placeholder="message #channel" value={this.state.body} onChange={this.handleBody.bind(this)} />
+                    <input type="text" className="message-input" placeholder={`message #${channel ? channel.name : ""}`} value={this.state.body} onChange={this.handleBody.bind(this)} />
                 </form>
 
             </section>

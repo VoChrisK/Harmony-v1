@@ -52,6 +52,8 @@
 }
 
 #chat-log {
+    background: url("./images/discord-chat-background-2.png") no-repeat bottom left, url("./images/discord-chat-background-1.png") no-repeat bottom right;
+    background-size: 500px;
     height: 89%;
     overflow: auto;
 }
@@ -66,8 +68,9 @@
 
 .message-input {
     position: absolute;
-    top: 40%;
-    transform: translateY(-40%);
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
     width: 97%;
     height: 40px;
     font-size: 16px;

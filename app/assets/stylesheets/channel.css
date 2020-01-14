@@ -19,6 +19,25 @@
     color: #c4cad1;
 }
 
+.channel-header {
+    position: relative;
+}
+
+.channel-header > .fa.fa-hashtag {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 30px;
+    font-size: 24px;
+}
+
+.channel-name-header {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 65px;
+}
+
 .channel-info {
     display: block;
     text-decoration: none;

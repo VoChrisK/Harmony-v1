@@ -21,6 +21,10 @@ class Home extends React.Component {
         this.props.requestServers(window.localStorage.getItem("currentUserId"));
     }
 
+    componentDidUpdate(preProps) {
+        console.log("hi");
+    }
+
     logout() {
         this.props.logout();
         window.localStorage.clear();

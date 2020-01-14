@@ -37,8 +37,11 @@ class ServerShow extends React.Component {
     }
 
     handleLeave() {
-        deleteAffiliation(this.props.currentUserId, this.props.match.params.serverId);
-        this.props.history.push("/servers/@me")
+        deleteAffiliation(this.props.currentUserId, this.props.match.params.serverId).then(
+            () => this.props.requestServers(this.props.currentUserId).then(
+                () => this.props.history.push("/servers/@me")
+            )
+        );
     }
 
     render() {
