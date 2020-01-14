@@ -1,4 +1,5 @@
 import React from 'react';
+import { createAffiliation } from '../../util/affiliation_api_util';
 
 class ServerForm extends React.Component {
     constructor(props) {
@@ -22,9 +23,13 @@ class ServerForm extends React.Component {
         server["owner_id"] = this.props.currentUserId;
         if(!this.isCreate()) {
             server["id"] = this.props.match.params.serverId;
+            this.props.processForm(server);
+        } else {
+            this.props.processForm(server).then(
+                newServer => createAffiliation(this.props.currentUserId, newServer.server.id)
+            )
         }
 
-        this.props.processForm(server);
         this.setState({ name: "" });
         this.props.closeModal();
     }

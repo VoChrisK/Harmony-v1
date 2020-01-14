@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import ServerForm from './server_form';
 import { createServer } from './../../actions/server_actions';
 import { openModal, closeModal } from './../../actions/modal_actions';
+import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state) => {
     return ({
@@ -18,4 +19,4 @@ const mapDispatchToProps = (dispatch) => {
     });
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ServerForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ServerForm));

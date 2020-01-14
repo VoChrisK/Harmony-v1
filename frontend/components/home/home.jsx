@@ -11,11 +11,12 @@ class Home extends React.Component {
 
     componentDidMount() {
         if(Boolean(window.localStorage.getItem("currentUserId"))) {
-            this.props.receiveCurrentUserId(window.localStorage.getItem("currentUserId"));
+            this.props.receiveCurrentUserId(window.localStorage.getItem("currentUserId"))
         } 
         else {
             window.localStorage.setItem("currentUserId", this.props.currentUserId);
         }
+
         
         this.props.requestServers(window.localStorage.getItem("currentUserId"));
     }
@@ -26,7 +27,7 @@ class Home extends React.Component {
     }
     
     render() {
-        if (this.props.servers.length === 0) return null;
+        // if (this.props.servers.length === 0) return null;
         
         return (
             <div className="home-interface">

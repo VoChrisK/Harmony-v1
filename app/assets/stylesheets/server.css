@@ -162,7 +162,7 @@
     border-bottom-right-radius: 10px;
 }
 
-.delete-server {
+.delete-server, .leave-server {
     color: red;
 }
 

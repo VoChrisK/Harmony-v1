@@ -6,7 +6,8 @@ import { openModal } from './../../actions/modal_actions';
 
 const mapStateToProps = (state, ownProps) => {
     return ({
-        server: state.entities.servers[ownProps.match.params.serverId]
+        server: state.entities.servers[ownProps.match.params.serverId],
+        currentUserId: state.session.id
     });
 }
 

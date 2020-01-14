@@ -1,5 +1,6 @@
 import React from 'react';
 import ChannelIndexContainer from './../channel/channel_index_container';
+import { deleteAffiliation } from './../../util/affiliation_api_util';
 
 class ServerShow extends React.Component {
     constructor(props) {
@@ -14,27 +15,36 @@ class ServerShow extends React.Component {
 
     componentDidUpdate(preProps) {
         if(this.props.server) {
-            if (this.props.match.params.serverId !== preProps.match.params.serverId || this.props.server.userIds.length !== preProps.server.userIds.length) {
+            if (this.props.match.params.serverId !== preProps.match.params.serverId) {
                 this.props.requestServer(this.props.match.params.serverId);
+            }
+            else if (!preProps.server || this.props.server.userIds.length !== preProps.server.userIds.length) {
+                this.props.requestServer(this.props.server.id);
             }
         }
     }
 
     showDropdown(event) {
-        // document.getElementsByClassName("server-dropdown")[0].classList.add("is-showing");
-        // document.getElementsByClassName("harmony-app")[0].removeEventListener
-        // document.getElementsByClassName("harmony-app")[0].addEventListener("click", () => {
-        //     document.getElementsByClassName("server-dropdown")[0].classList.remove("is-showing");
-        // });
+        document.getElementsByClassName("server-dropdown")[0].classList.add("is-showing");
+        document.getElementsByClassName("harmony-app")[0].removeEventListener
+        document.getElementsByClassName("harmony-app")[0].addEventListener("click", () => {
+            document.getElementsByClassName("server-dropdown")[0].classList.remove("is-showing");
+        });
     }
 
     handleDelete() {
         this.props.deleteServerModal();
     }
 
+    handleLeave() {
+        deleteAffiliation(this.props.currentUserId, this.props.match.params.serverId);
+        this.props.history.push("/servers/@me")
+    }
+
     render() {
         const { server } = this.props;
         if(!server) return null;
+        this.renderChoice();
 
         return (
                 <div className="server-show-container">
@@ -42,13 +52,22 @@ class ServerShow extends React.Component {
                         <h1 className="server-name">{server.name}</h1>
                         <ul className="server-dropdown dropdown-menu">
                             <li className="update-server" onClick={() => this.props.updateServerModal()}>Edit Server</li>
-                            <li className="delete-server" onClick={this.handleDelete.bind(this)}>Delete Server</li>
+                            {this.renderChoice()}
                         </ul>
                     </div>
                     <h2 className="text-channels">TEXT CHANNELS</h2><i onClick={() => this.props.createChannelModal()} className="fa fa-plus"></i>
                     <ChannelIndexContainer server={server} />
                 </div>
         );
+    }
+
+    renderChoice() {
+        if(this.props.currentUserId === this.props.server.owner_id.toString()) {
+            return <li className="delete-server" onClick={this.handleDelete.bind(this)}>Delete Server</li>
+        }
+        else {
+            return <li className="leave-server" onClick={this.handleLeave.bind(this)}>Leave Server</li>
+        }
     }
 }
 
