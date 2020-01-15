@@ -1,5 +1,5 @@
 #splash {
-    height: 100%;
+    height: 150vh;
     background-color: #26272b;
     color: white;
 }
@@ -15,6 +15,25 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.splash-buttons {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translateX(-50%) translateY(-40%);
+}
+
+.splash-buttons > a:first-child {
+    padding: 15px 65px;
+    margin: 0 30px;
+    background-color: #43b581;
+}
+
+.splash-buttons > a:last-child {
+    padding: 15px 100px;
+    margin: 0 30px;
+    background-color: #7289da;
 }
 
 #splash a {
@@ -46,4 +65,141 @@
 #splash-content > p {
     color: gray;
     line-height: 1.5;
+}
+
+.bundle-images {
+    position: relative;
+    height: 40%;
+    margin-top: 250px;
+}
+
+.bundle-images > * {
+    position: absolute;
+    margin-top: 150px;
+    left: 50%;
+    bottom: 10px;
+}
+
+.cartridge {
+    margin-left: 250px;
+    bottom: 392px;
+}
+
+.monitor {
+    margin-left: -289.5px;
+}
+
+.laptop {
+    margin-left: -4px;
+}
+
+.controller {
+    margin-left: -255px;
+}
+
+.iphone {
+    margin-left: -401.5px;
+}
+
+.block {
+    margin-left: -239px;
+    bottom: 462px;
+}
+
+.android {
+    margin-left: -548px;
+}
+
+.shield {
+    margin-left: 423px;
+}
+
+.potion {
+    margin-left: -609px;
+}
+
+.headphones {
+    margin-left: 270px;
+    bottom: 142px;
+    transform: scale(.75);
+}
+
+.coin-1 {
+    margin-left: 80px;
+    bottom: 530px;
+}
+
+.coin-2 {
+    margin-left: -428px;
+    bottom: 300px;
+}
+
+.bomb {
+    margin-left: -481px;
+    bottom: 335px;
+}
+
+.circle-1 {
+    margin-left: -359px;
+    bottom: 530px;
+}
+
+.cross-1 {
+    margin-left: -579px;
+    bottom: 510px;
+}
+
+.triangle-1 {
+    margin-left: -579px;
+    bottom: 300px;
+}
+
+.dot-1 {
+    margin-left: -319px;
+    bottom: 600px;
+}
+
+.triangle-2 {
+    margin-left: 31px;
+    bottom: 550px;
+}
+
+.square-1 {
+    margin-left: 331px;
+    bottom: 600px;
+}
+
+.square-2 {
+    margin-left: 431px;
+    bottom: 400px;
+}
+
+.circle-2 {
+    margin-left: 576px;
+    bottom: 280px;
+}
+
+.cross-2 {
+    margin-left: 541px;
+    bottom: 220px;
+}
+
+.dot-2 {
+    margin-left: -599px;
+    bottom: 200px;
+}
+
+.dot-3 {
+    margin-left: 181px;
+    bottom: 500px;
+}
+
+.dot-4 {
+    margin-left: 531px;
+    bottom: 600px;
+}
+
+.dot-5 {
+    margin-left: 621px;
+    bottom: 140px;
 }

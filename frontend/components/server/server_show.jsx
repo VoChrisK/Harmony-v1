@@ -50,17 +50,18 @@ class ServerShow extends React.Component {
         this.renderChoice();
 
         return (
-                <div className="server-show-container">
-                    <div onClick={this.showDropdown.bind(this)} className="server-name-container">
-                        <h1 className="server-name">{server.name}</h1>
-                        <ul className="server-dropdown dropdown-menu">
-                            <li className="update-server" onClick={() => this.props.updateServerModal()}>Edit Server</li>
-                            {this.renderChoice()}
-                        </ul>
-                    </div>
-                    <h2 className="text-channels">TEXT CHANNELS</h2><i onClick={() => this.props.createChannelModal()} className="fa fa-plus"></i>
-                    <ChannelIndexContainer server={server} />
+            <div className="server-show-container">
+                <div onClick={this.showDropdown.bind(this)} className="server-name-container">
+                    <h1 className="server-name">{server.name}</h1>
+                    <i className="fa fa-chevron-down"></i>
+                    <ul className="server-dropdown dropdown-menu">
+                        <li className="update-server" onClick={() => this.props.updateServerModal()}>Edit Server</li>
+                        {this.renderChoice()}
+                    </ul>
                 </div>
+                <h2 className="text-channels">TEXT CHANNELS</h2><i onClick={() => this.props.createChannelModal()} className="fa fa-plus"></i>
+                <ChannelIndexContainer server={server} />
+            </div>
         );
     }
 

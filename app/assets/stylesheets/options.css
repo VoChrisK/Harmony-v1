@@ -1,5 +1,7 @@
 .options-modal {
     height: 100%;
+    background: url('./images/discord-options-background-1.png') no-repeat bottom right, url('./images/discord-options-background-2.png') no-repeat bottom left;
+    background-size: 100px;
 }
 
 .options-modal > h1 {

@@ -42,7 +42,8 @@
 
 .server-name-container {
     position: relative;
-    padding: 15px 0;
+    padding-top: 16px;
+    padding-bottom: 11px;
     border-bottom: 1px outset rgb(27, 27, 27);
     text-align: center;
     cursor: pointer;
@@ -54,7 +55,18 @@
     background-color: #383c41;
 }
 
+.fa.fa-chevron-down {
+    color: #7a7e83;
+    transition: color 0.5s;
+}
+
+.server-name-container:hover >.fa.fa.fa-chevron-down {
+    color: #c4cad1
+}
+
+
 .server-name {
+    display: inline-block;
     width: 80%;
     font-weight: bold;
     color: white;
