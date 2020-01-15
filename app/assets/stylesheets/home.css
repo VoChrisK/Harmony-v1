@@ -5,9 +5,10 @@
 .servers-sidebar {
     float: left;
     background-color: #202225;
-    width: 80px;
-    min-width: 80px;
+    width: 79px;
+    min-width: 79x;
     height: 100%;
+    border-right: 1px solid black;
 }
 
 .channels-and-dms-sidebar {

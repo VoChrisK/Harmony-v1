@@ -1,5 +1,5 @@
 import React from 'react';
-import MessageIndexItem from './message_index_item';
+import MessageIndexItemContainer from './message_index_item_container';
 
 class MessageIndex extends React.Component {
     constructor(props) {
@@ -10,11 +10,11 @@ class MessageIndex extends React.Component {
     }
 
     componentDidMount() {
-        if (document.getElementById("chat-log").childElementCount !== 0 ) {
+        // if (document.getElementById("chat-log").childElementCount > 0 ) {
             this.props.requestMessages(this.props.match.params.channelId).then(
                 () => document.getElementById("chat-log").lastChild.scrollIntoView()
             );
-        }
+        // }
     }
 
     componentDidUpdate(preProps) {
@@ -55,7 +55,7 @@ class MessageIndex extends React.Component {
                 <section id="chat-log">
                     {
                         
-                        this.props.messages.map((message, idx) => <MessageIndexItem key={idx} message={message} users={this.props.users} />)
+                        this.props.messages.map((message, idx) => <MessageIndexItemContainer key={idx} message={message} users={this.props.users} idx={idx} />)
                     }
                 </section>
 

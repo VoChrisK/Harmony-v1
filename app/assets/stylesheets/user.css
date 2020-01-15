@@ -30,6 +30,11 @@
     color: #767d88;
 }
 
+.user-info:hover {
+    background-color: #4e535a;
+    border-radius: 5px;
+}
+
 .user-icon.icon-container {
     display: inline-block;
     width: 6px;
@@ -59,8 +64,10 @@
 }
 
 .user-options {
+    width: 100%;
     position: absolute;
     bottom: 1px;
+    background-color: #24272b;
 }
 
 .user-options > .user-icon.icon-container {
@@ -117,4 +124,8 @@
 .message-container > .user-icon.icon-container, .live-message-container > .user-icon.icon-container {
     position: absolute;
     top: 15%;
+}
+
+.fa.fa-cog {
+    font-size: 36px;
 }

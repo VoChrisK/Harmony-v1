@@ -16,7 +16,7 @@ const Options = ({createServerModal, JoinServerModal}) => {
                 <h1>JOIN</h1>
                 <p>Enter a username and have your friend join your server.</p>
                 <div className="join-icon"></div>
-                <button onClick={() => JoinServerModal()}>Join a server</button>
+                <button onClick={() => JoinServerModal()}>Invite a friend</button>
             </div>
         </div>
     )

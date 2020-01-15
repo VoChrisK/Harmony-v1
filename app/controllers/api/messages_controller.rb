@@ -1,6 +1,5 @@
 class Api::MessagesController < ApplicationController
     def index
-        # @messages = Channel.find(params[:channel][:id]).messages
         @messages = Channel.includes(:messages).find(params[:channel][:id]).messages
         render :index
     end
@@ -19,19 +18,19 @@ class Api::MessagesController < ApplicationController
     end
 
     def update
-        @message = Message.find(params[id])
-        render json: ["Cannot find channel"], status: 404 unless @channel
-        if @channel.update(channel_params)
-            render @channel
+        @message = Message.find(params[:id])
+        render json: ["Cannot find channel"], status: 404 unless @message
+        if @message.update(message_params)
+            render @message
         else
-            render json: @channel.errors.full_messages, status: 422
+            render json: @message.errors.full_messages, status: 422
         end
     end
 
     def destroy
-        @channel = Channel.find(params[:id])
-        @channel.destroy
-        redner @channel
+        @message = Message.find(params[:id])
+        @message.destroy
+        render @message
     end
 
     private

@@ -2,6 +2,7 @@ import React from 'react';
 import chooseColor from './../../util/choose_color';
 import { updateUser } from './../../actions/user_actions';
 import { connect } from 'react-redux';
+import { openModal } from '../../actions/modal_actions';
 
 class EditUser extends React.Component {
     constructor(props) {
@@ -19,7 +20,12 @@ class EditUser extends React.Component {
     }
 
     logout() {
-        this.props.logout();
+        const user = Object.assign({}, this.props.currentUser);
+        user["status"] = "Offline"
+        this.props.updateUser(user).then(
+            () => this.props.logout()
+        );
+
         window.localStorage.clear();
     }
 
@@ -34,6 +40,7 @@ class EditUser extends React.Component {
                 </ul>
 
                 <div onClick={this.showDropdown.bind(this)} className={`user-icon icon-container ${chooseColor(this.props.currentUserId)}`}></div>
+                <i onClick={() => this.props.editUserModal()} className="fa fa-cog"></i>
                 <button className="logout" onClick={(this.logout.bind(this))}>Logout</button>
             </div>
         );
@@ -48,7 +55,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        updateUser: user => dispatch(updateUser(user))
+        updateUser: user => dispatch(updateUser(user)),
+        editUserModal: () => dispatch(openModal("editName"))
     });
 };
 

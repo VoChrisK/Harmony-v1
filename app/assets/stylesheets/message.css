@@ -57,3 +57,29 @@
 .message-container:hover .fa.fa-ellipsis-v, .live-message-container:hover .fa.fa-ellipsis-v {
     visibility: visible;
 }
+
+.message-dropdown {
+    background-color: rgba(17, 17, 17, 0.9);
+    position: absolute;
+    top: 1px;
+    right: 15px;
+    padding: 5px;
+    border: 1px solid #6b717c;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0px 0px 3px black;
+}
+
+.message-dropdown > li {
+    cursor: pointer;
+    padding: 5px;
+    border-bottom: 1px solid #6b717c;
+}
+
+.message-dropdown > li:last-child {
+    border-bottom: none;
+}
+
+.message-dropdown > li:hover {
+    background-color: rgba(46, 46, 46, 0.9);
+}
