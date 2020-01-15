@@ -18,13 +18,20 @@ class Home extends React.Component {
             window.localStorage.setItem("currentUserId", this.props.currentUserId);
         }
 
-        
         this.props.requestServers(window.localStorage.getItem("currentUserId"));
+
+        document.getElementsByClassName("harmony-app")[0].addEventListener("click", () => {
+            const dropdown = document.getElementsByClassName("dropdown-menu");
+            if (dropdown.length > 0) {
+                for(let i = 0; i < dropdown.length; i++) {
+                    dropdown[i].classList.remove("is-showing");
+                }
+            }
+        });
     }
     
     render() {
         // if (this.props.servers.length === 0) return null;
-        
         return (
             <div className="home-interface">
                 <Modal />

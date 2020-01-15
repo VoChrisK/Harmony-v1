@@ -5,6 +5,26 @@
     margin: 20px 10px 0px 20px;
 }
 
+.status-dropdown {
+    position: absolute;
+    background-color: rgba(17, 17, 17, 0.9);
+    color: white;
+    border-radius: 5px;
+    width: 150px;
+    bottom: 60px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.status-dropdown > li {
+    padding: 10px;
+    border-bottom: 1px solid #36393f;
+}
+
+.status-dropdown > li:hover {
+    background-color: rgba(46, 46, 46, 0.9);
+}
+
 .user-info {
     position: relative;
     color: #767d88;
@@ -31,6 +51,24 @@
     margin-bottom: 10px;
 }
 
+.users-list-container {
+    float: right;
+    width: 15%;
+    height: calc(100% - 47px);
+    background-color: #2f3136;
+}
+
+.user-options {
+    position: absolute;
+    bottom: 1px;
+}
+
+.user-options > .user-icon.icon-container {
+    position: absolute;
+    cursor: pointer;
+    left: -10px;
+    bottom: 3px;
+}
 
 .user-icon.icon-container.yellow {
     background-color: rgb(250, 208, 19);

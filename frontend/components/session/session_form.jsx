@@ -20,8 +20,8 @@ class SessionForm extends React.Component {
         const user = Object.assign({}, this.state);
         if(!this.loginForm()) {
             user["id"] = uniqueId();
-            user["status"] = "Online";
         }
+        user["status"] = "Online";
         setTimeout(() => this.props.processForm(user), this.totalTimer);
         this.setState({email: "", username: "", password: ""});
     }

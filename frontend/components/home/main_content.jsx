@@ -15,7 +15,6 @@ class MainContent extends React.Component {
 
     renderContent() {
         const { channel } = this.props;
-        console.log(channel);
     
         if(this.props.match.path === "/servers/@me") {
             return ( 

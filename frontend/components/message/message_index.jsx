@@ -10,7 +10,7 @@ class MessageIndex extends React.Component {
     }
 
     componentDidMount() {
-        if (document.getElementById("chat-log").childElementCount === 0 ) {
+        if (document.getElementById("chat-log").childElementCount !== 0 ) {
             this.props.requestMessages(this.props.match.params.channelId).then(
                 () => document.getElementById("chat-log").lastChild.scrollIntoView()
             );

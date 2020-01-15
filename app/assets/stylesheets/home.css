@@ -85,20 +85,8 @@
     outline: none;
 }
 
-.users-list-container {
-    float: right;
-    width: 15%;
-    height: calc(100% - 47px);
-    background-color: #2f3136;
-}
-
-.user-options {
-    position: absolute;
-    bottom: 15px;
-}
-
 .logout {
+    margin-left: 144px;
     width: 70px;
     height: 30px;
-    margin-left: 150px;
 }

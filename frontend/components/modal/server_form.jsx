@@ -44,7 +44,7 @@ class ServerForm extends React.Component {
                         <label htmlFor="server-name" className="server-label form-label">SERVER NAME</label>
                         <input className="server-input" type="text" name="name" id="server-name" placeholder="Enter a server name" autoComplete="off" onChange={this.handleInput("name")} />
                     </div>
-                    <div id="preview-icon-container" className="server-icon-container">
+                    <div id="preview-icon-container" className="icon-container">
                         <h1 className="preview-icon server-icon">{this.state.name ? this.state.name.substring(0,1) : ""}</h1>
                     </div>
                     <div className="server-buttons">

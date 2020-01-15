@@ -805,6 +805,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util_choose_color__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../util/choose_color */ "./frontend/util/choose_color.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -826,6 +828,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
+
 var EditUser =
 /*#__PURE__*/
 function (_React$Component) {
@@ -838,6 +842,18 @@ function (_React$Component) {
   }
 
   _createClass(EditUser, [{
+    key: "setStatus",
+    value: function setStatus(event) {
+      var user = Object.assign({}, this.props.currentUser);
+      user["status"] = event.target.innerHTML;
+      this.props.updateUser(user);
+    }
+  }, {
+    key: "showDropdown",
+    value: function showDropdown() {
+      document.getElementsByClassName("status-dropdown")[0].classList.toggle("is-showing");
+    }
+  }, {
     key: "logout",
     value: function logout() {
       this.props.logout();
@@ -848,7 +864,18 @@ function (_React$Component) {
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-options"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "status-dropdown dropdown-menu"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        onClick: this.setStatus.bind(this)
+      }, "Online"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        onClick: this.setStatus.bind(this)
+      }, "Away"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        onClick: this.setStatus.bind(this)
+      }, "Do not disturb"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        onClick: this.setStatus.bind(this)
+      }, "Offline")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.showDropdown.bind(this),
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(this.props.currentUserId))
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "logout",
@@ -860,7 +887,21 @@ function (_React$Component) {
   return EditUser;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (EditUser);
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    currentUser: state.entities.users[ownProps.currentUserId]
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    updateUser: function updateUser(user) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["updateUser"])(user));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(EditUser));
 
 /***/ }),
 
@@ -926,6 +967,15 @@ function (_React$Component) {
       }
 
       this.props.requestServers(window.localStorage.getItem("currentUserId"));
+      document.getElementsByClassName("harmony-app")[0].addEventListener("click", function () {
+        var dropdown = document.getElementsByClassName("dropdown-menu");
+
+        if (dropdown.length > 0) {
+          for (var i = 0; i < dropdown.length; i++) {
+            dropdown[i].classList.remove("is-showing");
+          }
+        }
+      });
     }
   }, {
     key: "render",
@@ -1059,7 +1109,6 @@ function (_React$Component) {
     key: "renderContent",
     value: function renderContent() {
       var channel = this.props.channel;
-      console.log(channel);
 
       if (this.props.match.path === "/servers/@me") {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
@@ -1151,7 +1200,7 @@ function (_React$Component) {
   _createClass(MessageIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      if (document.getElementById("chat-log").childElementCount === 0) {
+      if (document.getElementById("chat-log").childElementCount !== 0) {
         this.props.requestMessages(this.props.match.params.channelId).then(function () {
           return document.getElementById("chat-log").lastChild.scrollIntoView();
         });
@@ -2110,7 +2159,7 @@ function (_React$Component) {
         onChange: this.handleInput("name")
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "preview-icon-container",
-        className: "server-icon-container"
+        className: "icon-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "preview-icon server-icon"
       }, this.state.name ? this.state.name.substring(0, 1) : "")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2481,12 +2530,8 @@ function (_React$Component) {
     }
   }, {
     key: "showDropdown",
-    value: function showDropdown(event) {
-      document.getElementsByClassName("server-dropdown")[0].classList.add("is-showing");
-      document.getElementsByClassName("harmony-app")[0].removeEventListener;
-      document.getElementsByClassName("harmony-app")[0].addEventListener("click", function () {
-        document.getElementsByClassName("server-dropdown")[0].classList.remove("is-showing");
-      });
+    value: function showDropdown() {
+      document.getElementsByClassName("server-dropdown")[0].classList.toggle("is-showing");
     }
   }, {
     key: "handleDelete",
@@ -2528,7 +2573,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this2.props.updateServerModal();
         }
-      }, "Edit Server"), this.renderChoice())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+      }, "Edit Server"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), this.renderChoice())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         className: "text-channels"
       }, "TEXT CHANNELS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         onClick: function onClick() {
@@ -2717,9 +2762,9 @@ function (_React$Component) {
 
       if (!this.loginForm()) {
         user["id"] = Object(_util_uniqueId__WEBPACK_IMPORTED_MODULE_2__["default"])();
-        user["status"] = "Online";
       }
 
+      user["status"] = "Online";
       setTimeout(function () {
         return _this2.props.processForm(user);
       }, this.totalTimer);
