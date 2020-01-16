@@ -54,6 +54,10 @@
     top: 50%;
     transform: translateY(-50%);
     margin-bottom: 10px;
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .users-list-container {
@@ -68,13 +72,6 @@
     position: absolute;
     bottom: 1px;
     background-color: #24272b;
-}
-
-.user-options > .user-icon.icon-container {
-    position: absolute;
-    cursor: pointer;
-    left: -10px;
-    bottom: 3px;
 }
 
 .user-icon.icon-container.yellow {
@@ -128,4 +125,26 @@
 
 .fa.fa-cog {
     font-size: 36px;
+    position: absolute;
+    left: 50%;
+    top: 7px;
+}
+
+.user-options > .user-icon.icon-container {
+    position: absolute;
+    cursor: pointer;
+    left: -10px;
+    top: -2px;
+}
+
+.username-header {
+    position: absolute;
+    left: 50px;
+    top: 12px;
+    width: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: white;
+    font-size: 14px;
 }

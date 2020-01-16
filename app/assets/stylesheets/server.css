@@ -210,6 +210,6 @@
 
 .servers-sidebar > .line {
     width: 50%;
-    margin: auto;
+    margin: 0 auto;
     border-bottom: 2px solid #36393f;
 }

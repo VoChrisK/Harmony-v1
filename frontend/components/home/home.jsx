@@ -31,14 +31,13 @@ class Home extends React.Component {
     }
     
     render() {
-        // if (this.props.servers.length === 0) return null;
         return (
             <div className="home-interface">
                 <Modal />
                 <ServerIndex servers={this.props.servers} optionsModal={this.props.optionsModal} />
                 <aside className="channels-and-dms-sidebar">
                     <ServerShowContainer />
-                    <EditUser currentUserId={this.props.currentUserId} logout={this.props.logout} />
+                    <EditUser currentUserId={this.props.currentUserId} />
                 </aside>
                 <MainContent />
             </div>

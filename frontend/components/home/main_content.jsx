@@ -18,9 +18,9 @@ class MainContent extends React.Component {
     
         if(this.props.match.path === "/servers/@me") {
             return ( 
-                <main className="main-content">
+                <main className="main-content home">
                     <header className="channel-header"></header>
-                    <aside className="users-list"></aside>
+                    <h1 className="poor-wumpus">No one's around to play with wumpus</h1>
                 </main> 
             )
         } else {

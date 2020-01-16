@@ -19,7 +19,7 @@
 .message-container, .live-message-container {
     position: relative;
     width: 95%;
-    margin: auto;
+    margin: 0 auto;
     padding: 20px 0;
     border-bottom: 1px solid #40444b;
     color: white;

@@ -3,6 +3,8 @@ import chooseColor from './../../util/choose_color';
 import { updateUser } from './../../actions/user_actions';
 import { connect } from 'react-redux';
 import { openModal } from '../../actions/modal_actions';
+import { withRouter } from 'react-router-dom';
+import { logout } from './../../actions/session_actions';
 
 class EditUser extends React.Component {
     constructor(props) {
@@ -23,10 +25,12 @@ class EditUser extends React.Component {
         const user = Object.assign({}, this.props.currentUser);
         user["status"] = "Offline"
         this.props.updateUser(user).then(
-            () => this.props.logout()
+            () => this.props.logout().then(
+                () => {
+                    window.localStorage.clear();
+                }
+            )
         );
-
-        window.localStorage.clear();
     }
 
     render() {
@@ -40,6 +44,7 @@ class EditUser extends React.Component {
                 </ul>
 
                 <div onClick={this.showDropdown.bind(this)} className={`user-icon icon-container ${chooseColor(this.props.currentUserId)}`}></div>
+                <h1 className="username-header">{this.props.currentUser ? this.props.currentUser.username : ""}</h1>
                 <i onClick={() => this.props.editUserModal()} className="fa fa-cog"></i>
                 <button className="logout" onClick={(this.logout.bind(this))}>Logout</button>
             </div>
@@ -56,8 +61,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return ({
         updateUser: user => dispatch(updateUser(user)),
-        editUserModal: () => dispatch(openModal("editName"))
+        editUserModal: () => dispatch(openModal("editName")),
+        logout: () => dispatch(logout())
     });
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditUser);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditUser));

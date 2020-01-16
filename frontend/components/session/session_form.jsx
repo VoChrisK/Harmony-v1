@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import uniqueId from './../../util/uniqueId';
+import { createAffiliation } from './../../util/affiliation_api_util';
 
 class SessionForm extends React.Component {
     constructor(props) {
@@ -18,11 +19,16 @@ class SessionForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         const user = Object.assign({}, this.state);
+        user["status"] = "Online";
         if(!this.loginForm()) {
             user["id"] = uniqueId();
+            setTimeout(() => this.props.processForm(user).then(
+                () => createAffiliation(user.id, 1)
+            ), this.totalTimer);
         }
-        user["status"] = "Online";
-        setTimeout(() => this.props.processForm(user), this.totalTimer);
+        else {
+            setTimeout(() => this.props.processForm(user), this.totalTimer);
+        }
         this.setState({email: "", username: "", password: ""});
     }
 
