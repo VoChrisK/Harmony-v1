@@ -3607,18 +3607,18 @@ function (_React$Component) {
       if (!this.props.users) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "users-list-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+      }, this.getOnlineUsers().length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "user-list-header"
-      }, "ONLINE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }, "ONLINE") : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "online-list"
       }, this.getOnlineUsers().map(function (user, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: idx,
           user: user
         });
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+      })), this.getOfflineUsers().length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "user-list-header"
-      }, "OFFLINE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }, "OFFLINE") : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "offline-list"
       }, this.getOfflineUsers().map(function (user, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -4156,7 +4156,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var configureStore = function configureStore() {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);

@@ -23,7 +23,7 @@ class Api::ServersController < ApplicationController
         @server = Server.find(params[:id])
         render json: ["Cannot find server"], status: 404 unless @server
         if @server.update(server_params)
-            render json: @server
+            render :show
         else
             render json: @server.errors.full_messages, status: 422
         end
@@ -32,7 +32,7 @@ class Api::ServersController < ApplicationController
     def destroy
         @server = Server.find(params[:id])
         @server.destroy
-        render json: @server
+        render :show
     end
 
     private

@@ -26,13 +26,13 @@ class UserIndex extends React.Component {
 
         return (
             <aside className="users-list-container">
-                <h1 className="user-list-header">ONLINE</h1>
+                {this.getOnlineUsers().length > 0 ? <h1 className="user-list-header">ONLINE</h1> : null}
                 <ul className="online-list">
                     {
                         this.getOnlineUsers().map((user, idx) => <UserIndexItem key={idx} user={user} />)
                     }
                 </ul>
-                <h1 className="user-list-header">OFFLINE</h1>
+                {this.getOfflineUsers().length > 0 ? <h1 className="user-list-header">OFFLINE</h1> : null}
                 <ul className="offline-list">
                     {
                         this.getOfflineUsers().map((user, idx) => <UserIndexItem key={idx} user={user} />)

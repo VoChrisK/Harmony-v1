@@ -87,6 +87,11 @@
 }
 
 .username-tooltip {
-    
+    top: -30px;
+    left: 10px;
+}
+
+.username-header:hover + .username-tooltip {
+    visibility: visible;
 }
 

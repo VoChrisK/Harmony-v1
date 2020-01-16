@@ -30,11 +30,6 @@
     color: #767d88;
 }
 
-.user-info:hover {
-    background-color: #4e535a;
-    border-radius: 5px;
-}
-
 .user-icon.icon-container {
     display: inline-block;
     width: 6px;
