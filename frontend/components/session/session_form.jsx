@@ -16,9 +16,9 @@ class SessionForm extends React.Component {
         this.handleInput = this.handleInput.bind(this);
     }
 
-    componentDidMount() {
-        document.getElementById("background").style.background = `url(${discordBackground})`;
-    }
+    // componentDidMount() {
+    //     document.getElementById("background").style.background = `url(${discordBackground})`;
+    // }
 
     handleSubmit(event) {
         event.preventDefault();
