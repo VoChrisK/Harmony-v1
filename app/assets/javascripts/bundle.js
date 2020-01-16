@@ -1237,9 +1237,33 @@ function (_React$Component) {
           channel: "ChannelChannel"
         }, {
           received: function received(data) {
-            _this2.setState({
-              messages: _this2.state.messages.concat(data['message'])
-            });
+            var messages;
+
+            if (data.method === "create") {
+              _this2.setState({
+                messages: _this2.state.messages.concat(data.message)
+              });
+            } else if (data.method === "update") {
+              messages = _this2.state.messages.map(function (message) {
+                if (message.id === data.message.id) {
+                  return data.message;
+                } else {
+                  return message;
+                }
+              });
+
+              _this2.setState({
+                messages: messages
+              });
+            } else if (data.method === "delete") {
+              messages = _this2.state.messages.filter(function (message) {
+                return message.id !== data.message.id;
+              });
+
+              _this2.setState({
+                messages: messages
+              });
+            }
 
             document.getElementById("chat-log").lastChild.scrollIntoView();
           },
@@ -1285,7 +1309,8 @@ function (_React$Component) {
       message["author_id"] = this.props.currentUserId;
       this.props.createMessage(message, this.props.match.params.channelId).then(function (newMessage) {
         App.cable.subscriptions.subscriptions[0].speak({
-          message: newMessage.message
+          message: newMessage.message,
+          method: 'create'
         });
 
         _this4.setState({
@@ -1444,10 +1469,27 @@ function (_React$Component) {
       e.preventDefault();
       var message = Object.assign({}, this.props.message);
       message["body"] = this.state.body;
-      this.props.updateMessage(message).then(function (message) {
-        return _this2.setState({
+      this.props.updateMessage(message).then(function (updatedMessage) {
+        App.cable.subscriptions.subscriptions[0].speak({
+          message: updatedMessage.message,
+          method: 'update'
+        });
+
+        _this2.setState({
           body: message.body,
           edit: false
+        });
+      });
+    }
+  }, {
+    key: "handleDelete",
+    value: function handleDelete(e) {
+      var _this3 = this;
+
+      this.props.deleteMessage(this.props.message.id).then(function () {
+        return App.cable.subscriptions.subscriptions[0].speak({
+          message: _this3.props.message,
+          method: 'delete'
         });
       });
     }
@@ -1461,8 +1503,6 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
-
       var message = this.props.message;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-container"
@@ -1484,9 +1524,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         onClick: this.toggleEdit.bind(this)
       }, "Edit"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-        onClick: function onClick() {
-          return _this3.props.deleteMessage(message.id);
-        }
+        onClick: this.handleDelete.bind(this)
       }, "Delete")));
     }
   }, {

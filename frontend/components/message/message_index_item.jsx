@@ -23,7 +23,16 @@ class MessageIndexItem extends React.Component {
         const message = Object.assign({}, this.props.message);
         message["body"] = this.state.body;
         this.props.updateMessage(message).then(
-            message => this.setState({ body: message.body, edit: false})
+            updatedMessage => {
+                App.cable.subscriptions.subscriptions[0].speak({ message: updatedMessage.message, method: 'update' });
+                this.setState({ body: message.body, edit: false})
+            }
+        );
+    }
+
+    handleDelete(e) {
+        this.props.deleteMessage(this.props.message.id).then(
+            () => App.cable.subscriptions.subscriptions[0].speak({ message: this.props.message, method: 'delete' })
         );
     }
 
@@ -48,7 +57,7 @@ class MessageIndexItem extends React.Component {
     
                 <ul className="message-dropdown dropdown-menu">
                     <li onClick={this.toggleEdit.bind(this)}>Edit</li>
-                    <li onClick={() => this.props.deleteMessage(message.id)}>Delete</li>
+                    <li onClick={this.handleDelete.bind(this)}>Delete</li>
                 </ul>
             </div>
         );

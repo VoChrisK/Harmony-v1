@@ -17,9 +17,25 @@ class MessageIndex extends React.Component {
                     { channel: "ChannelChannel" },
                     {
                         received: data => {
-                            this.setState({
-                                messages: this.state.messages.concat(data['message'])
-                            });
+                            let messages;
+                            if(data.method === "create") {
+                                this.setState({ messages: this.state.messages.concat(data.message) });
+                            }
+                            else if(data.method === "update") {
+                                messages = this.state.messages.map(message => {
+                                    if (message.id === data.message.id) {
+                                        return data.message;
+                                    } else {
+                                        return message;
+                                    }
+                                })
+
+                                this.setState({ messages: messages })
+                            } 
+                            else if(data.method === "delete") {
+                                messages = this.state.messages.filter(message => message.id !== data.message.id);
+                                this.setState({ messages: messages })
+                            }
                             document.getElementById("chat-log").lastChild.scrollIntoView();
                         },
                         speak: function (data) {
@@ -53,7 +69,7 @@ class MessageIndex extends React.Component {
         message["author_id"] = this.props.currentUserId;
         this.props.createMessage(message, this.props.match.params.channelId).then(
             newMessage => {
-                App.cable.subscriptions.subscriptions[0].speak({ message: newMessage.message });
+                App.cable.subscriptions.subscriptions[0].speak({ message: newMessage.message, method: 'create' });
                 this.setState({ body: "" });
             }
         );

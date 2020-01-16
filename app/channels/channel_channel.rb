@@ -5,7 +5,7 @@ class ChannelChannel < ApplicationCable::Channel
   end
 
   def speak(data)
-    socket = { message: data['message'] }
+    socket = { message: data['message'], method: data['method'] }
     ChannelChannel.broadcast_to('channel_channel', socket)
   end
 
