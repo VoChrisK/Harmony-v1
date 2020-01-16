@@ -16,6 +16,10 @@ class SessionForm extends React.Component {
         this.handleInput = this.handleInput.bind(this);
     }
 
+    componentDidMount() {
+        document.getElementById("background").style.background = `url(${discordBackground})`;
+    }
+
     handleSubmit(event) {
         event.preventDefault();
         const user = Object.assign({}, this.state);
@@ -64,6 +68,7 @@ class SessionForm extends React.Component {
     }
 
     render() {
+
         return(
             <div id="background">
                 <div id="session-form-container">
