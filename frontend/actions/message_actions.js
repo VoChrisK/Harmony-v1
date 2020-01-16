@@ -28,10 +28,10 @@ export const requestMessages = (channelId) => dispatch => {
 };
 
 export const createMessage = (message, channelId) => dispatch => {
-    return MessageApiUtil.createMessage(message, channelId);
-    // .then(
-    //     newMessage => dispatch(receiveMessage(newMessage))
-    // );
+    return MessageApiUtil.createMessage(message, channelId)
+    .then(
+        newMessage => dispatch(receiveMessage(newMessage))
+    );
 };
 
 export const updateMessage = message => dispatch => {

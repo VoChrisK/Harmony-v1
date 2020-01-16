@@ -11,6 +11,10 @@ class EditName extends React.Component {
         };
     }
 
+    componentDidMount() {
+        document.getElementsByClassName("modal-container")[0].classList.add("edit-name-modal");
+    }
+
     handleName(e) {
         this.setState({ name: e.target.value });
     }
@@ -28,10 +32,10 @@ class EditName extends React.Component {
         return (
             <form className="edit-name" onSubmit={this.handleSubmit.bind(this)}>
                 <div className="edit-name-div">
-                    <label htmlFor="edit-name-input">EDIT NAME</label>
+                    <label className="name-label form-label" htmlFor="edit-name-input">EDIT NAME</label>
                     <input type="text" id="edit-name-input" className="form-input" autoComplete="off" value={this.state.name} onChange={this.handleName.bind(this)} />
                 </div>
-                <input type="submit" value="Update"/>
+                <input type="submit" value="Update" className="name-submit form-submit"/>
             </form>
         );
     }

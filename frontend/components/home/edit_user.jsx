@@ -22,12 +22,14 @@ class EditUser extends React.Component {
     }
 
     logout() {
-        const user = Object.assign({}, this.props.currentUser);
+        const user = {};
+        user["id"] = this.props.currentUserId
         user["status"] = "Offline"
         this.props.updateUser(user).then(
             () => this.props.logout().then(
                 () => {
                     window.localStorage.clear();
+                    this.props.history.push("/login");
                 }
             )
         );
@@ -45,6 +47,7 @@ class EditUser extends React.Component {
 
                 <div onClick={this.showDropdown.bind(this)} className={`user-icon icon-container ${chooseColor(this.props.currentUserId)}`}></div>
                 <h1 className="username-header">{this.props.currentUser ? this.props.currentUser.username : ""}</h1>
+                <h1 className="username-tooltip tooltip">{this.props.currentUser ? this.props.currentUser.username : ""}</h1>
                 <i onClick={() => this.props.editUserModal()} className="fa fa-cog"></i>
                 <button className="logout" onClick={(this.logout.bind(this))}>Logout</button>
             </div>
@@ -54,6 +57,7 @@ class EditUser extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return ({
+        currentUserId: ownProps.currentUserId,
         currentUser: state.entities.users[ownProps.currentUserId]
     });
 }

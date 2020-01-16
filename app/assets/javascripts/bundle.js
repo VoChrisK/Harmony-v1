@@ -217,9 +217,9 @@ var requestMessages = function requestMessages(channelId) {
 };
 var createMessage = function createMessage(message, channelId) {
   return function (dispatch) {
-    return _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__["createMessage"](message, channelId); // .then(
-    //     newMessage => dispatch(receiveMessage(newMessage))
-    // );
+    return _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__["createMessage"](message, channelId).then(function (newMessage) {
+      return dispatch(receiveMessage(newMessage));
+    });
   };
 };
 var updateMessage = function updateMessage(message) {
@@ -864,11 +864,14 @@ function (_React$Component) {
     value: function logout() {
       var _this = this;
 
-      var user = Object.assign({}, this.props.currentUser);
+      var user = {};
+      user["id"] = this.props.currentUserId;
       user["status"] = "Offline";
       this.props.updateUser(user).then(function () {
         return _this.props.logout().then(function () {
           window.localStorage.clear();
+
+          _this.props.history.push("/login");
         });
       });
     }
@@ -894,6 +897,8 @@ function (_React$Component) {
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(this.props.currentUserId))
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "username-header"
+      }, this.props.currentUser ? this.props.currentUser.username : ""), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "username-tooltip tooltip"
       }, this.props.currentUser ? this.props.currentUser.username : ""), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         onClick: function onClick() {
           return _this2.props.editUserModal();
@@ -911,6 +916,7 @@ function (_React$Component) {
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
+    currentUserId: ownProps.currentUserId,
     currentUser: state.entities.users[ownProps.currentUserId]
   };
 };
@@ -1215,7 +1221,8 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MessageIndex).call(this, props));
     _this.state = {
-      body: ""
+      body: "",
+      messages: []
     };
     return _this;
   }
@@ -1223,26 +1230,42 @@ function (_React$Component) {
   _createClass(MessageIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      // if (document.getElementById("chat-log").childElementCount > 0 ) {
+      var _this2 = this;
+
       this.props.requestMessages(this.props.match.params.channelId).then(function () {
-        return document.getElementById("chat-log").lastChild.scrollIntoView();
-      }); // }
+        App.cable.subscriptions.create({
+          channel: "ChannelChannel"
+        }, {
+          received: function received(data) {
+            _this2.setState({
+              messages: _this2.state.messages.concat(data['message'])
+            });
+
+            document.getElementById("chat-log").lastChild.scrollIntoView();
+          },
+          speak: function speak(data) {
+            return this.perform("speak", data);
+          }
+        });
+
+        _this2.setState({
+          messages: _this2.props.messages
+        });
+
+        document.getElementById("chat-log").lastChild.scrollIntoView();
+      });
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(preProps) {
-      if (this.props.match.params.channelId !== preProps.match.params.channelId) {
-        this.clearLiveMessages();
-        this.props.requestMessages(this.props.match.params.channelId);
-      }
-    }
-  }, {
-    key: "clearLiveMessages",
-    value: function clearLiveMessages() {
-      var oldMessages = document.getElementsByClassName("live-message-container");
+      var _this3 = this;
 
-      while (oldMessages.length > 0) {
-        oldMessages[0].parentNode.removeChild(oldMessages[0]);
+      if (this.props.match.params.channelId !== preProps.match.params.channelId) {
+        this.props.requestMessages(this.props.match.params.channelId).then(function () {
+          _this3.setState({
+            messages: _this3.props.messages
+          });
+        });
       }
     }
   }, {
@@ -1255,32 +1278,36 @@ function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      var _this4 = this;
+
       e.preventDefault();
       var message = Object.assign({}, this.state);
       message["author_id"] = this.props.currentUserId;
-      this.props.createMessage(message, this.props.match.params.channelId).then(function () {
-        return document.getElementById("chat-log").lastChild.scrollIntoView();
-      });
-      this.setState({
-        body: ""
+      this.props.createMessage(message, this.props.match.params.channelId).then(function (newMessage) {
+        App.cable.subscriptions.subscriptions[0].speak({
+          message: newMessage.message
+        });
+
+        _this4.setState({
+          body: ""
+        });
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this5 = this;
 
-      if (!this.props.messages) return null;
       var channel = this.props.channel;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "chat-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         id: "chat-log"
-      }, this.props.messages.map(function (message, idx) {
+      }, this.state.messages.map(function (message, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_index_item_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: idx,
           message: message,
-          users: _this2.props.users,
+          users: _this5.props.users,
           idx: idx
         });
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
@@ -1897,6 +1924,11 @@ function (_React$Component) {
   }
 
   _createClass(EditName, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      document.getElementsByClassName("modal-container")[0].classList.add("edit-name-modal");
+    }
+  }, {
     key: "handleName",
     value: function handleName(e) {
       this.setState({
@@ -1924,6 +1956,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "edit-name-div"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "name-label form-label",
         htmlFor: "edit-name-input"
       }, "EDIT NAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
@@ -1934,7 +1967,8 @@ function (_React$Component) {
         onChange: this.handleName.bind(this)
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
-        value: "Update"
+        value: "Update",
+        className: "name-submit form-submit"
       }));
     }
   }]);
@@ -2024,6 +2058,11 @@ function (_React$Component) {
   }
 
   _createClass(JoinServer, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      document.getElementsByClassName("modal-container")[0].classList.add("join-server-modal");
+    }
+  }, {
     key: "handleName",
     value: function handleName(e) {
       this.setState({
@@ -2049,18 +2088,25 @@ function (_React$Component) {
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "join-server"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Enter a username and they will join instantly!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "join-server-header"
+      }, "Enter a username and they will join instantly!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.handleSubmit.bind(this)
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "join-name-div"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "name-label form-label",
         htmlFor: "username-input"
       }, "USERNAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         id: "username-input",
+        className: "form-input",
         value: this.state.value,
         onChange: this.handleName.bind(this)
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
-        value: "Add User"
+        value: "Add User",
+        className: "join-submit name-submit form-submit"
       })));
     }
   }]);
@@ -2744,12 +2790,14 @@ function (_React$Component) {
   _createClass(ServerIndexItem, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "server-icon-container icon-container",
         to: "/servers/".concat(this.props.server.id, "/").concat(this.props.server.channelIds[0])
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "server-icon"
-      }, this.props.server.name.substring(0, 1)));
+      }, this.props.server.name.substring(0, 1))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "name-tooltip tooltip"
+      }, this.props.server.name));
     }
   }]);
 
@@ -4070,7 +4118,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var configureStore = function configureStore() {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);

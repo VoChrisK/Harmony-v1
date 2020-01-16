@@ -5,29 +5,41 @@ class MessageIndex extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            body: ""
+            body: "",
+            messages: []
         };
     }
 
     componentDidMount() {
-        // if (document.getElementById("chat-log").childElementCount > 0 ) {
-            this.props.requestMessages(this.props.match.params.channelId).then(
-                () => document.getElementById("chat-log").lastChild.scrollIntoView()
-            );
-        // }
+        this.props.requestMessages(this.props.match.params.channelId).then(
+            () => {
+                App.cable.subscriptions.create(
+                    { channel: "ChannelChannel" },
+                    {
+                        received: data => {
+                            this.setState({
+                                messages: this.state.messages.concat(data['message'])
+                            });
+                            document.getElementById("chat-log").lastChild.scrollIntoView();
+                        },
+                        speak: function (data) {
+                            return this.perform("speak", data);
+                        }
+                    }
+                );
+                this.setState({ messages: this.props.messages })
+                document.getElementById("chat-log").lastChild.scrollIntoView();
+            }
+        );
     }
 
     componentDidUpdate(preProps) {
         if(this.props.match.params.channelId !== preProps.match.params.channelId) {
-            this.clearLiveMessages();
-            this.props.requestMessages(this.props.match.params.channelId);
-        }
-    }
-
-    clearLiveMessages() {
-        let oldMessages = document.getElementsByClassName("live-message-container");
-        while(oldMessages.length > 0) {
-            oldMessages[0].parentNode.removeChild(oldMessages[0]);
+            this.props.requestMessages(this.props.match.params.channelId).then(
+                () => {
+                    this.setState({ messages: this.props.messages })
+                }
+            );
         }
     }
 
@@ -40,14 +52,15 @@ class MessageIndex extends React.Component {
         let message = Object.assign({}, this.state);
         message["author_id"] = this.props.currentUserId;
         this.props.createMessage(message, this.props.match.params.channelId).then(
-            () => document.getElementById("chat-log").lastChild.scrollIntoView()
+            newMessage => {
+                App.cable.subscriptions.subscriptions[0].speak({ message: newMessage.message });
+                this.setState({ body: "" });
+            }
         );
-        this.setState({ body: "" });
     }
 
     render() {
-        if(!this.props.messages) return null;
-        const { channel } = this.props
+        const { channel } = this.props;
 
         return (
             <section className="chat-container">
@@ -55,7 +68,7 @@ class MessageIndex extends React.Component {
                 <section id="chat-log">
                     {
                         
-                        this.props.messages.map((message, idx) => <MessageIndexItemContainer key={idx} message={message} users={this.props.users} idx={idx} />)
+                        this.state.messages.map((message, idx) => <MessageIndexItemContainer key={idx} message={message} users={this.props.users} idx={idx} />)
                     }
                 </section>
 

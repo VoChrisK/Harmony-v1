@@ -14,6 +14,10 @@ class JoinServer extends React.Component {
         }
     }
 
+    componentDidMount() {
+        document.getElementsByClassName("modal-container")[0].classList.add("join-server-modal");
+    }
+
     handleName(e) {
         this.setState({ name: e.target.value })
     }
@@ -32,13 +36,13 @@ class JoinServer extends React.Component {
     render() {
         return (
             <div className="join-server">
-                <h1>Enter a username and they will join instantly!</h1>
+                <h1 className="join-server-header">Enter a username and they will join instantly!</h1>
                 <form onSubmit={this.handleSubmit.bind(this)}>
-                    <div>
-                        <label htmlFor="username-input">USERNAME</label>
-                        <input type="text" id="username-input" value={this.state.value} onChange={this.handleName.bind(this)}/>
+                    <div className="join-name-div">
+                        <label className="name-label form-label" htmlFor="username-input">USERNAME</label>
+                        <input type="text" id="username-input" className="form-input" value={this.state.value} onChange={this.handleName.bind(this)}/>
                     </div>
-                    <input type="submit" value="Add User"/>
+                    <input type="submit" value="Add User" className="join-submit name-submit form-submit"/>
                 </form>
             </div>
         )
