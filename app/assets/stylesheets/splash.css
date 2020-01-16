@@ -127,11 +127,18 @@
 .coin-1 {
     margin-left: 80px;
     bottom: 530px;
+    animation: move 2s infinite;
+}
+
+@keyframes move {
+    50% {bottom: calc(100% - 5px)}
+    100% {bottom: calc(100%)}
 }
 
 .coin-2 {
     margin-left: -428px;
     bottom: 300px;
+    /* animation: move 2s infinite; */
 }
 
 .bomb {
