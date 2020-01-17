@@ -47,6 +47,8 @@ class MessageIndex extends React.Component {
                 document.getElementById("chat-log").lastChild.scrollIntoView();
             }
         );
+
+        document.getElementById("chat-log").style.background = `url(${discordChat2}) no-repeat bottom left, url(${discordChat1}) no-repeat bottom right`
     }
 
     componentDidUpdate(preProps) {
@@ -83,7 +85,6 @@ class MessageIndex extends React.Component {
 
                 <section id="chat-log">
                     {
-                        
                         this.state.messages.map((message, idx) => <MessageIndexItemContainer key={idx} message={message} users={this.props.users} idx={idx} />)
                     }
                 </section>

@@ -46,7 +46,9 @@ class MessageIndexItem extends React.Component {
         const { message } = this.props;
         return (
             <div className="message-container">
-                <div className={`user-icon icon-container ${chooseColor(message.author_id)}`}></div>
+                <div className={`user-icon icon-container ${chooseColor(message.author_id)}`}>
+                    <img className="discord-icon" src={discordIcon} alt="" />
+                </div>
                 <div className="message-info">
                         <h1 className="message-author">{message.name}</h1>
                         <strong className="message-date">{message.date}</strong>

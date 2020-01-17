@@ -2,7 +2,6 @@
     height: 100%
 }
 
-
 .servers-sidebar {
     float: left;
     background-color: #202225;
@@ -27,7 +26,7 @@ aside::-webkit-scrollbar {
     overflow: auto;
 }
 
-.main-content {
+.main-content, .main-content2 {
     float: left;
     background-color: #36393f;
     height: calc(100% - 0px);
@@ -59,7 +58,6 @@ aside::-webkit-scrollbar {
 }
 
 #chat-log {
-    background: url("./images/discord-chat-background-2.png") no-repeat bottom left, url("./images/discord-chat-background-1.png") no-repeat bottom right;
     background-size: 500px;
     height: 89%;
     overflow: auto;
@@ -98,13 +96,6 @@ aside::-webkit-scrollbar {
     margin-left: 160px;
     width: 70px;
     height: 30px;
-}
-
-.main-content.home {
-    background-image: url("./images/wumpus.jpg");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 500px;
 }
 
 .poor-wumpus {

@@ -201,11 +201,8 @@
     width: 20%;
 }
 
-.home-server {
-    background-image: url('./images//harmony-icon.png');
+#home-server {
     background-size: 50px;
-    background-position: center center;
-    background-repeat: no-repeat;
 }
 
 .servers-sidebar > .line {

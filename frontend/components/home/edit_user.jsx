@@ -45,7 +45,9 @@ class EditUser extends React.Component {
                     <li onClick={this.setStatus.bind(this)}>Offline</li>
                 </ul>
 
-                <div onClick={this.showDropdown.bind(this)} className={`user-icon icon-container ${chooseColor(this.props.currentUserId)}`}></div>
+                <div onClick={this.showDropdown.bind(this)} className={`user-icon icon-container ${chooseColor(this.props.currentUserId)}`}>
+                    <img className="discord-icon" src={discordIcon} alt="" />
+                </div>
                 <h1 className="username-header">{this.props.currentUser ? this.props.currentUser.username : ""}</h1>
                 <h1 className="username-tooltip tooltip">{this.props.currentUser ? this.props.currentUser.username : ""}</h1>
                 <i onClick={() => this.props.editUserModal()} className="fa fa-cog"></i>

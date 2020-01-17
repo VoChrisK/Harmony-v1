@@ -83,6 +83,7 @@
 .cartridge {
     margin-left: 250px;
     bottom: 392px;
+    animation: move4 2s infinite;
 }
 
 .monitor {
@@ -127,23 +128,40 @@
 .coin-1 {
     margin-left: 80px;
     bottom: 530px;
-    animation: move 2s infinite;
-}
-
-@keyframes move {
-    50% {bottom: calc(100% - 5px)}
-    100% {bottom: calc(100%)}
+    animation: move1 2s infinite;
 }
 
 .coin-2 {
     margin-left: -428px;
     bottom: 300px;
-    /* animation: move 2s infinite; */
+    animation: move2 2s infinite;
 }
 
 .bomb {
     margin-left: -481px;
     bottom: 335px;
+    animation: move3 2s infinite;
+    animation-delay: 0.25s;
+}
+
+@keyframes move1 {
+    50% {bottom: 525px}
+    100% {bottom: 530px}
+}
+
+@keyframes move2 {
+    50% {bottom: 295px}
+    100% {bottom: 300px}
+}
+
+@keyframes move3 {
+    50% {bottom: 330px}
+    100% {bottom: 335px}
+}
+
+@keyframes move4 {
+    50% {bottom: 387px}
+    100% {bottom: 392px}
 }
 
 .circle-1 {

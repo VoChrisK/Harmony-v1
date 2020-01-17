@@ -7,10 +7,15 @@ class ServerIndex extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        document.getElementById("home-server").style.background = `url(${harmonyIcon}) no-repeat center center`;
+        document.getElementById("home-server").style.backgroundSize = '50px';
+    }
+
     render() {
         return (
             <aside className="servers-sidebar">
-                <Link className="home-server server-icon-container icon-container" to="/servers/@me"></Link>
+                <Link id="home-server" className="server-icon-container icon-container" to="/servers/@me"></Link>
                 <div className="line"></div>
                 {
                     this.props.servers.map((server, idx) => <ServerIndexItem key={idx} server={server} />)

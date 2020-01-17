@@ -9,6 +9,13 @@ class MainContent extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        if (Boolean(document.getElementById("home"))) {
+            document.getElementById("home").style.background = `url(${wumpus}) no-repeat center center #36393f`;
+            document.getElementById("home").style.backgroundSize = '500px'; 
+        }
+    }
+
     render() {
         return this.renderContent();
     }
@@ -18,7 +25,7 @@ class MainContent extends React.Component {
     
         if(this.props.match.path === "/servers/@me") {
             return ( 
-                <main className="main-content home">
+                <main id="home" className="main-content2">
                     <header className="channel-header"></header>
                     <h1 className="poor-wumpus">No one's around to play with wumpus</h1>
                 </main> 
