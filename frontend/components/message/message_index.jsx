@@ -36,15 +36,18 @@ class MessageIndex extends React.Component {
                                 messages = this.state.messages.filter(message => message.id !== data.message.id);
                                 this.setState({ messages: messages })
                             }
+            
                             document.getElementById("chat-log").lastChild.scrollIntoView();
+                            
                         },
                         speak: function (data) {
                             return this.perform("speak", data);
                         }
                     }
                 );
+
+
                 this.setState({ messages: this.props.messages })
-                document.getElementById("chat-log").lastChild.scrollIntoView();
             }
         );
 

@@ -23,16 +23,17 @@ class EditUser extends React.Component {
 
     logout() {
         const user = {};
-        user["id"] = this.props.currentUserId
+        user["id"] = this.props.currentUserId;
         user["status"] = "Offline"
         this.props.updateUser(user).then(
             () => this.props.logout().then(
                 () => {
-                    window.localStorage.clear();
                     this.props.history.push("/login");
                 }
             )
         );
+
+        window.localStorage.clear();
     }
 
     render() {

@@ -117,6 +117,18 @@
     visibility: visible;
 }
 
+.server-form {
+    animation: popout 0.25s;
+}
+
+@keyframes popout {
+    0% {visibility: hidden}
+    25% {visibility: hidden}
+    50% {visibility: hidden}
+    75% {visibility: hidden}
+    100% {visibility: visible}
+}
+
 .server-form-header {
     color: #7289da;
     font-weight: bold;

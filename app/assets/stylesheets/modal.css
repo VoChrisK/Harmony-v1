@@ -29,7 +29,52 @@
     z-index: 3;
     border-radius: 10px;
     text-align: center;
+    animation: expand1 0.25s;
 }
+
+@keyframes expand1 {
+    0% {width: 0; height: 0;}
+    100% {width: 575px; height: 425px}
+}
+
+.modal-container.notification {
+    animation: expand2 0.25s;
+}
+
+@keyframes expand2 {
+    0% {width: 0; height: 0;}
+    100% {width: 400px; height: 200px}
+}
+
+.modal-container.channel-modal, .modal-container.edit-name-modal {
+    animation: expand3 0.25s;
+}
+
+@keyframes expand3 {
+    0% {width: 0; height: 0;}
+    100% {width: 400px; height: 250px}
+}
+
+.modal-container > * {
+    animation: popout 0.25s;
+}
+
+@keyframes popout {
+    0% {visibility: hidden}
+    25% {visibility: hidden}
+    50% {visibility: hidden}
+    99% {visibility: hidden}
+    100% {visibility: visible}
+}
+
+/* .modal-container.shrink {
+    animation: shrink 0.25s;
+}
+
+@keyframes shrink {
+    0% {width: 575px; height: 425px;}
+    100% {width: 0; height: 0}
+} */
 
 .modal-container p {
     font-size: 14px;
