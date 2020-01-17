@@ -17,11 +17,17 @@ https://harmony-chat.herokuapp.com
 ## Features
 
 * **Servers**
+
 Users are affiliated with multiple servers. A user can only see servers that they are affiliated with. Each server have an owner; only the owner has the ability to edit and delete the server. Users that are not owners can leave the server at any time.
+
+![alt text](https://i.imgur.com/NKwKLzi.png)
+![alt text](https://i.imgur.com/x3gOx1L.png)
+![alt text](https://i.imgur.com/kZUs1ue.png)
 
 Users affiliated with a server can invite other users at any time. Unlike discord, they do not require randomly generated links to send to other users. Any user can join other users' servers at any time!
 
 * **Messages**
+
 Users are able to interact with one another in real-time. They can write and send messages in a specific channel and others users will immediately see the messages. Users can update and delete messages in real-time as well and only users can modify their own messages.
 
 
