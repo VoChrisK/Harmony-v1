@@ -10,9 +10,21 @@ class MainContent extends React.Component {
     }
 
     componentDidMount() {
-        if (Boolean(document.getElementById("home"))) {
-            document.getElementById("home").style.background = `url(${wumpus}) no-repeat center center #36393f`;
-            document.getElementById("home").style.backgroundSize = '500px'; 
+        if (document.getElementsByClassName("main-content home").length > 0) {
+            document.getElementsByClassName("main-content home")[0].style.background = `url(${wumpus}) no-repeat center center`;
+            document.getElementsByClassName("main-content home")[0].style.backgroundSize = '500px'; 
+            document.getElementsByClassName("main-content home")[0].style.backgroundColor = "#36393f";
+        }
+    }
+
+    componentDidUpdate() {
+        if (document.getElementsByClassName("main-content home").length > 0) {
+            document.getElementsByClassName("main-content home")[0].style.background = `url(${wumpus}) no-repeat center center`;
+            document.getElementsByClassName("main-content home")[0].style.backgroundSize = '500px';
+            document.getElementsByClassName("main-content home")[0].style.backgroundColor = "#36393f";
+        } 
+        else if (document.getElementsByClassName("main-content").length > 0) {
+            document.getElementsByClassName("main-content")[0].style.backgroundImage = "none";
         }
     }
 
@@ -25,7 +37,7 @@ class MainContent extends React.Component {
     
         if(this.props.match.path === "/servers/@me") {
             return ( 
-                <main id="home" className="main-content2">
+                <main className="main-content home">
                     <header className="channel-header"></header>
                     <h1 className="poor-wumpus">No one's around to play with wumpus</h1>
                 </main> 

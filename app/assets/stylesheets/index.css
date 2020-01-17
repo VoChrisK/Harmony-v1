@@ -3,9 +3,6 @@
 }
 
 #background {
-    background-image: url("./images/discord-background.jpg")
-    background-size: cover;
-    background-position: bottom;
     height: 100%;
     z-index: -1;
 }

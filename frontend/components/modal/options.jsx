@@ -2,8 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { openModal } from './../../actions/modal_actions'; 
 
-const Options = ({createServerModal, JoinServerModal}) => {
-    return(
+class Options extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        document.getElementsByClassName("create-icon")[0].style.background = `url(${createIcon}) no-repeat`;
+        document.getElementsByClassName("create-icon")[0].style.backgroundSize = "contain";
+        document.getElementsByClassName("create-icon")[0].style.backgroundPosition = "50%";
+        document.getElementsByClassName("join-icon")[0].style.background = `url(${joinIcon}) no-repeat`;
+        document.getElementsByClassName("join-icon")[0].style.backgroundSize = "contain";
+        document.getElementsByClassName("join-icon")[0].style.backgroundPosition = "50%";
+    }
+
+    render() {
+        const { createServerModal, JoinServerModal } = this.props;
+
+        return(
         <div className="options-modal">
             <h1>OH, ANOTHER SERVER HUH?</h1>
             <div className="create-option options">
@@ -19,7 +35,8 @@ const Options = ({createServerModal, JoinServerModal}) => {
                 <button onClick={() => JoinServerModal()}>Invite a friend</button>
             </div>
         </div>
-    )
+        )
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {

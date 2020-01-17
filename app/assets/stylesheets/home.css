@@ -26,7 +26,7 @@ aside::-webkit-scrollbar {
     overflow: auto;
 }
 
-.main-content, .main-content2 {
+.main-content {
     float: left;
     background-color: #36393f;
     height: calc(100% - 0px);
