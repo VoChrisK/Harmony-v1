@@ -50,11 +50,7 @@ class ServerShow extends React.Component {
                 <div onClick={this.showDropdown.bind(this)} className="server-name-container">
                     <h1 className="server-name">{server.name}</h1>
                     <i className="fa fa-chevron-down"></i>
-                    <ul className="server-dropdown dropdown-menu">
-                        <li className="update-server" onClick={() => this.props.updateServerModal()}>Edit Server</li>
-                        <div></div>
-                        {this.renderChoice()}
-                    </ul>
+                    {this.renderChoice()}
                 </div>
                 <h2 className="text-channels">TEXT CHANNELS</h2><i onClick={() => this.props.createChannelModal()} className="fa fa-plus"></i>
                 <ChannelIndexContainer server={server} />
@@ -64,10 +60,21 @@ class ServerShow extends React.Component {
 
     renderChoice() {
         if(this.props.currentUserId === this.props.server.owner_id.toString()) {
-            return <li className="delete-server" onClick={this.handleDelete.bind(this)}>Delete Server</li>
+            return (
+                <ul className="server-dropdown dropdown-menu">
+                    <li className="update-server" onClick={() => this.props.updateServerModal()}>Edit Server</li>
+                    <div></div>
+                    <li className="delete-server" onClick={this.handleDelete.bind(this)}>Delete Server</li>
+                </ul>   
+            )
         }
         else {
-            return <li className="leave-server" onClick={this.handleLeave.bind(this)}>Leave Server</li>
+            return (
+                <ul className="server-dropdown dropdown-menu">
+                    <li className="leave-server" onClick={this.handleLeave.bind(this)}>Leave Server</li>
+                </ul>
+            )
+            
         }
     }
 }
