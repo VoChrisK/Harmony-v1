@@ -20,9 +20,7 @@ https://harmony-chat.herokuapp.com
 
 Users are affiliated with multiple servers. A user can only see servers that they are affiliated with. Each server have an owner; only the owner has the ability to edit and delete the server. Users that are not owners can leave the server at any time.
 
-![alt text](https://i.imgur.com/NKwKLzi.png)
-![alt text](https://i.imgur.com/x3gOx1L.png)
-![alt text](https://i.imgur.com/kZUs1ue.png)
+![alt text](https://im6.ezgif.com/tmp/ezgif-6-0e390cceb595.gif)
 
 Users affiliated with a server can invite other users at any time. Unlike discord, they do not require randomly generated links to send to other users. Any user can join other users' servers at any time!
 
