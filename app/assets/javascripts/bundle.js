@@ -1268,11 +1268,7 @@ function (_React$Component) {
               });
             } else if (data.method === "update") {
               messages = _this2.state.messages.map(function (message) {
-                if (message.id === data.message.id) {
-                  return data.message;
-                } else {
-                  return message;
-                }
+                return message.id === data.message.id ? data.message : message;
               });
 
               _this2.setState({
@@ -2821,7 +2817,7 @@ function (_React$Component) {
   _createClass(ServerIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      document.getElementById("home-server").style.background = "url(".concat(harmonyIcon, ") no-repeat center center");
+      // document.getElementById("home-server").style.background = `url(${harmonyIcon}) no-repeat center center`;
       document.getElementById("home-server").style.backgroundSize = '50px';
     }
   }, {
@@ -3235,15 +3231,16 @@ function (_React$Component) {
       user["status"] = "Online";
 
       if (!this.loginForm()) {
-        user["id"] = Object(_util_uniqueId__WEBPACK_IMPORTED_MODULE_2__["default"])();
         setTimeout(function () {
-          return _this2.props.processForm(user).then(function () {
-            return Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_3__["createAffiliation"])(user.id, 1);
+          return _this2.props.processForm(user).then(function (newUser) {
+            return Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_3__["createAffiliation"])(newUser.currentUser.id, 1);
           });
         }, this.totalTimer);
       } else {
         setTimeout(function () {
-          return _this2.props.processForm(user);
+          return _this2.props.processForm(user).then(function (user) {
+            return console.log(user);
+          });
         }, this.totalTimer);
       }
 
@@ -3833,6 +3830,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ //add the localStorage stuff here and populate preloadedstate and pass it to the store.
+//might want to store session token too and have an expiration date
 
 document.addEventListener('DOMContentLoaded', function () {
   var store = Object(_store_store__WEBPACK_IMPORTED_MODULE_2__["default"])();
@@ -4192,8 +4191,6 @@ var uiReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../actions/user_actions */ "./frontend/actions/user_actions.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -4208,7 +4205,7 @@ var usersReducer = function usersReducer() {
       return Object.assign({}, action.users);
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
-      nextState = Object.assign({}, state, _defineProperty({}, action.currentUser.id, action.currentUser));
+      nextState = Object.assign({}, state);
       nextState[action.currentUser.id] = action.currentUser;
       return nextState;
 
@@ -4249,7 +4246,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var configureStore = function configureStore() {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);

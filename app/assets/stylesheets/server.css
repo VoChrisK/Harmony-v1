@@ -1,3 +1,9 @@
+#home-server {
+    background-image: url("./images/harmony-icon.png");
+    background-repeat:  no-repeat; 
+    background-position: center center;
+}
+
 .server-icon-container:hover {
     background-color: #7e97f1;
     border-radius: 20px;

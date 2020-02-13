@@ -28,6 +28,7 @@
 .user-info {
     position: relative;
     color: #767d88;
+    cursor: pointer;
 }
 
 .user-icon.icon-container {

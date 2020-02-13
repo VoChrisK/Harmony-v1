@@ -26,13 +26,14 @@ class SessionForm extends React.Component {
         const user = Object.assign({}, this.state);
         user["status"] = "Online";
         if(!this.loginForm()) {
-            user["id"] = uniqueId();
             setTimeout(() => this.props.processForm(user).then(
-                () => createAffiliation(user.id, 1)
+                newUser => createAffiliation(newUser.currentUser.id, 1)
             ), this.totalTimer);
         }
         else {
-            setTimeout(() => this.props.processForm(user), this.totalTimer);
+            setTimeout(() => this.props.processForm(user).then(
+                user => console.log(user)
+            ), this.totalTimer);
         }
         this.setState({email: "", username: "", password: ""});
     }

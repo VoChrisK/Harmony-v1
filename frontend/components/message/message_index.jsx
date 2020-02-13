@@ -22,14 +22,7 @@ class MessageIndex extends React.Component {
                                 this.setState({ messages: this.state.messages.concat(data.message) });
                             }
                             else if(data.method === "update") {
-                                messages = this.state.messages.map(message => {
-                                    if (message.id === data.message.id) {
-                                        return data.message;
-                                    } else {
-                                        return message;
-                                    }
-                                })
-
+                                messages = this.state.messages.map(message => message.id === data.message.id ? data.message : message);
                                 this.setState({ messages: messages })
                             } 
                             else if(data.method === "delete") {
