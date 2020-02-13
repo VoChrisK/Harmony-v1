@@ -1249,6 +1249,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _message_index_item_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./message_index_item_container */ "./frontend/components/message/message_index_item_container.js");
+/* harmony import */ var _util_channel_message_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../util/channel_message_api_util */ "./frontend/util/channel_message_api_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1266,6 +1267,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -1363,7 +1365,8 @@ function (_React$Component) {
       e.preventDefault();
       var message = Object.assign({}, this.state);
       message["author_id"] = this.props.currentUserId;
-      this.props.createMessage(message, this.props.match.params.channelId).then(function (newMessage) {
+      this.props.createMessage(message).then(function (newMessage) {
+        Object(_util_channel_message_api_util__WEBPACK_IMPORTED_MODULE_2__["createChannelMessage"])(newMessage.message.id, _this4.props.match.params.channelId);
         App.cable.subscriptions.subscriptions[0].speak({
           message: newMessage.message,
           method: 'create'
@@ -1442,8 +1445,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     requestMessages: function requestMessages(channelId) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["requestMessages"])(channelId));
     },
-    createMessage: function createMessage(message, channelId) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["createMessage"])(message, channelId));
+    createMessage: function createMessage(message) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["createMessage"])(message));
     }
   };
 };
@@ -3826,6 +3829,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util_choose_color__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/choose_color */ "./frontend/util/choose_color.js");
 /* harmony import */ var _util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../util/affiliation_api_util */ "./frontend/util/affiliation_api_util.js");
+/* harmony import */ var _util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../util/direct_message_api_util */ "./frontend/util/direct_message_api_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3848,15 +3852,22 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var UserIndexItem =
 /*#__PURE__*/
 function (_React$Component) {
   _inherits(UserIndexItem, _React$Component);
 
   function UserIndexItem(props) {
+    var _this;
+
     _classCallCheck(this, UserIndexItem);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(UserIndexItem).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(UserIndexItem).call(this, props));
+    _this.state = {
+      body: ""
+    };
+    return _this;
   }
 
   _createClass(UserIndexItem, [{
@@ -3865,20 +3876,31 @@ function (_React$Component) {
       document.getElementsByClassName("user-dropdown")[this.props.idx].classList.toggle("is-showing");
     }
   }, {
+    key: "handleMessage",
+    value: function handleMessage(event) {
+      this.setState({
+        body: event.target.value
+      });
+    }
+  }, {
     key: "handlePrivateServer",
     value: function handlePrivateServer(event) {
-      var _this = this;
+      var _this2 = this;
 
       event.preventDefault();
-      var users = [this.props.currentUser.username, this.props.user.username].sort();
-      var server = Object.assign({}, {
-        "name": "DM between ".concat(users[0], " and ").concat(users[1])
-      });
-      console.log(server);
-      this.props.createPrivateServer(server).then(function (newServer) {
-        console.log(newServer);
-        Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(_this.props.currentUser.id, newServer.server.id);
-        Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(_this.props.user.id, newServer.server.id).then();
+      var message = Object.assign({}, this.state);
+      message["author_id"] = this.props.currentUser.id;
+      this.props.createMessage(message).then(function (newMessage) {
+        var users = [_this2.props.currentUser.username, _this2.props.user.username].sort();
+        var server = Object.assign({}, {
+          "name": "DM between ".concat(users[0], " and ").concat(users[1])
+        });
+
+        _this2.props.createPrivateServer(server).then(function (newServer) {
+          Object(_util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_3__["createDirectMessage"])(newMessage.message.id, newServer.server.id);
+          Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(_this2.props.currentUser.id, newServer.server.id);
+          Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(_this2.props.user.id, newServer.server.id).then();
+        });
       });
     }
   }, {
@@ -3918,7 +3940,9 @@ function (_React$Component) {
         type: "text",
         className: "form-input",
         autoComplete: "off",
-        placeholder: "message @".concat(user.username)
+        placeholder: "message @".concat(user.username),
+        value: this.state.message,
+        onChange: this.handleMessage.bind(this)
       })))));
     }
   }]);
@@ -3944,6 +3968,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
 /* harmony import */ var _user_index_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user_index_item */ "./frontend/components/user/user_index_item.jsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.js");
+
 
 
 
@@ -3959,6 +3985,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     createPrivateServer: function createPrivateServer(server) {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_1__["createPrivateServer"])(server));
+    },
+    createMessage: function createMessage(message) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_4__["createMessage"])(message));
     }
   };
 };
@@ -4543,6 +4572,31 @@ var deleteChannel = function deleteChannel(channelId) {
 
 /***/ }),
 
+/***/ "./frontend/util/channel_message_api_util.js":
+/*!***************************************************!*\
+  !*** ./frontend/util/channel_message_api_util.js ***!
+  \***************************************************/
+/*! exports provided: createChannelMessage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createChannelMessage", function() { return createChannelMessage; });
+var createChannelMessage = function createChannelMessage(messageId, channelId) {
+  return $.ajax({
+    method: "POST",
+    url: "api/channel_messages",
+    data: {
+      channel_message: {
+        message_id: messageId,
+        channel_id: channelId
+      }
+    }
+  });
+};
+
+/***/ }),
+
 /***/ "./frontend/util/choose_color.js":
 /*!***************************************!*\
   !*** ./frontend/util/choose_color.js ***!
@@ -4558,6 +4612,31 @@ var chooseColor = function chooseColor(userId) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (chooseColor);
+
+/***/ }),
+
+/***/ "./frontend/util/direct_message_api_util.js":
+/*!**************************************************!*\
+  !*** ./frontend/util/direct_message_api_util.js ***!
+  \**************************************************/
+/*! exports provided: createDirectMessage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createDirectMessage", function() { return createDirectMessage; });
+var createDirectMessage = function createDirectMessage(messageId, serverId) {
+  return $.ajax({
+    method: "POST",
+    url: "api/direct_messages",
+    data: {
+      direct_message: {
+        message_id: messageId,
+        server_id: serverId
+      }
+    }
+  });
+};
 
 /***/ }),
 
@@ -4585,15 +4664,12 @@ var fetchMessages = function fetchMessages(channelId) {
     }
   });
 };
-var createMessage = function createMessage(message, channelId) {
+var createMessage = function createMessage(message) {
   return $.ajax({
     method: "POST",
     url: "api/messages",
     data: {
-      message: message,
-      channel: {
-        id: channelId
-      }
+      message: message
     }
   });
 };

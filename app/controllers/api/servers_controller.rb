@@ -1,6 +1,6 @@
 class Api::ServersController < ApplicationController
     def index
-        @servers = User.includes(:servers).find(params[:user][:id]).servers
+        @servers = User.includes(:servers).find(params[:user][:id]).servers.where.not(owner_id: nil)
         render :index
     end
     
@@ -26,11 +26,17 @@ class Api::ServersController < ApplicationController
     end
 
     def create_private_server
-        @server = Server.new(server_params)
-        if @server.save
+        @server = Server.find_by_name(params[:server][:name])
+
+        if @server
             render :show
         else
-            render json: @server.errors.full_messages, status: 422
+            @server = Server.new(server_params)
+            if @server.save
+                render :show
+            else
+                render json: @server.errors.full_messages, status: 422
+            end
         end
     end
 

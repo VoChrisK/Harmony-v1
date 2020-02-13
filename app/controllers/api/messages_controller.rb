@@ -7,9 +7,6 @@ class Api::MessagesController < ApplicationController
     def create
         @message = Message.new(message_params)
         if @message.save
-            channel = Channel.find(params[:channel][:id])
-            render json: ["Channel not found"], status: 404 unless channel
-            @message.channel = channel
             render :show
         else
             render json: @message.errors.full_messages, status: 422
@@ -18,7 +15,7 @@ class Api::MessagesController < ApplicationController
 
     def update
         @message = Message.find(params[:id])
-        render json: ["Cannot find channel"], status: 404 unless @message
+        render json: ["Cannot find message"], status: 404 unless @message
         if @message.update(message_params)
             render @message
         else

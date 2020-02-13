@@ -10,16 +10,11 @@ export const fetchMessages = (channelId) => {
     });
 };
 
-export const createMessage = (message, channelId) => {
+export const createMessage = (message) => {
     return $.ajax({
         method: "POST",
         url: "api/messages",
-        data: { 
-            message,
-            channel: {
-                id: channelId
-            }
-        }
+        data: { message }
     });
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import MessageIndexItemContainer from './message_index_item_container';
+import { createChannelMessage } from './../../util/channel_message_api_util';
 
 class MessageIndex extends React.Component {
     constructor(props) {
@@ -65,8 +66,9 @@ class MessageIndex extends React.Component {
         e.preventDefault();
         let message = Object.assign({}, this.state);
         message["author_id"] = this.props.currentUserId;
-        this.props.createMessage(message, this.props.match.params.channelId).then(
+        this.props.createMessage(message).then(
             newMessage => {
+                createChannelMessage(newMessage.message.id, this.props.match.params.channelId);
                 App.cable.subscriptions.subscriptions[0].speak({ message: newMessage.message, method: 'create' });
                 this.setState({ body: "" });
             }

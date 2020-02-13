@@ -1,30 +1,43 @@
 import React from 'react';
 import chooseColor from '../../util/choose_color';
 import { createAffiliation } from './../../util/affiliation_api_util';
+import { createDirectMessage } from './../../util/direct_message_api_util';
 
 class UserIndexItem extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            body: ""
+        }
     }
 
     showDropdown() {
         document.getElementsByClassName("user-dropdown")[this.props.idx].classList.toggle("is-showing");
     }
 
+    handleMessage(event) {
+        this.setState({ body: event.target.value });
+    }
+
     handlePrivateServer(event) {
         event.preventDefault();
-        let users = [this.props.currentUser.username, this.props.user.username].sort();
-        const server = Object.assign({}, { "name": `DM between ${users[0]} and ${users[1]}` });
-        console.log(server);
-        this.props.createPrivateServer(server).then(
-            newServer => {
-                console.log(newServer);
-                createAffiliation(this.props.currentUser.id, newServer.server.id);
-                createAffiliation(this.props.user.id, newServer.server.id).then(
-                    // this.props.history.push(`/servers/@me/${newServer.server.id}`)
+        let message = Object.assign({}, this.state);
+        message["author_id"] = this.props.currentUser.id;
+        this.props.createMessage(message).then(
+            newMessage => {
+                let users = [this.props.currentUser.username, this.props.user.username].sort();
+                const server = Object.assign({}, { "name": `DM between ${users[0]} and ${users[1]}` });
+                this.props.createPrivateServer(server).then(
+                    newServer => {
+                        createDirectMessage(newMessage.message.id, newServer.server.id);
+                        createAffiliation(this.props.currentUser.id, newServer.server.id);
+                        createAffiliation(this.props.user.id, newServer.server.id).then(
+                            // this.props.history.push(`/servers/@me/${newServer.server.id}`)
+                        );
+                    }
                 );
             }
-        );
+        )        
     }
 
     render() {
@@ -49,7 +62,7 @@ class UserIndexItem extends React.Component {
                     <section className="dropdown-section-2">
                         <button className="view-user-profile">View Profile</button>
                         <form onSubmit={ this.handlePrivateServer.bind(this) }>
-                            <input type="text" className="form-input" autoComplete="off" placeholder={`message @${user.username}`} />
+                            <input type="text" className="form-input" autoComplete="off" placeholder={`message @${user.username}`} value={this.state.message} onChange={this.handleMessage.bind(this)} />
                         </form>
                     </section>
                 </div>
