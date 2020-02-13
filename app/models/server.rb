@@ -19,4 +19,13 @@ class Server < ApplicationRecord
     primary_key: :id,
     foreign_key: :owner_id,
     class_name: 'User'
+
+    has_many :direct_messages,
+    primary_key: :id,
+    foreign_key: :server_id,
+    class_name: 'DirectMessage'
+
+    has_many :private_messages,
+    through: :direct_messages,
+    source: :message
 end

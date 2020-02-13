@@ -10,6 +10,18 @@ export const fetchServers = (userId) => {
     });
 };
 
+export const fetchPrivateServers = (userId) => {
+    return $.ajax({
+        method: "GET",
+        url: "api/servers/private_servers",
+        data: {
+            user: {
+                id: userId
+            }
+        }
+    });
+};
+
 export const fetchServer = serverId => {
     return $.ajax({
         method: "GET",

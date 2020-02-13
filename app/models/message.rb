@@ -14,4 +14,13 @@ class Message < ApplicationRecord
     has_one :channel,
     through: :channel_message,
     source: :channel
+
+    has_one :direct_message,
+    primary_key: :id,
+    foreign_key: :message_id,
+    class_name: 'DirectMessage'
+
+    has_one :private_server,
+    through: :direct_message,
+    source: :server
 end

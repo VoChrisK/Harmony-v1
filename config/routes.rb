@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     get 'users/find' => "users#find"
     resource :session, only: [:create, :destroy]
     resources :servers, except: [:new, :edit]
+    get 'servers/private_servers' => "servers#private_servers"
     resources :affiliations, only: [:create]
     delete 'affiliations/find' => "affiliations#find"
     resources :channels, except: [:new, :edit]

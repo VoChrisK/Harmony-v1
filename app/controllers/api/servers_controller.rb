@@ -4,6 +4,12 @@ class Api::ServersController < ApplicationController
         render :index
     end
 
+    # finds all private servers based on the current user
+    def private_servers
+        @servers = User.includes(:servers).find(params[:user][:id]).servers.where(owner_id: nil)
+        render :index
+    end
+
     def show
         @server = Server.find(params[:id])
         render :show

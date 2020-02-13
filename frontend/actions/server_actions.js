@@ -7,6 +7,13 @@ const receiveServers = servers => {
     });
 };
 
+const receivePrivateServers = servers => {
+    return ({
+        type: "RECEIVE_PRIVATE_SERVERS",
+        servers
+    });
+};
+
 const receiveServer = server => {
     return ({
         type: "RECEIVE_SERVER",
@@ -24,6 +31,12 @@ const removeServer = serverId => {
 export const requestServers = (userId) => dispatch => {
     return ServerApiUtil.fetchServers(userId).then(
         servers => dispatch(receiveServers(servers))
+    );
+};
+
+export const requestPrivateServers = (userId) => dispatch => {
+    return ServerApiUtil.fetchPrivateServers(userId).then(
+        servers => dispatch(receivePrivateServers(servers))
     );
 };
 
@@ -52,5 +65,6 @@ export const deleteServer = serverId => dispatch => {
 };
 
 export const RECEIVE_SERVERS = "RECEIVE_SERVERS";
+export const RECEIVE_PRIVATE_SERVERS = "RECEIVE_PRIVATE_SERVERS"
 export const RECEIVE_SERVER = "RECEIVE_SERVER";
 export const REMOVE_SERVER = "REMOVE_SERVER";

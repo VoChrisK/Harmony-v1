@@ -275,17 +275,19 @@ var CLOSE_MODAL = "CLOSE_MODAL";
 /*!********************************************!*\
   !*** ./frontend/actions/server_actions.js ***!
   \********************************************/
-/*! exports provided: requestServers, requestServer, createServer, updateServer, deleteServer, RECEIVE_SERVERS, RECEIVE_SERVER, REMOVE_SERVER */
+/*! exports provided: requestServers, requestPrivateServers, requestServer, createServer, updateServer, deleteServer, RECEIVE_SERVERS, RECEIVE_PRIVATE_SERVERS, RECEIVE_SERVER, REMOVE_SERVER */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestServers", function() { return requestServers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestPrivateServers", function() { return requestPrivateServers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestServer", function() { return requestServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createServer", function() { return createServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateServer", function() { return updateServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteServer", function() { return deleteServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SERVERS", function() { return RECEIVE_SERVERS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PRIVATE_SERVERS", function() { return RECEIVE_PRIVATE_SERVERS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SERVER", function() { return RECEIVE_SERVER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_SERVER", function() { return REMOVE_SERVER; });
 /* harmony import */ var _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../util/server_api_util */ "./frontend/util/server_api_util.js");
@@ -294,6 +296,13 @@ __webpack_require__.r(__webpack_exports__);
 var receiveServers = function receiveServers(servers) {
   return {
     type: "RECEIVE_SERVERS",
+    servers: servers
+  };
+};
+
+var receivePrivateServers = function receivePrivateServers(servers) {
+  return {
+    type: "RECEIVE_PRIVATE_SERVERS",
     servers: servers
   };
 };
@@ -316,6 +325,13 @@ var requestServers = function requestServers(userId) {
   return function (dispatch) {
     return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchServers"](userId).then(function (servers) {
       return dispatch(receiveServers(servers));
+    });
+  };
+};
+var requestPrivateServers = function requestPrivateServers(userId) {
+  return function (dispatch) {
+    return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchPrivateServers"](userId).then(function (servers) {
+      return dispatch(receivePrivateServers(servers));
     });
   };
 };
@@ -348,6 +364,7 @@ var deleteServer = function deleteServer(serverId) {
   };
 };
 var RECEIVE_SERVERS = "RECEIVE_SERVERS";
+var RECEIVE_PRIVATE_SERVERS = "RECEIVE_PRIVATE_SERVERS";
 var RECEIVE_SERVER = "RECEIVE_SERVER";
 var REMOVE_SERVER = "REMOVE_SERVER";
 
@@ -3902,6 +3919,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _servers_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./servers_reducer */ "./frontend/reducers/servers_reducer.js");
 /* harmony import */ var _channels_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channels_reducer */ "./frontend/reducers/channels_reducer.js");
 /* harmony import */ var _messages_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./messages_reducer */ "./frontend/reducers/messages_reducer.js");
+/* harmony import */ var _private_server_reducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./private_server_reducer */ "./frontend/reducers/private_server_reducer.js");
+
 
 
 
@@ -3910,6 +3929,7 @@ __webpack_require__.r(__webpack_exports__);
 var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
   servers: _servers_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  privateServers: _private_server_reducer__WEBPACK_IMPORTED_MODULE_5__["default"],
   channels: _channels_reducer__WEBPACK_IMPORTED_MODULE_3__["default"],
   messages: _messages_reducer__WEBPACK_IMPORTED_MODULE_4__["default"]
 });
@@ -4010,6 +4030,36 @@ var modalReducer = function modalReducer() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modalReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/private_server_reducer.js":
+/*!*****************************************************!*\
+  !*** ./frontend/reducers/private_server_reducer.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../actions/server_actions */ "./frontend/actions/server_actions.js");
+
+
+var privateServersReducer = function privateServersReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_PRIVATE_SERVERS"]:
+      return Object.assign({}, action.servers);
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (privateServersReducer);
 
 /***/ }),
 
@@ -4485,12 +4535,13 @@ var ProtectedRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withR
 /*!******************************************!*\
   !*** ./frontend/util/server_api_util.js ***!
   \******************************************/
-/*! exports provided: fetchServers, fetchServer, createServer, updateServer, deleteServer */
+/*! exports provided: fetchServers, fetchPrivateServers, fetchServer, createServer, updateServer, deleteServer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchServers", function() { return fetchServers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchPrivateServers", function() { return fetchPrivateServers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchServer", function() { return fetchServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createServer", function() { return createServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateServer", function() { return updateServer; });
@@ -4499,6 +4550,17 @@ var fetchServers = function fetchServers(userId) {
   return $.ajax({
     method: "GET",
     url: "api/servers",
+    data: {
+      user: {
+        id: userId
+      }
+    }
+  });
+};
+var fetchPrivateServers = function fetchPrivateServers(userId) {
+  return $.ajax({
+    method: "GET",
+    url: "api/servers/private_servers",
     data: {
       user: {
         id: userId
