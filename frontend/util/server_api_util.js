@@ -13,7 +13,7 @@ export const fetchServers = (userId) => {
 export const fetchPrivateServers = (userId) => {
     return $.ajax({
         method: "GET",
-        url: "api/servers/private_servers",
+        url: "api/private_servers",
         data: {
             user: {
                 id: userId
@@ -35,7 +35,15 @@ export const createServer = server => {
         url: "api/servers",
         data: { server }
     });
-}
+};
+
+export const createPrivateServer = server => {
+    return $.ajax({
+        method: "POST",
+        url: "api/servers/create_private_server",
+        data: { server }
+    })
+};
 
 export const updateServer = server => {
     return $.ajax({

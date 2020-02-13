@@ -164,7 +164,7 @@
     font-size: 16px;
 }
 
-#preview-icon-container {
+.preview-icon-container {
     background-color: #7e97f1;
     position: absolute;
     top: 33%;
@@ -174,10 +174,7 @@
     height: 100px;
 }
 
-#preview-icon-container:hover {
-    background-color: #7e97f1;
-    border-radius: 50%;
-    transition: none;
+.preview-icon-container:hover {
     cursor: default;
 }
 

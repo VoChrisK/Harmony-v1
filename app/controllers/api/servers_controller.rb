@@ -3,7 +3,7 @@ class Api::ServersController < ApplicationController
         @servers = User.includes(:servers).find(params[:user][:id]).servers
         render :index
     end
-
+    
     # finds all private servers based on the current user
     def private_servers
         @servers = User.includes(:servers).find(params[:user][:id]).servers.where(owner_id: nil)
@@ -19,6 +19,15 @@ class Api::ServersController < ApplicationController
         @server = Server.new(server_params)
         if @server.save
             Channel.create(name: "General", server_id: @server.id)
+            render :show
+        else
+            render json: @server.errors.full_messages, status: 422
+        end
+    end
+
+    def create_private_server
+        @server = Server.new(server_params)
+        if @server.save
             render :show
         else
             render json: @server.errors.full_messages, status: 422

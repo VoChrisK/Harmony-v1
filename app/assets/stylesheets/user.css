@@ -186,3 +186,30 @@
 .join-submit {
     top: 57%;
 }
+
+.user-dropdown {
+    position: absolute;
+    top: 1px;
+    right: 250px;
+    width: 300px;
+    height: 350px;
+}
+
+.big.user-icon, .big.user-icon > .discord-icon {
+    width: 65px;
+    height: 65px;
+}
+
+.dropdown-section-1 {
+    height: 40%;
+    background-color: #202225;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.dropdown-section-2 {
+    height: 60%;
+    background-color: #2f3136;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}

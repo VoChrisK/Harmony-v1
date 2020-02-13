@@ -6,13 +6,15 @@ Rails.application.routes.draw do
     get 'users/find' => "users#find"
     resource :session, only: [:create, :destroy]
     resources :servers, except: [:new, :edit]
-    get 'servers/private_servers' => "servers#private_servers"
+    get 'private_servers/' => "servers#private_servers"
+    post 'servers/create_private_server' => "servers#create_private_server"
     resources :affiliations, only: [:create]
     delete 'affiliations/find' => "affiliations#find"
     resources :channels, except: [:new, :edit]
     #   resources :messages, only: [:create]
     # end
     resources :messages, only: [:index, :create, :update, :destroy]
+    resources :direct_messages, only: [:create]
   end
 
   root to: "static_pages#root"

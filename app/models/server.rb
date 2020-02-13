@@ -15,10 +15,10 @@ class Server < ApplicationRecord
     through: :affiliations,
     source: :user
 
-    belongs_to :owner,
-    primary_key: :id,
-    foreign_key: :owner_id,
-    class_name: 'User'
+    # belongs_to :owner,
+    # primary_key: :id,
+    # foreign_key: :owner_id,
+    # class_name: 'User'
 
     has_many :direct_messages,
     primary_key: :id,

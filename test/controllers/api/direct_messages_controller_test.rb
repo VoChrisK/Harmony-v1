@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DirectmessageTest < ActiveSupport::TestCase
+class Api::DirectMessagesControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

@@ -275,7 +275,7 @@ var CLOSE_MODAL = "CLOSE_MODAL";
 /*!********************************************!*\
   !*** ./frontend/actions/server_actions.js ***!
   \********************************************/
-/*! exports provided: requestServers, requestPrivateServers, requestServer, createServer, updateServer, deleteServer, RECEIVE_SERVERS, RECEIVE_PRIVATE_SERVERS, RECEIVE_SERVER, REMOVE_SERVER */
+/*! exports provided: requestServers, requestPrivateServers, requestServer, createServer, createPrivateServer, updateServer, deleteServer, RECEIVE_SERVERS, RECEIVE_PRIVATE_SERVERS, RECEIVE_SERVER, RECEIVE_PRIVATE_SERVER, REMOVE_SERVER */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -284,11 +284,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestPrivateServers", function() { return requestPrivateServers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestServer", function() { return requestServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createServer", function() { return createServer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createPrivateServer", function() { return createPrivateServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateServer", function() { return updateServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteServer", function() { return deleteServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SERVERS", function() { return RECEIVE_SERVERS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PRIVATE_SERVERS", function() { return RECEIVE_PRIVATE_SERVERS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SERVER", function() { return RECEIVE_SERVER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PRIVATE_SERVER", function() { return RECEIVE_PRIVATE_SERVER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_SERVER", function() { return REMOVE_SERVER; });
 /* harmony import */ var _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../util/server_api_util */ "./frontend/util/server_api_util.js");
 
@@ -310,6 +312,13 @@ var receivePrivateServers = function receivePrivateServers(servers) {
 var receiveServer = function receiveServer(server) {
   return {
     type: "RECEIVE_SERVER",
+    server: server
+  };
+};
+
+var receivePrivateServer = function receivePrivateServer(server) {
+  return {
+    type: "RECEIVE_PRIVATE_SERVER",
     server: server
   };
 };
@@ -349,6 +358,13 @@ var createServer = function createServer(server) {
     });
   };
 };
+var createPrivateServer = function createPrivateServer(server) {
+  return function (dispatch) {
+    return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["createPrivateServer"](server).then(function (newServer) {
+      return dispatch(receivePrivateServer(newServer));
+    });
+  };
+};
 var updateServer = function updateServer(server) {
   return function (dispatch) {
     return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["updateServer"](server).then(function (updatedServer) {
@@ -366,6 +382,7 @@ var deleteServer = function deleteServer(serverId) {
 var RECEIVE_SERVERS = "RECEIVE_SERVERS";
 var RECEIVE_PRIVATE_SERVERS = "RECEIVE_PRIVATE_SERVERS";
 var RECEIVE_SERVER = "RECEIVE_SERVER";
+var RECEIVE_PRIVATE_SERVER = "RECEIVE_PRIVATE_SERVER";
 var REMOVE_SERVER = "REMOVE_SERVER";
 
 /***/ }),
@@ -1021,6 +1038,7 @@ function (_React$Component) {
       }
 
       this.props.requestServers(window.localStorage.getItem("currentUserId"));
+      this.props.requestPrivateServers(window.localStorage.getItem("currentUserId"));
       document.getElementsByClassName("harmony-app")[0].addEventListener("click", function () {
         var dropdown = document.getElementsByClassName("dropdown-menu");
 
@@ -1085,6 +1103,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     requestServers: function requestServers(userId) {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServers"])(userId));
+    },
+    requestPrivateServers: function requestPrivateServers(userId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestPrivateServers"])(userId));
     },
     optionsModal: function optionsModal() {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])("options"));
@@ -2623,8 +2644,7 @@ function (_React$Component) {
         autoComplete: "off",
         onChange: this.handleInput("name")
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "preview-icon-container",
-        className: "icon-container"
+        className: "preview-icon-container icon-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "preview-icon server-icon"
       }, this.state.name ? this.state.name.substring(0, 1) : "")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3655,7 +3675,7 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _user_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./user_index_item */ "./frontend/components/user/user_index_item.jsx");
+/* harmony import */ var _user_index_item_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./user_index_item_container */ "./frontend/components/user/user_index_item_container.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3715,18 +3735,20 @@ function (_React$Component) {
       }, "ONLINE") : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "online-list"
       }, this.getOnlineUsers().map(function (user, idx) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_index_item_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: idx,
-          user: user
+          user: user,
+          idx: idx
         });
       })), this.getOfflineUsers().length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "user-list-header"
       }, "OFFLINE") : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "offline-list"
       }, this.getOfflineUsers().map(function (user, idx) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_index_item_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: idx,
-          user: user
+          user: user,
+          idx: idx
         });
       })));
     }
@@ -3803,27 +3825,145 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util_choose_color__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/choose_color */ "./frontend/util/choose_color.js");
+/* harmony import */ var _util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../util/affiliation_api_util */ "./frontend/util/affiliation_api_util.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 
 
-var UserIndexItem = function UserIndexItem(_ref) {
-  var user = _ref.user;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "user-info"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(user.id))
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    className: "discord-icon",
-    src: discordIcon,
-    alt: ""
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    className: "fa fa-circle ".concat(user.status)
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-    className: "username"
-  }, user.username));
+
+
+var UserIndexItem =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(UserIndexItem, _React$Component);
+
+  function UserIndexItem(props) {
+    _classCallCheck(this, UserIndexItem);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(UserIndexItem).call(this, props));
+  }
+
+  _createClass(UserIndexItem, [{
+    key: "showDropdown",
+    value: function showDropdown() {
+      document.getElementsByClassName("user-dropdown")[this.props.idx].classList.toggle("is-showing");
+    }
+  }, {
+    key: "handlePrivateServer",
+    value: function handlePrivateServer(event) {
+      var _this = this;
+
+      event.preventDefault();
+      var users = [this.props.currentUser.username, this.props.user.username].sort();
+      var server = Object.assign({}, {
+        "name": "DM between ".concat(users[0], " and ").concat(users[1])
+      });
+      console.log(server);
+      this.props.createPrivateServer(server).then(function (newServer) {
+        console.log(newServer);
+        Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(_this.props.currentUser.id, newServer.server.id);
+        Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(_this.props.user.id, newServer.server.id).then();
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var user = this.props.user;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.showDropdown.bind(this),
+        className: "user-info"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(user.id))
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "discord-icon",
+        src: discordIcon,
+        alt: ""
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-circle ".concat(user.status)
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "username"
+      }, user.username), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-dropdown dropdown-menu"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "dropdown-section-1"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "big user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(user.id))
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "discord-icon",
+        src: discordIcon,
+        alt: ""
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "dropdown-section-2"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "view-user-profile"
+      }, "View Profile"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handlePrivateServer.bind(this)
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-input",
+        autoComplete: "off",
+        placeholder: "message @".concat(user.username)
+      })))));
+    }
+  }]);
+
+  return UserIndexItem;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+;
+/* harmony default export */ __webpack_exports__["default"] = (UserIndexItem);
+
+/***/ }),
+
+/***/ "./frontend/components/user/user_index_item_container.js":
+/*!***************************************************************!*\
+  !*** ./frontend/components/user/user_index_item_container.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _user_index_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user_index_item */ "./frontend/components/user/user_index_item.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    currentUser: state.entities.users[state.session.id]
+  };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (UserIndexItem);
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    createPrivateServer: function createPrivateServer(server) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_1__["createPrivateServer"])(server));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_user_index_item__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
 
@@ -4049,10 +4189,16 @@ var privateServersReducer = function privateServersReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
+  var nextState;
 
   switch (action.type) {
     case _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_PRIVATE_SERVERS"]:
       return Object.assign({}, action.servers);
+
+    case _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_PRIVATE_SERVER"]:
+      nextState = Object.assign({}, state);
+      nextState[action.server.id] = action.server;
+      return nextState;
 
     default:
       return state;
@@ -4535,7 +4681,7 @@ var ProtectedRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withR
 /*!******************************************!*\
   !*** ./frontend/util/server_api_util.js ***!
   \******************************************/
-/*! exports provided: fetchServers, fetchPrivateServers, fetchServer, createServer, updateServer, deleteServer */
+/*! exports provided: fetchServers, fetchPrivateServers, fetchServer, createServer, createPrivateServer, updateServer, deleteServer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4544,6 +4690,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchPrivateServers", function() { return fetchPrivateServers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchServer", function() { return fetchServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createServer", function() { return createServer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createPrivateServer", function() { return createPrivateServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateServer", function() { return updateServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteServer", function() { return deleteServer; });
 var fetchServers = function fetchServers(userId) {
@@ -4560,7 +4707,7 @@ var fetchServers = function fetchServers(userId) {
 var fetchPrivateServers = function fetchPrivateServers(userId) {
   return $.ajax({
     method: "GET",
-    url: "api/servers/private_servers",
+    url: "api/private_servers",
     data: {
       user: {
         id: userId
@@ -4578,6 +4725,15 @@ var createServer = function createServer(server) {
   return $.ajax({
     method: "POST",
     url: "api/servers",
+    data: {
+      server: server
+    }
+  });
+};
+var createPrivateServer = function createPrivateServer(server) {
+  return $.ajax({
+    method: "POST",
+    url: "api/servers/create_private_server",
     data: {
       server: server
     }

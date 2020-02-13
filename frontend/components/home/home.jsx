@@ -19,6 +19,7 @@ class Home extends React.Component {
         }
 
         this.props.requestServers(window.localStorage.getItem("currentUserId"));
+        this.props.requestPrivateServers(window.localStorage.getItem("currentUserId"));
 
         document.getElementsByClassName("harmony-app")[0].addEventListener("click", () => {
             const dropdown = document.getElementsByClassName("dropdown-menu");

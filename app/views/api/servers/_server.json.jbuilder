@@ -1,3 +1,4 @@
+message_ids = server.private_messages.map { |message| message.id }
 channel_ids = server.channels.map { |channel| channel.id }
 user_ids = server.users.map { |user| user.id }
 
@@ -7,4 +8,7 @@ json.set! :channelIds do
 end
 json.set! :userIds do
     json.array! user_ids
+end
+json.set! :messageIds do
+    json.array! message_ids
 end

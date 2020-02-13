@@ -1,5 +1,5 @@
 import React from 'react';
-import UserIndexItem from './user_index_item';
+import UserIndexItemContainer from './user_index_item_container';
 
 class UserIndex extends React.Component {
     constructor(props) {
@@ -29,13 +29,13 @@ class UserIndex extends React.Component {
                 {this.getOnlineUsers().length > 0 ? <h1 className="user-list-header">ONLINE</h1> : null}
                 <ul className="online-list">
                     {
-                        this.getOnlineUsers().map((user, idx) => <UserIndexItem key={idx} user={user} />)
+                        this.getOnlineUsers().map((user, idx) => <UserIndexItemContainer key={idx} user={user} idx={idx} />)
                     }
                 </ul>
                 {this.getOfflineUsers().length > 0 ? <h1 className="user-list-header">OFFLINE</h1> : null}
                 <ul className="offline-list">
                     {
-                        this.getOfflineUsers().map((user, idx) => <UserIndexItem key={idx} user={user} />)
+                        this.getOfflineUsers().map((user, idx) => <UserIndexItemContainer key={idx} user={user} idx={idx} />)
                     }
                 </ul>
             </aside>
