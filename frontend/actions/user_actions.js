@@ -21,6 +21,12 @@ export const requestUsers = serverId => dispatch => {
     );
 };
 
+export const requestUsersByIds = userIds => dispatch => {
+    return UserApiUtil.fetchUsersByIds(userIds).then(
+        users => dispatch(receiveUsers(users))
+    )
+}
+
 export const updateUser = user => dispatch => {
     return UserApiUtil.updateUser(user).then(
         updatedUser => dispatch(receiveCurrentUser(updatedUser))

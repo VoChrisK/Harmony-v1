@@ -8,7 +8,12 @@ class PrivateServerIndex extends React.Component {
     }
 
     componentDidMount() {
-        this.props.requestPrivateServers(this.props.currentUserId);
+        this.props.requestPrivateServers(this.props.currentUserId).then(
+            data => {
+                const userIds = Object.values(data.servers).map(server => server.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0]);
+                this.props.requestUsersByIds(userIds);
+            }
+        );
     }
     
     render() {
@@ -16,7 +21,7 @@ class PrivateServerIndex extends React.Component {
 
         return (
             <aside className="private-servers-container">
-                <Link path="/servers/@me" className="friends-tab user-info">
+                <Link to="/servers/@me" className="friends-tab user-info">
                     <i className="fa fa-user-friends"></i>
                     <h2 className="friends-tab-header">Friends</h2>
                 </Link>

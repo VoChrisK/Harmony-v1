@@ -4,6 +4,11 @@ class Api::UsersController < ApplicationController
         render :index
     end
 
+    def get_users_by_ids
+        @users = User.where(:id => params[:ids])
+        render :index
+    end
+
     def find
         @user = User.find_by(username: params[:username])
         if @user

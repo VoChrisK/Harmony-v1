@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import PrivateServerIndexItem from './private_server_index_item';
-import { requestUsers } from './../../actions/user_actions';
 
 const mapStateToProps = (state) => {
     return ({
@@ -11,7 +10,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        requestUsers: serverId => dispatch(requestUsers(serverId))
+        
     });
 };
 

@@ -471,13 +471,14 @@ var RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
 /*!******************************************!*\
   !*** ./frontend/actions/user_actions.js ***!
   \******************************************/
-/*! exports provided: removeUser, requestUsers, updateUser, deleteUser, RECEIVE_USERS, REMOVE_USER */
+/*! exports provided: removeUser, requestUsers, requestUsersByIds, updateUser, deleteUser, RECEIVE_USERS, REMOVE_USER */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeUser", function() { return removeUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestUsers", function() { return requestUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestUsersByIds", function() { return requestUsersByIds; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUser", function() { return updateUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteUser", function() { return deleteUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USERS", function() { return RECEIVE_USERS; });
@@ -503,6 +504,13 @@ var removeUser = function removeUser(userId) {
 var requestUsers = function requestUsers(serverId) {
   return function (dispatch) {
     return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchUsers"](serverId).then(function (users) {
+      return dispatch(receiveUsers(users));
+    });
+  };
+};
+var requestUsersByIds = function requestUsersByIds(userIds) {
+  return function (dispatch) {
+    return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchUsersByIds"](userIds).then(function (users) {
       return dispatch(receiveUsers(users));
     });
   };
@@ -2835,7 +2843,17 @@ function (_React$Component) {
   _createClass(PrivateServerIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.requestPrivateServers(this.props.currentUserId);
+      var _this = this;
+
+      this.props.requestPrivateServers(this.props.currentUserId).then(function (data) {
+        var userIds = Object.values(data.servers).map(function (server) {
+          return server.userIds.filter(function (id) {
+            return id !== parseInt(_this.props.currentUserId);
+          })[0];
+        });
+
+        _this.props.requestUsersByIds(userIds);
+      });
     }
   }, {
     key: "render",
@@ -2844,7 +2862,7 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "private-servers-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
-        path: "/servers/@me",
+        to: "/servers/@me",
         className: "friends-tab user-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-user-friends"
@@ -2886,6 +2904,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _private_server_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./private_server_index */ "./frontend/components/private_server/private_server_index.jsx");
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+
 
 
 
@@ -2901,6 +2921,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     requestPrivateServers: function requestPrivateServers(currentUserId) {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestPrivateServers"])(currentUserId));
+    },
+    requestUsersByIds: function requestUsersByIds(userIds) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["requestUsersByIds"])(userIds));
     }
   };
 };
@@ -2954,11 +2977,6 @@ function (_React$Component) {
   }
 
   _createClass(PrivateServerIndexItem, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.requestUsers(this.props.server.id);
-    }
-  }, {
     key: "render",
     value: function render() {
       var _this = this;
@@ -3001,8 +3019,6 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _private_server_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./private_server_index_item */ "./frontend/components/private_server/private_server_index_item.jsx");
-/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../actions/user_actions */ "./frontend/actions/user_actions.js");
-
 
 
 
@@ -3014,11 +3030,7 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    requestUsers: function requestUsers(serverId) {
-      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["requestUsers"])(serverId));
-    }
-  };
+  return {};
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_private_server_index_item__WEBPACK_IMPORTED_MODULE_1__["default"]));
@@ -4676,7 +4688,7 @@ var usersReducer = function usersReducer() {
 
   switch (action.type) {
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_USERS"]:
-      return Object.assign({}, state, action.users);
+      return Object.assign({}, action.users);
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
       nextState = Object.assign({}, state);
@@ -5142,12 +5154,13 @@ var uniqueId = function uniqueId() {
 /*!****************************************!*\
   !*** ./frontend/util/user_api_util.js ***!
   \****************************************/
-/*! exports provided: fetchUsers, findUser, updateUser, deleteUser */
+/*! exports provided: fetchUsers, fetchUsersByIds, findUser, updateUser, deleteUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsers", function() { return fetchUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchUsersByIds", function() { return fetchUsersByIds; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findUser", function() { return findUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUser", function() { return updateUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteUser", function() { return deleteUser; });
@@ -5159,6 +5172,24 @@ var fetchUsers = function fetchUsers(serverId) {
       server: {
         id: serverId
       }
+    }
+  });
+}; // export const fetchUser = userId => {
+//     return $.ajax({
+//         method: "GET",
+//         url: `api/users/${userId}`,
+//         data: {
+//             id: userId
+//         }
+//     })
+// }
+
+var fetchUsersByIds = function fetchUsersByIds(userIds) {
+  return $.ajax({
+    method: "GET",
+    url: "api/users/get_users_by_ids",
+    data: {
+      ids: userIds
     }
   });
 };

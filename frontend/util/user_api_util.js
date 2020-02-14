@@ -10,6 +10,26 @@ export const fetchUsers = serverId => {
     });
 };
 
+// export const fetchUser = userId => {
+//     return $.ajax({
+//         method: "GET",
+//         url: `api/users/${userId}`,
+//         data: {
+//             id: userId
+//         }
+//     })
+// }
+
+export const fetchUsersByIds = userIds => {
+    return $.ajax({
+        method: "GET",
+        url: "api/users/get_users_by_ids",
+        data: {
+            ids: userIds
+        }
+    })
+}
+
 export const findUser = username => {
     return $.ajax({
         method: "GET",

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   
   namespace :api, defaults: { format: :json } do
     resources :users, only: [:index, :create, :update, :destroy]
+    get 'users/get_users_by_ids' => "users#get_users_by_ids"
     get 'users/find' => "users#find"
     resource :session, only: [:create, :destroy]
     resources :servers, except: [:new, :edit]
