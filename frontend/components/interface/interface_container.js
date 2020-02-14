@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import Home from './home';
-import { requestServers } from './../../actions/server_actions';
-import { openModal } from './../../actions/modal_actions';
-import { receiveCurrentUserId } from './../../actions/session_actions';
+import Interface from './interface';
+import { requestServers } from '../../actions/server_actions';
+import { openModal } from '../../actions/modal_actions';
+import { receiveCurrentUserId } from '../../actions/session_actions';
 
 const mapStateToProps = (state) => {
     return ({
@@ -19,4 +19,4 @@ const mapDispatchToProps = (dispatch) => {
     });
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Interface);

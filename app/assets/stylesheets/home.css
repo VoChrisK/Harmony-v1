@@ -16,6 +16,11 @@ aside::-webkit-scrollbar {
     display: none;
 }
 
+.server-show-container {
+    width: 100%;
+    height: 100%;
+}
+
 .channels-and-dms-sidebar {
     position: relative;
     float: left;

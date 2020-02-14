@@ -2,17 +2,22 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { requestChannels } from '../../actions/channel_actions';
 import ChannelIndex from './channel_index';
+import { openModal } from './../../actions/modal_actions';
 
 const mapStateToProps = (state, ownProps) => {
     return ({
         channels: Object.values(state.entities.channels),
-        server: ownProps.server
+        server: ownProps.server,
+        currentUserId: state.session.id
     });
 };
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        requestChannels: serverId => dispatch(requestChannels(serverId))
+        requestChannels: serverId => dispatch(requestChannels(serverId)),
+        createChannelModal: () => dispatch(openModal("createChannel")),
+        updateServerModal: () => dispatch(openModal("updateServer")),
+        deleteServerModal: () => dispatch(openModal("deleteServer"))
     });
 };
 

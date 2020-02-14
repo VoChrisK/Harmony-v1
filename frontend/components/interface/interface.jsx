@@ -1,13 +1,11 @@
 import React from 'react';
-import ServerIndex from './../server/server_index';
-import ServerShowContainer from './../server/server_show_container';
-import Modal from './../modal/modal';
+import ServerIndex from '../server/server_index';
+import SidebarContainer from '../server/sidebar_container';
+import Modal from '../modal/modal';
 import MainContent from './main_content';
-import EditUser from './edit_user';
 import { withRouter } from 'react-router-dom';
-import PrivateServerIndexContainer from '../private_server/private_server_index_container';
 
-class Home extends React.Component {
+class Interface extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -33,23 +31,17 @@ class Home extends React.Component {
     }
     
     render() {
-        const regex = /\/servers\/@me\/?[0-9]*/g;
-        const path = this.props.location.pathname;
-
         if(!this.props.currentUserId) return null;
 
         return (
             <div className="home-interface">
                 <Modal />
                 <ServerIndex servers={this.props.servers} optionsModal={this.props.optionsModal} />
-                <aside className="channels-and-dms-sidebar">
-                    { Boolean(path.match(regex)) ? <PrivateServerIndexContainer /> : <ServerShowContainer />}
-                    <EditUser currentUserId={this.props.currentUserId} />
-                </aside>
+                <SidebarContainer />
                 <MainContent />
             </div>
         );
     }
 }
 
-export default withRouter(Home);
+export default withRouter(Interface);
