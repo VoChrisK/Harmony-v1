@@ -52,7 +52,10 @@ class ServerShow extends React.Component {
                     <i className="fa fa-chevron-down"></i>
                     {this.renderChoice()}
                 </div>
-                <h2 className="text-channels">TEXT CHANNELS</h2><i onClick={() => this.props.createChannelModal()} className="fa fa-plus"></i>
+                <div className="header-container">
+                    <h2 className="inline-header">TEXT CHANNELS</h2>
+                    <i onClick={() => this.props.createChannelModal()} className="fa fa-plus"></i>
+                </div>
                 <ChannelIndexContainer server={server} />
             </div>
         );

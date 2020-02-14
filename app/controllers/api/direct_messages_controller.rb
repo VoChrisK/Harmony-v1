@@ -1,4 +1,8 @@
 class Api::DirectMessagesController < ApplicationController
+    def index
+        
+    end
+
     def create
         @direct_message = DirectMessage.new(direct_message_params)
         if @direct_message.save

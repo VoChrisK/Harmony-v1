@@ -92,3 +92,10 @@
     visibility: visible;
 }
 
+.header-container {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0 10px 0;
+}

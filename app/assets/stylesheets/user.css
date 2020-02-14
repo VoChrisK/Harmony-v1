@@ -27,8 +27,21 @@
 
 .user-info {
     position: relative;
+    display: flex;
+    align-items: center;
     color: #767d88;
     cursor: pointer;
+    text-decoration: none;
+    width: 90%;
+    height: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.user-info:hover {
+    background-color: rgb(54, 57, 63);
 }
 
 .user-icon.icon-container {
@@ -36,7 +49,7 @@
     display: inline-block;
     width: 6px;
     height: 6px;
-    margin-left: 20px;
+    margin: 0 0 0 10px;
     cursor: default;
 }
 
@@ -50,12 +63,6 @@
 }
 
 .username {
-    position: absolute;
-    margin-left: 20px;
-    left: 17.5%;
-    top: 50%;
-    transform: translateY(-50%);
-    margin-bottom: 10px;
     width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -97,9 +104,9 @@
 }
 
 .fa.fa-circle {
-    position: absolute;
-    left: 42px;
-    top: 30px;
+    position: relative;
+    top: 10px;
+    right: 15px;
     color: gray;
     text-shadow: 0px 0px 3px black;
 }
@@ -212,4 +219,14 @@
     background-color: #2f3136;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+
+.fa.fa-user-friends {
+    font-size: 24px;    
+    margin: 0 14px 0 14px;
+}
+
+.friends-tab-header {
+    display: inline-block;
+    font-size: 18px;
 }
