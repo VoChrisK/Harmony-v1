@@ -62,6 +62,10 @@ aside::-webkit-scrollbar {
     height: calc(100% - 48px);
 }
 
+.expand {
+    width: 100%;
+}
+
 #chat-log {
     background-size: 500px;
     height: 89%;

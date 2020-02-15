@@ -1280,7 +1280,23 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       if (!this.props.channel && !this.props.server) return null;
+      if (this.props.server && Object.keys(this.props.users).length === 0) return null;
       return this.renderContent();
+    }
+  }, {
+    key: "renderUserInfo",
+    value: function renderUserInfo() {
+      var _this = this;
+
+      var index = this.props.server.userIds.filter(function (id) {
+        return id != _this.props.currentUserId;
+      })[0];
+      var otherUser = this.props.users[index];
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "channel-name-header"
+      }, otherUser.username, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "header fa fa-circle ".concat(otherUser.status)
+      }));
     }
   }, {
     key: "renderContent",
@@ -1304,11 +1320,13 @@ function (_React$Component) {
           className: "main-content"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", {
           className: "channel-header"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        }, channel ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fa fa-hashtag"
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fas fa-at"
+        }), channel ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
           className: "channel-name-header"
-        }, channel ? channel.name : "")), Boolean(path.match(regex)) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_message_index_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        }, channel.name) : this.renderUserInfo()), Boolean(path.match(regex)) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_message_index_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           input: server,
           inputType: "server"
         }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_message_index_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -1325,7 +1343,9 @@ function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     server: state.entities.privateServers[ownProps.match.params.serverId],
-    channel: state.entities.channels[ownProps.match.params.channelId]
+    channel: state.entities.channels[ownProps.match.params.channelId],
+    users: state.entities.users,
+    currentUserId: state.session.id
   };
 };
 
@@ -1392,6 +1412,10 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
+
+      if (this.props.inputType === "server") {
+        document.getElementsByClassName("chat-container")[0].classList.add("expand");
+      }
 
       this.props.requestMessages(this.props.inputType, this.props.input.id).then(function () {
         App.cable.subscriptions.create({
@@ -1485,7 +1509,9 @@ function (_React$Component) {
     value: function render() {
       var _this5 = this;
 
-      var channel = this.props.channel;
+      var _this$props = this.props,
+          input = _this$props.input,
+          inputType = _this$props.inputType;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "chat-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -1503,10 +1529,21 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "message-input",
-        placeholder: "message #".concat(channel ? channel.name : ""),
+        placeholder: "message ".concat(inputType === "channel" ? "#" + input.name : this.renderUsername()),
         value: this.state.body,
         onChange: this.handleBody.bind(this)
       })));
+    }
+  }, {
+    key: "renderUsername",
+    value: function renderUsername() {
+      var _this6 = this;
+
+      var index = this.props.input.userIds.filter(function (id) {
+        return id !== parseInt(_this6.props.currentUserId);
+      })[0];
+      var otherUser = this.props.users[index];
+      return "@" + otherUser.username;
     }
   }]);
 
@@ -1540,7 +1577,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     messages: Object.values(state.entities.messages),
     currentUserId: state.session.id,
     input: ownProps.input,
-    inputType: ownProps.inputType
+    inputType: ownProps.inputType,
+    users: state.entities.users
   };
 };
 
@@ -3357,23 +3395,7 @@ function (_React$Component) {
     _classCallCheck(this, Sidebar);
 
     return _possibleConstructorReturn(this, _getPrototypeOf(Sidebar).call(this, props));
-  } // componentDidMount() {
-  //     if(this.props.match.params.serverId) {
-  //         debugger;
-  //         this.props.requestServer(this.props.match.params.serverId);
-  //     }
-  // }
-  // componentDidUpdate(preProps) {
-  //     if(this.props.server) {
-  //         if (this.props.match.params.serverId !== preProps.match.params.serverId) {
-  //             this.props.requestServer(this.props.match.params.serverId);
-  //         }
-  //         else if (!preProps.server || this.props.server.userIds.length !== preProps.server.userIds.length) {
-  //             this.props.requestServer(this.props.server.id);
-  //         }
-  //     }
-  // }
-
+  }
 
   _createClass(Sidebar, [{
     key: "render",

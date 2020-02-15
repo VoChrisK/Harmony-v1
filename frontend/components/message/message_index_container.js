@@ -8,7 +8,8 @@ const mapStateToProps = (state, ownProps) => {
         messages: Object.values(state.entities.messages),
         currentUserId: state.session.id,
         input: ownProps.input,
-        inputType: ownProps.inputType
+        inputType: ownProps.inputType,
+        users: state.entities.users
     })
 }
 

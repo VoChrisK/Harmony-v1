@@ -229,3 +229,8 @@
 .private-servers-list {
     position: relative;
 }
+
+.header.fa.fa-circle {
+    top: 1px;
+    left: 10px;
+}

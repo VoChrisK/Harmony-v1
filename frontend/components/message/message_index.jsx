@@ -13,6 +13,10 @@ class MessageIndex extends React.Component {
     }
 
     componentDidMount() {
+        if(this.props.inputType === "server") {
+            document.getElementsByClassName("chat-container")[0].classList.add("expand");
+        }
+
         this.props.requestMessages(this.props.inputType, this.props.input.id).then(
             () => {
                 App.cable.subscriptions.create(
@@ -81,7 +85,7 @@ class MessageIndex extends React.Component {
     }
 
     render() {
-        const { channel } = this.props;
+        const { input, inputType } = this.props;
 
         return (
             <section className="chat-container">
@@ -93,12 +97,18 @@ class MessageIndex extends React.Component {
                 </section>
 
                 <form className="message-input-container" onSubmit={this.handleSubmit.bind(this)}>
-                    <input type="text" className="message-input" placeholder={`message #${channel ? channel.name : ""}`} value={this.state.body} onChange={this.handleBody.bind(this)} />
+                    <input type="text" className="message-input" placeholder={`message ${inputType === "channel" ? "#" + input.name : this.renderUsername() }`} value={this.state.body} onChange={this.handleBody.bind(this)} />
                 </form>
 
             </section>
-            )
-        }
+        )
     }
+
+    renderUsername() {
+        const index = this.props.input.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0];
+        const otherUser = this.props.users[index];
+        return "@" + otherUser.username;
+    }
+}
     
 export default MessageIndex;

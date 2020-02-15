@@ -29,9 +29,21 @@ class MainContent extends React.Component {
     }
 
     render() {
-        if(!this.props.channel && !this.props.server) return null;
+        if((!this.props.channel && !this.props.server)) return null;
+        if (this.props.server && Object.keys(this.props.users).length === 0) return null;
 
         return this.renderContent();
+    }
+
+    renderUserInfo() {
+        const index = this.props.server.userIds.filter(id => id != this.props.currentUserId)[0];
+        const otherUser = this.props.users[index];
+        return (
+            <h1 className="channel-name-header">
+                {otherUser.username}
+                <i className={`header fa fa-circle ${otherUser.status}`}></i>
+            </h1>
+        )
     }
 
     renderContent() {
@@ -47,11 +59,12 @@ class MainContent extends React.Component {
         } else {
             const regex = /\/servers\/@me\/?[0-9]*/g;
             const path = this.props.location.pathname;
+            
             return (
                 <main className="main-content">
                     <header className="channel-header">
-                        <i className="fa fa-hashtag"></i>
-                        <h1 className="channel-name-header">{channel ? channel.name : ""}</h1>
+                        {channel ? <i className="fa fa-hashtag"></i> : <i className="fas fa-at"></i> }
+                        {channel ? <h1 className="channel-name-header">{channel.name}</h1> : this.renderUserInfo() }
                     </header>
                     {Boolean(path.match(regex)) ? <MessageIndexContainer input={server} inputType="server" /> : <MessageIndexContainer input={channel} inputType="channel" /> }
                     {Boolean(path.match(regex)) ? null : <UserIndexContainer /> }
@@ -64,7 +77,9 @@ class MainContent extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     return ({
         server: state.entities.privateServers[ownProps.match.params.serverId],
-        channel: state.entities.channels[ownProps.match.params.channelId]
+        channel: state.entities.channels[ownProps.match.params.channelId],
+        users: state.entities.users,
+        currentUserId: state.session.id
     });
 };
 

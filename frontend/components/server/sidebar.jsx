@@ -8,24 +8,6 @@ class Sidebar extends React.Component {
         super(props);
     }
 
-    // componentDidMount() {
-    //     if(this.props.match.params.serverId) {
-    //         debugger;
-    //         this.props.requestServer(this.props.match.params.serverId);
-    //     }
-    // }
-
-    // componentDidUpdate(preProps) {
-    //     if(this.props.server) {
-    //         if (this.props.match.params.serverId !== preProps.match.params.serverId) {
-    //             this.props.requestServer(this.props.match.params.serverId);
-    //         }
-    //         else if (!preProps.server || this.props.server.userIds.length !== preProps.server.userIds.length) {
-    //             this.props.requestServer(this.props.server.id);
-    //         }
-    //     }
-    // }
-
     render() {
         const regex = /\/servers\/@me\/?[0-9]*/g;
         const path = this.props.location.pathname;
