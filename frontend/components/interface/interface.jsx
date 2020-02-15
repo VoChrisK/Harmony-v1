@@ -3,7 +3,6 @@ import ServerIndex from '../server/server_index';
 import SidebarContainer from '../server/sidebar_container';
 import Modal from '../modal/modal';
 import MainContent from './main_content';
-import { withRouter } from 'react-router-dom';
 
 class Interface extends React.Component {
     constructor(props) {
@@ -44,4 +43,4 @@ class Interface extends React.Component {
     }
 }
 
-export default withRouter(Interface);
+export default Interface;

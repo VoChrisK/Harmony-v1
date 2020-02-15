@@ -12,7 +12,9 @@ class UserIndexItem extends React.Component {
     }
 
     showDropdown() {
-        document.getElementsByClassName("user-dropdown")[this.props.idx].classList.toggle("is-showing");
+        if(this.props.user.id !== this.props.currentUser.id) {
+            document.getElementsByClassName("user-dropdown")[this.props.idx].classList.toggle("is-showing");
+        }
     }
 
     handleMessage(event) {
@@ -56,12 +58,12 @@ class UserIndexItem extends React.Component {
                         <div className={`big user-icon icon-container ${chooseColor(user.id)}`}>
                             <img className="discord-icon" src={discordIcon} alt="" />
                         </div>
-                        {/* <h1 className="username">{user.username}</h1> */}
+                        <h1 className="username">{user.username}</h1>
                     </section>
     
                     <section className="dropdown-section-2">
                         <button className="view-user-profile">View Profile</button>
-                        <form onSubmit={ this.handlePrivateServer.bind(this) }>
+                        <form className="direct-message-input" onSubmit={ this.handlePrivateServer.bind(this) }>
                             <input type="text" className="form-input" autoComplete="off" placeholder={`message @${user.username}`} value={this.state.message} onChange={this.handleMessage.bind(this)} />
                         </form>
                     </section>

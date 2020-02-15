@@ -197,28 +197,53 @@
 .user-dropdown {
     position: absolute;
     top: 1px;
-    right: 250px;
-    width: 300px;
-    height: 350px;
+    right: 260px;
+    width: 250px;
+    height: 300px;
+    text-align: center;
 }
 
-.big.user-icon, .big.user-icon > .discord-icon {
+.big.user-icon {
+    cursor: pointer;
     width: 65px;
     height: 65px;
+    margin: 10px 0;
+}
+
+.big.user-icon > .discord-icon {
+    width: 65px;
+    height: 65px;   
 }
 
 .dropdown-section-1 {
-    height: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 60%;
     background-color: #202225;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
 
 .dropdown-section-2 {
-    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 40%;
     background-color: #2f3136;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+
+.view-user-profile {
+    width: 90%;
+    margin: 0;
+}
+
+.direct-message-input {
+    width: 90%;
 }
 
 .fa.fa-user-friends {

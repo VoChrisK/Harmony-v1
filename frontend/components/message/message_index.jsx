@@ -15,6 +15,8 @@ class MessageIndex extends React.Component {
     componentDidMount() {
         if(this.props.inputType === "server") {
             document.getElementsByClassName("chat-container")[0].classList.add("expand");
+        } else {
+            document.getElementsByClassName("chat-container")[0].classList.remove("expand");
         }
 
         this.props.requestMessages(this.props.inputType, this.props.input.id).then(

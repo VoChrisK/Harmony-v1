@@ -1084,7 +1084,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _server_sidebar_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../server/sidebar_container */ "./frontend/components/server/sidebar_container.js");
 /* harmony import */ var _modal_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modal */ "./frontend/components/modal/modal.jsx");
 /* harmony import */ var _main_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./main_content */ "./frontend/components/interface/main_content.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1102,7 +1101,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -1157,7 +1155,7 @@ function (_React$Component) {
   return Interface;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["withRouter"])(Interface));
+/* harmony default export */ __webpack_exports__["default"] = (Interface);
 
 /***/ }),
 
@@ -1175,16 +1173,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 
 
 
 
 
 
-var mapStateToProps = function mapStateToProps(state) {
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     servers: Object.values(state.entities.servers),
-    currentUserId: state.session.id
+    currentUserId: state.session.id,
+    server: state.entities.privateServers[ownProps.match.params.serverId],
+    channel: state.entities.channels[ownProps.match.params.channelId]
   };
 };
 
@@ -1202,7 +1204,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_interface__WEBPACK_IMPORTED_MODULE_1__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_interface__WEBPACK_IMPORTED_MODULE_1__["default"])));
 
 /***/ }),
 
@@ -1280,7 +1282,6 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       if (!this.props.channel && !this.props.server) return null;
-      if (this.props.server && Object.keys(this.props.users).length === 0) return null;
       return this.renderContent();
     }
   }, {
@@ -1288,6 +1289,7 @@ function (_React$Component) {
     value: function renderUserInfo() {
       var _this = this;
 
+      if (Object.keys(this.props.users).length === 0) return null;
       var index = this.props.server.userIds.filter(function (id) {
         return id != _this.props.currentUserId;
       })[0];
@@ -1415,6 +1417,8 @@ function (_React$Component) {
 
       if (this.props.inputType === "server") {
         document.getElementsByClassName("chat-container")[0].classList.add("expand");
+      } else {
+        document.getElementsByClassName("chat-container")[0].classList.remove("expand");
       }
 
       this.props.requestMessages(this.props.inputType, this.props.input.id).then(function () {
@@ -4046,6 +4050,7 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       if (!this.props.users) return null;
+      var onlineUsers = this.getOnlineUsers().length;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "users-list-container"
       }, this.getOnlineUsers().length > 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -4064,9 +4069,9 @@ function (_React$Component) {
         className: "offline-list"
       }, this.getOfflineUsers().map(function (user, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_index_item_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          key: idx,
+          key: idx + onlineUsers,
           user: user,
-          idx: idx
+          idx: idx + onlineUsers
         });
       })));
     }
@@ -4188,7 +4193,9 @@ function (_React$Component) {
   _createClass(UserIndexItem, [{
     key: "showDropdown",
     value: function showDropdown() {
-      document.getElementsByClassName("user-dropdown")[this.props.idx].classList.toggle("is-showing");
+      if (this.props.user.id !== this.props.currentUser.id) {
+        document.getElementsByClassName("user-dropdown")[this.props.idx].classList.toggle("is-showing");
+      }
     }
   }, {
     key: "handleMessage",
@@ -4245,11 +4252,14 @@ function (_React$Component) {
         className: "discord-icon",
         src: discordIcon,
         alt: ""
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "username"
+      }, user.username)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "dropdown-section-2"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "view-user-profile"
       }, "View Profile"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "direct-message-input",
         onSubmit: this.handlePrivateServer.bind(this)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
