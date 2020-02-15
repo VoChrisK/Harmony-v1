@@ -1,6 +1,7 @@
 import React from 'react';
 import MessageIndexContainer from './../message/message_index_container';
 import UserIndexContainer from './../user/user_index_container';
+import FriendIndexContainer from './../friend/friend_index_container';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -32,7 +33,18 @@ class MainContent extends React.Component {
         if((!this.props.channel && !this.props.server)) return null;
         if (this.props.server && Object.keys(this.props.users).length === 0) return null;
 
-        return this.renderContent();
+        const { server, channel } = this.props;
+
+        return (
+            <main className="main-content">
+                <header className="channel-header">
+                    {channel ? <i className="fa fa-hashtag"></i> : server ? <i className="fas fa-at"></i> : "" }
+                    {channel ? <h1 className="channel-name-header">{channel.name}</h1> : server ? this.renderUserInfo() : "" }
+                </header>
+                {this.renderMainContent()}
+                {this.renderUserIndex()}
+            </main>
+        )
     }
 
     renderUserInfo() {
@@ -46,29 +58,29 @@ class MainContent extends React.Component {
         )
     }
 
-    renderContent() {
-        const { server, channel } = this.props;
-    
-        if(this.props.match.path === "/servers/@me") {
-            return ( 
-                <main className="main-content home">
-                    <header className="channel-header"></header>
-                    <h1 className="poor-wumpus">No one's around to play with wumpus</h1>
-                </main> 
-            )
+    renderMainContent() {
+        const privateServerRegex = /\/servers\/@me\/?[0-9]*/g;
+        const homeRegex = /\/servers\/@me\/?/g;
+        const path = this.props.location.pathname;
+
+        console.log(path.match(homeRegex));
+        if (Boolean(path.match(privateServerRegex))) {
+            return <MessageIndexContainer input={this.props.server} inputType="server" /> 
+        } else if (Boolean(path.match(homeRegex))) {
+            return <FriendIndexContainer />
         } else {
-            const regex = /\/servers\/@me\/?[0-9]*/g;
-            const path = this.props.location.pathname;
-            return (
-                <main className="main-content">
-                    <header className="channel-header">
-                        {channel ? <i className="fa fa-hashtag"></i> : <i className="fas fa-at"></i> }
-                        {channel ? <h1 className="channel-name-header">{channel.name}</h1> : this.renderUserInfo() }
-                    </header>
-                    {Boolean(path.match(regex)) ? <MessageIndexContainer input={server} inputType="server" /> : <MessageIndexContainer input={channel} inputType="channel" /> }
-                    {Boolean(path.match(regex)) ? null : <UserIndexContainer /> }
-                </main>
-            )
+            return <MessageIndexContainer input={this.props.channel} inputType="channel" />
+        }
+    }
+
+    renderUserIndex() {
+        const regex = /\/servers\/@me\/?[0-9]*/g;
+        const path = this.props.location.pathname;
+
+        if (Boolean(path.match(regex))) {
+            return null;
+        } else {
+            return <UserIndexContainer /> 
         }
     }
 }
