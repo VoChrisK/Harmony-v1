@@ -60,7 +60,6 @@ class MainContent extends React.Component {
         const homeRegex = /\/servers\/@me\/?/g;
         const path = this.props.location.pathname;
 
-        console.log(path.match(homeRegex));
         if (Boolean(path.match(privateServerRegex))) {
             return <MessageIndexContainer inputType="server" /> 
         } else if (Boolean(path.match(homeRegex))) {

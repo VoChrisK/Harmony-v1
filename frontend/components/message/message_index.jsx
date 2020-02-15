@@ -19,63 +19,50 @@ class MessageIndex extends React.Component {
         //     document.getElementsByClassName("chat-container")[0].classList.remove("expand");
         // }
 
-        let processForm;
-        if(this.props.inputType === "server") {
-            processForm = this.props.requestDirectMessages
-        } else {
-            processForm = this.props.requestChannelMessages
-        }
-
-        processForm(this.props.input.id).then(
-            () => {
-                App.cable.subscriptions.create(
-                    { channel: "ChannelChannel" },
-                    {
-                        received: data => {
-                            let messages;
-                            if(data.method === "create") {
-                                this.setState({ messages: this.state.messages.concat(data.message) });
-                            }
-                            else if(data.method === "update") {
-                                messages = this.state.messages.map(message => message.id === data.message.id ? data.message : message);
-                                this.setState({ messages: messages })
-                            } 
-                            else if(data.method === "delete") {
-                                messages = this.state.messages.filter(message => message.id !== data.message.id);
-                                this.setState({ messages: messages })
-                            }
-            
-                            document.getElementById("chat-log").lastChild.scrollIntoView();
-                            
-                        },
-                        speak: function (data) {
-                            return this.perform("speak", data);
-                        }
+        App.cable.subscriptions.create(
+            { channel: "ChannelChannel" },
+            {
+                received: data => {
+                    let messages;
+                    if(data.method === "create") {
+                        this.setState({ messages: this.state.messages.concat(data.message) });
                     }
-                );
-
-
-                this.setState({ messages: this.props.messages })
-            }
-        );
+                    else if(data.method === "update") {
+                        messages = this.state.messages.map(message => message.id === data.message.id ? data.message : message);
+                        this.setState({ messages: messages })
+                    } 
+                    else if(data.method === "delete") {
+                        messages = this.state.messages.filter(message => message.id !== data.message.id);
+                        this.setState({ messages: messages })
+                    }
+    
+                    document.getElementById("chat-log").lastChild.scrollIntoView();
+                    
+                },
+                speak: function (data) {
+                    return this.perform("speak", data);
+                }
+            });
 
         // document.getElementById("chat-log").style.background = `url(${discordChat2}) no-repeat bottom left, url(${discordChat1}) no-repeat bottom right`
     }
 
     componentDidUpdate(preProps) {
-        if(this.props.input.id !== preProps.input.id) {
-            let processForm;
-            if (this.props.inputType === "server") {
-                processForm = this.props.requestDirectMessages
-            } else {
-                processForm = this.props.requestChannelMessages
-            }
-
-            processForm(this.props.input.id).then(
-                () => {
-                    this.setState({ messages: this.props.messages })
+        if(this.props.input) {
+            if(!preProps.input || this.props.input.id !== preProps.input.id) {
+                let processForm;
+                if (this.props.inputType === "server") {
+                    processForm = this.props.requestDirectMessages
+                } else {
+                    processForm = this.props.requestChannelMessages
                 }
-            );
+    
+                processForm(this.props.input.id).then(
+                    () => {
+                        this.setState({ messages: this.props.messages })
+                    }
+                );
+            }
         }
     }
 

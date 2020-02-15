@@ -1267,15 +1267,9 @@ function (_React$Component) {
   _inherits(Interface, _React$Component);
 
   function Interface(props) {
-    var _this;
-
     _classCallCheck(this, Interface);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Interface).call(this, props));
-    _this.state = {
-      isLoaded: false
-    };
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(Interface).call(this, props));
   }
 
   _createClass(Interface, [{
@@ -1301,22 +1295,13 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       if (!this.props.currentUserId) return null;
-      console.log(this.state.isLoaded);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "home-interface"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modal_modal__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_server_index__WEBPACK_IMPORTED_MODULE_1__["default"], {
         servers: this.props.servers,
         optionsModal: this.props.optionsModal
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_sidebar_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        onLoad: function onLoad(event) {
-          return _this2.setState({
-            isLoaded: true
-          });
-        }
-      }), this.state.isLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_main_content__WEBPACK_IMPORTED_MODULE_4__["default"], null) : null);
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_sidebar_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_main_content__WEBPACK_IMPORTED_MODULE_4__["default"], null));
     }
   }]);
 
@@ -1487,7 +1472,6 @@ function (_React$Component) {
       var privateServerRegex = /\/servers\/@me\/?[0-9]*/g;
       var homeRegex = /\/servers\/@me\/?/g;
       var path = this.props.location.pathname;
-      console.log(path.match(homeRegex));
 
       if (Boolean(path.match(privateServerRegex))) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_message_index_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -1596,53 +1580,39 @@ function (_React$Component) {
       // } else {
       //     document.getElementsByClassName("chat-container")[0].classList.remove("expand");
       // }
-      var processForm;
+      App.cable.subscriptions.create({
+        channel: "ChannelChannel"
+      }, {
+        received: function received(data) {
+          var messages;
 
-      if (this.props.inputType === "server") {
-        processForm = this.props.requestDirectMessages;
-      } else {
-        processForm = this.props.requestChannelMessages;
-      }
+          if (data.method === "create") {
+            _this2.setState({
+              messages: _this2.state.messages.concat(data.message)
+            });
+          } else if (data.method === "update") {
+            messages = _this2.state.messages.map(function (message) {
+              return message.id === data.message.id ? data.message : message;
+            });
 
-      processForm(this.props.input.id).then(function () {
-        App.cable.subscriptions.create({
-          channel: "ChannelChannel"
-        }, {
-          received: function received(data) {
-            var messages;
+            _this2.setState({
+              messages: messages
+            });
+          } else if (data.method === "delete") {
+            messages = _this2.state.messages.filter(function (message) {
+              return message.id !== data.message.id;
+            });
 
-            if (data.method === "create") {
-              _this2.setState({
-                messages: _this2.state.messages.concat(data.message)
-              });
-            } else if (data.method === "update") {
-              messages = _this2.state.messages.map(function (message) {
-                return message.id === data.message.id ? data.message : message;
-              });
-
-              _this2.setState({
-                messages: messages
-              });
-            } else if (data.method === "delete") {
-              messages = _this2.state.messages.filter(function (message) {
-                return message.id !== data.message.id;
-              });
-
-              _this2.setState({
-                messages: messages
-              });
-            }
-
-            document.getElementById("chat-log").lastChild.scrollIntoView();
-          },
-          speak: function speak(data) {
-            return this.perform("speak", data);
+            _this2.setState({
+              messages: messages
+            });
           }
-        });
 
-        _this2.setState({
-          messages: _this2.props.messages
-        });
+          document.getElementById("chat-log").lastChild.scrollIntoView();
+        },
+        speak: function speak(data) {
+          return this.perform("speak", data);
+        }
       }); // document.getElementById("chat-log").style.background = `url(${discordChat2}) no-repeat bottom left, url(${discordChat1}) no-repeat bottom right`
     }
   }, {
@@ -1650,20 +1620,22 @@ function (_React$Component) {
     value: function componentDidUpdate(preProps) {
       var _this3 = this;
 
-      if (this.props.input.id !== preProps.input.id) {
-        var processForm;
+      if (this.props.input) {
+        if (!preProps.input || this.props.input.id !== preProps.input.id) {
+          var processForm;
 
-        if (this.props.inputType === "server") {
-          processForm = this.props.requestDirectMessages;
-        } else {
-          processForm = this.props.requestChannelMessages;
-        }
+          if (this.props.inputType === "server") {
+            processForm = this.props.requestDirectMessages;
+          } else {
+            processForm = this.props.requestChannelMessages;
+          }
 
-        processForm(this.props.input.id).then(function () {
-          _this3.setState({
-            messages: _this3.props.messages
+          processForm(this.props.input.id).then(function () {
+            _this3.setState({
+              messages: _this3.props.messages
+            });
           });
-        });
+        }
       }
     }
   }, {

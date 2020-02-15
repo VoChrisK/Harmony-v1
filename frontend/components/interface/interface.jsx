@@ -7,9 +7,6 @@ import MainContent from './main_content';
 class Interface extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isLoaded: false
-        }
     }
 
     componentDidMount() {
@@ -34,13 +31,12 @@ class Interface extends React.Component {
     
     render() {
         if(!this.props.currentUserId) return null;
-        console.log(this.state.isLoaded);
         return (
             <div className="home-interface">
                 <Modal />
                 <ServerIndex servers={this.props.servers} optionsModal={this.props.optionsModal} />
-                <SidebarContainer onLoad={event => this.setState({ isLoaded: true })} />
-                {this.state.isLoaded ? <MainContent /> : null }
+                <SidebarContainer />
+                <MainContent />
             </div>
         );
     }
