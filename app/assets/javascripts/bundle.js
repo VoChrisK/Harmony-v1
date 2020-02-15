@@ -1282,6 +1282,7 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       if (!this.props.channel && !this.props.server) return null;
+      if (this.props.server && Object.keys(this.props.users).length === 0) return null;
       return this.renderContent();
     }
   }, {
@@ -1289,7 +1290,6 @@ function (_React$Component) {
     value: function renderUserInfo() {
       var _this = this;
 
-      if (Object.keys(this.props.users).length === 0) return null;
       var index = this.props.server.userIds.filter(function (id) {
         return id != _this.props.currentUserId;
       })[0];

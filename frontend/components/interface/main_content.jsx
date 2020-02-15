@@ -30,12 +30,12 @@ class MainContent extends React.Component {
 
     render() {
         if((!this.props.channel && !this.props.server)) return null;
+        if (this.props.server && Object.keys(this.props.users).length === 0) return null;
 
         return this.renderContent();
     }
 
     renderUserInfo() {
-        if (Object.keys(this.props.users).length === 0) return null;
         const index = this.props.server.userIds.filter(id => id != this.props.currentUserId)[0];
         const otherUser = this.props.users[index];
         return (

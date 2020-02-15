@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :messages, only: [:index, :create, :update, :destroy]
     resources :channel_messages, only: [:create]
     resources :direct_messages, only: [:index, :create]
+    resources :friends, only: [:index, :create, :destroy]
   end
 
   root to: "static_pages#root"
