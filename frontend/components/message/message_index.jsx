@@ -13,13 +13,20 @@ class MessageIndex extends React.Component {
     }
 
     componentDidMount() {
+        // if(this.props.inputType === "server") {
+        //     document.getElementsByClassName("chat-container")[0].classList.add("expand");
+        // } else {
+        //     document.getElementsByClassName("chat-container")[0].classList.remove("expand");
+        // }
+
+        let processForm;
         if(this.props.inputType === "server") {
-            document.getElementsByClassName("chat-container")[0].classList.add("expand");
+            processForm = this.props.requestDirectMessages
         } else {
-            document.getElementsByClassName("chat-container")[0].classList.remove("expand");
+            processForm = this.props.requestChannelMessages
         }
 
-        this.props.requestMessages(this.props.inputType, this.props.input.id).then(
+        processForm(this.props.input.id).then(
             () => {
                 App.cable.subscriptions.create(
                     { channel: "ChannelChannel" },
@@ -52,12 +59,19 @@ class MessageIndex extends React.Component {
             }
         );
 
-        document.getElementById("chat-log").style.background = `url(${discordChat2}) no-repeat bottom left, url(${discordChat1}) no-repeat bottom right`
+        // document.getElementById("chat-log").style.background = `url(${discordChat2}) no-repeat bottom left, url(${discordChat1}) no-repeat bottom right`
     }
 
     componentDidUpdate(preProps) {
         if(this.props.input.id !== preProps.input.id) {
-            this.props.requestMessages(this.props.inputType, this.props.input.id).then(
+            let processForm;
+            if (this.props.inputType === "server") {
+                processForm = this.props.requestDirectMessages
+            } else {
+                processForm = this.props.requestChannelMessages
+            }
+
+            processForm(this.props.input.id).then(
                 () => {
                     this.setState({ messages: this.props.messages })
                 }
@@ -87,7 +101,8 @@ class MessageIndex extends React.Component {
     }
 
     render() {
-        const { input, inputType } = this.props;
+        if(!this.props.input) return null;
+        if(this.props.input && Object.keys(this.props.users).length === 0) return null;
 
         return (
             <section className="chat-container">
@@ -99,7 +114,7 @@ class MessageIndex extends React.Component {
                 </section>
 
                 <form className="message-input-container" onSubmit={this.handleSubmit.bind(this)}>
-                    <input type="text" className="message-input" placeholder={`message ${inputType === "channel" ? "#" + input.name : this.renderUsername() }`} value={this.state.body} onChange={this.handleBody.bind(this)} />
+                    <input type="text" className="message-input" placeholder={`message ${this.props.inputType === "channel" ? "#" + this.props.input.name : this.renderUsername() }`} value={this.state.body} onChange={this.handleBody.bind(this)} />
                 </form>
 
             </section>

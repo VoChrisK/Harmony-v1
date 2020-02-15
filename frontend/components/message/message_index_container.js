@@ -1,21 +1,21 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import MessageIndex from './message_index';
-import { requestMessages, createMessage } from './../../actions/message_actions';
+import { createMessage, requestChannelMessages, requestDirectMessages } from './../../actions/message_actions';
 
 const mapStateToProps = (state, ownProps) => {
     return ({
         messages: Object.values(state.entities.messages),
         currentUserId: state.session.id,
-        input: ownProps.input,
-        inputType: ownProps.inputType,
-        users: state.entities.users
+        users: state.entities.users,
+        input: ownProps.inputType === "server" ? state.entities.privateServers[ownProps.match.params.serverId] : state.entities.channels[ownProps.match.params.channelId]
     })
 }
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        requestMessages: (input, inputId) => dispatch(requestMessages(input, inputId)),
+        requestChannelMessages: channelId => dispatch(requestChannelMessages(channelId)),
+        requestDirectMessages: serverId => dispatch(requestDirectMessages(serverId)),
         createMessage: message => dispatch(createMessage(message))
     });
 };

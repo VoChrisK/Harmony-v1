@@ -30,16 +30,13 @@ class MainContent extends React.Component {
     }
 
     render() {
-        if((!this.props.channel && !this.props.server)) return null;
-        if (this.props.server && Object.keys(this.props.users).length === 0) return null;
-
         const { server, channel } = this.props;
 
         return (
             <main className="main-content">
                 <header className="channel-header">
                     {channel ? <i className="fa fa-hashtag"></i> : server ? <i className="fas fa-at"></i> : "" }
-                    {channel ? <h1 className="channel-name-header">{channel.name}</h1> : server ? this.renderUserInfo() : "" }
+                    {channel ? <h1 className="channel-name-header">{channel.name}</h1> : server ? "" : "" }
                 </header>
                 {this.renderMainContent()}
                 {this.renderUserIndex()}
@@ -65,11 +62,11 @@ class MainContent extends React.Component {
 
         console.log(path.match(homeRegex));
         if (Boolean(path.match(privateServerRegex))) {
-            return <MessageIndexContainer input={this.props.server} inputType="server" /> 
+            return <MessageIndexContainer inputType="server" /> 
         } else if (Boolean(path.match(homeRegex))) {
             return <FriendIndexContainer />
         } else {
-            return <MessageIndexContainer input={this.props.channel} inputType="channel" />
+            return <MessageIndexContainer inputType="channel" />
         }
     }
 

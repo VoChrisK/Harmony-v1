@@ -1,6 +1,7 @@
 class Api::DirectMessagesController < ApplicationController
     def index
-        
+        @messages = Server.includes(:messages).find(params[:direct_message][:server_id]).messages
+        render 'message/index'
     end
 
     def create

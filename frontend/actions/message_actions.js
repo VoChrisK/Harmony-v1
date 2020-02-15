@@ -1,4 +1,6 @@
 import * as MessageApiUtil from './../util/message_api_util';
+import { fetchChannelMessages } from './../util/channel_message_api_util';
+import { fetchDirectMessages } from './../util/direct_message_api_util';
 
 const receiveMessages = messages => {
     return ({
@@ -23,6 +25,18 @@ const removeMessage = messageId => {
 
 export const requestMessages = (input, inputId) => dispatch => {
     return MessageApiUtil.fetchMessages(input, inputId).then(
+        messages => dispatch(receiveMessages(messages))
+    );
+};
+
+export const requestChannelMessages = (channelId) => dispatch => {
+    return fetchChannelMessages(channelId).then(
+        messages => dispatch(receiveMessages(messages))
+    );
+};
+
+export const requestDirectMessages = (serverId) => dispatch => {
+    return fetchDirectMessages(serverId).then(
         messages => dispatch(receiveMessages(messages))
     );
 };

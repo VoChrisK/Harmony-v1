@@ -221,12 +221,14 @@ var RECEIVE_FRIEND = "RECEIVE_FRIEND";
 /*!*********************************************!*\
   !*** ./frontend/actions/message_actions.js ***!
   \*********************************************/
-/*! exports provided: requestMessages, createMessage, updateMessage, deleteMessage, RECEIVE_MESSAGES, RECEIVE_MESSAGE, REMOVE_MESSAGE */
+/*! exports provided: requestMessages, requestChannelMessages, requestDirectMessages, createMessage, updateMessage, deleteMessage, RECEIVE_MESSAGES, RECEIVE_MESSAGE, REMOVE_MESSAGE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestMessages", function() { return requestMessages; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestChannelMessages", function() { return requestChannelMessages; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestDirectMessages", function() { return requestDirectMessages; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createMessage", function() { return createMessage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMessage", function() { return updateMessage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMessage", function() { return deleteMessage; });
@@ -234,6 +236,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_MESSAGE", function() { return RECEIVE_MESSAGE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_MESSAGE", function() { return REMOVE_MESSAGE; });
 /* harmony import */ var _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../util/message_api_util */ "./frontend/util/message_api_util.js");
+/* harmony import */ var _util_channel_message_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../util/channel_message_api_util */ "./frontend/util/channel_message_api_util.js");
+/* harmony import */ var _util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../util/direct_message_api_util */ "./frontend/util/direct_message_api_util.js");
+
+
 
 
 var receiveMessages = function receiveMessages(messages) {
@@ -260,6 +266,20 @@ var removeMessage = function removeMessage(messageId) {
 var requestMessages = function requestMessages(input, inputId) {
   return function (dispatch) {
     return _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchMessages"](input, inputId).then(function (messages) {
+      return dispatch(receiveMessages(messages));
+    });
+  };
+};
+var requestChannelMessages = function requestChannelMessages(channelId) {
+  return function (dispatch) {
+    return Object(_util_channel_message_api_util__WEBPACK_IMPORTED_MODULE_1__["fetchChannelMessages"])(channelId).then(function (messages) {
+      return dispatch(receiveMessages(messages));
+    });
+  };
+};
+var requestDirectMessages = function requestDirectMessages(serverId) {
+  return function (dispatch) {
+    return Object(_util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_2__["fetchDirectMessages"])(serverId).then(function (messages) {
       return dispatch(receiveMessages(messages));
     });
   };
@@ -1247,9 +1267,15 @@ function (_React$Component) {
   _inherits(Interface, _React$Component);
 
   function Interface(props) {
+    var _this;
+
     _classCallCheck(this, Interface);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Interface).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Interface).call(this, props));
+    _this.state = {
+      isLoaded: false
+    };
+    return _this;
   }
 
   _createClass(Interface, [{
@@ -1275,13 +1301,22 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       if (!this.props.currentUserId) return null;
+      console.log(this.state.isLoaded);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "home-interface"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modal_modal__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_server_index__WEBPACK_IMPORTED_MODULE_1__["default"], {
         servers: this.props.servers,
         optionsModal: this.props.optionsModal
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_sidebar_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_main_content__WEBPACK_IMPORTED_MODULE_4__["default"], null));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_sidebar_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        onLoad: function onLoad(event) {
+          return _this2.setState({
+            isLoaded: true
+          });
+        }
+      }), this.state.isLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_main_content__WEBPACK_IMPORTED_MODULE_4__["default"], null) : null);
     }
   }]);
 
@@ -1416,8 +1451,6 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      if (!this.props.channel && !this.props.server) return null;
-      if (this.props.server && Object.keys(this.props.users).length === 0) return null;
       var _this$props = this.props,
           server = _this$props.server,
           channel = _this$props.channel;
@@ -1431,7 +1464,7 @@ function (_React$Component) {
         className: "fas fa-at"
       }) : "", channel ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "channel-name-header"
-      }, channel.name) : server ? this.renderUserInfo() : ""), this.renderMainContent(), this.renderUserIndex());
+      }, channel.name) : server ? "" : ""), this.renderMainContent(), this.renderUserIndex());
     }
   }, {
     key: "renderUserInfo",
@@ -1458,14 +1491,12 @@ function (_React$Component) {
 
       if (Boolean(path.match(privateServerRegex))) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_message_index_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          input: this.props.server,
           inputType: "server"
         });
       } else if (Boolean(path.match(homeRegex))) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_friend_friend_index_container__WEBPACK_IMPORTED_MODULE_3__["default"], null);
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_message_index_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          input: this.props.channel,
           inputType: "channel"
         });
       }
@@ -1560,13 +1591,20 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      // if(this.props.inputType === "server") {
+      //     document.getElementsByClassName("chat-container")[0].classList.add("expand");
+      // } else {
+      //     document.getElementsByClassName("chat-container")[0].classList.remove("expand");
+      // }
+      var processForm;
+
       if (this.props.inputType === "server") {
-        document.getElementsByClassName("chat-container")[0].classList.add("expand");
+        processForm = this.props.requestDirectMessages;
       } else {
-        document.getElementsByClassName("chat-container")[0].classList.remove("expand");
+        processForm = this.props.requestChannelMessages;
       }
 
-      this.props.requestMessages(this.props.inputType, this.props.input.id).then(function () {
+      processForm(this.props.input.id).then(function () {
         App.cable.subscriptions.create({
           channel: "ChannelChannel"
         }, {
@@ -1605,8 +1643,7 @@ function (_React$Component) {
         _this2.setState({
           messages: _this2.props.messages
         });
-      });
-      document.getElementById("chat-log").style.background = "url(".concat(discordChat2, ") no-repeat bottom left, url(").concat(discordChat1, ") no-repeat bottom right");
+      }); // document.getElementById("chat-log").style.background = `url(${discordChat2}) no-repeat bottom left, url(${discordChat1}) no-repeat bottom right`
     }
   }, {
     key: "componentDidUpdate",
@@ -1614,7 +1651,15 @@ function (_React$Component) {
       var _this3 = this;
 
       if (this.props.input.id !== preProps.input.id) {
-        this.props.requestMessages(this.props.inputType, this.props.input.id).then(function () {
+        var processForm;
+
+        if (this.props.inputType === "server") {
+          processForm = this.props.requestDirectMessages;
+        } else {
+          processForm = this.props.requestChannelMessages;
+        }
+
+        processForm(this.props.input.id).then(function () {
           _this3.setState({
             messages: _this3.props.messages
           });
@@ -1658,9 +1703,8 @@ function (_React$Component) {
     value: function render() {
       var _this5 = this;
 
-      var _this$props = this.props,
-          input = _this$props.input,
-          inputType = _this$props.inputType;
+      if (!this.props.input) return null;
+      if (this.props.input && Object.keys(this.props.users).length === 0) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "chat-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -1678,7 +1722,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "message-input",
-        placeholder: "message ".concat(inputType === "channel" ? "#" + input.name : this.renderUsername()),
+        placeholder: "message ".concat(this.props.inputType === "channel" ? "#" + this.props.input.name : this.renderUsername()),
         value: this.state.body,
         onChange: this.handleBody.bind(this)
       })));
@@ -1725,16 +1769,18 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     messages: Object.values(state.entities.messages),
     currentUserId: state.session.id,
-    input: ownProps.input,
-    inputType: ownProps.inputType,
-    users: state.entities.users
+    users: state.entities.users,
+    input: ownProps.inputType === "server" ? state.entities.privateServers[ownProps.match.params.serverId] : state.entities.channels[ownProps.match.params.channelId]
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    requestMessages: function requestMessages(input, inputId) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["requestMessages"])(input, inputId));
+    requestChannelMessages: function requestChannelMessages(channelId) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["requestChannelMessages"])(channelId));
+    },
+    requestDirectMessages: function requestDirectMessages(serverId) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["requestDirectMessages"])(serverId));
     },
     createMessage: function createMessage(message) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["createMessage"])(message));
@@ -5085,12 +5131,24 @@ var deleteChannel = function deleteChannel(channelId) {
 /*!***************************************************!*\
   !*** ./frontend/util/channel_message_api_util.js ***!
   \***************************************************/
-/*! exports provided: createChannelMessage */
+/*! exports provided: fetchChannelMessages, createChannelMessage */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchChannelMessages", function() { return fetchChannelMessages; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createChannelMessage", function() { return createChannelMessage; });
+var fetchChannelMessages = function fetchChannelMessages(channelId) {
+  return $.ajax({
+    method: "GET",
+    url: "api/channel_messages",
+    data: {
+      channel_message: {
+        channel_id: channelId
+      }
+    }
+  });
+};
 var createChannelMessage = function createChannelMessage(messageId, channelId) {
   return $.ajax({
     method: "POST",
@@ -5128,12 +5186,24 @@ var chooseColor = function chooseColor(userId) {
 /*!**************************************************!*\
   !*** ./frontend/util/direct_message_api_util.js ***!
   \**************************************************/
-/*! exports provided: createDirectMessage */
+/*! exports provided: fetchDirectMessages, createDirectMessage */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchDirectMessages", function() { return fetchDirectMessages; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createDirectMessage", function() { return createDirectMessage; });
+var fetchDirectMessages = function fetchDirectMessages(serverId) {
+  return $.ajax({
+    method: "GET",
+    url: "api/direct_messages",
+    data: {
+      direct_message: {
+        server_id: serverId
+      }
+    }
+  });
+};
 var createDirectMessage = function createDirectMessage(messageId, serverId) {
   return $.ajax({
     method: "POST",

@@ -1,3 +1,15 @@
+export const fetchChannelMessages = (channelId) => {
+    return $.ajax({
+        method: "GET",
+        url: "api/channel_messages",
+        data: {
+            channel_message: {
+                channel_id: channelId
+            }
+        }
+    })
+}
+
 export const createChannelMessage = (messageId, channelId) => {
     return $.ajax({
         method: "POST",
