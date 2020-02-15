@@ -25,7 +25,7 @@ class Server < ApplicationRecord
     foreign_key: :server_id,
     class_name: 'DirectMessage'
 
-    has_many :private_messages,
+    has_many :messages,
     through: :direct_messages,
     source: :message
 end

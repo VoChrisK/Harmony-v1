@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import PrivateServerIndex from './private_server_index';
-import { requestPrivateServers } from '../../actions/server_actions';
-import { requestUsersByIds } from '../../actions/user_actions';
+import { requestPrivateServers } from './../../actions/server_actions';
+import { requestUsersByIds } from './../../actions/user_actions';
 
 const mapStateToProps = (state) => {
     return ({

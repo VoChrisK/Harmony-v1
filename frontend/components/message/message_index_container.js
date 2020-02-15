@@ -7,13 +7,14 @@ const mapStateToProps = (state, ownProps) => {
     return ({
         messages: Object.values(state.entities.messages),
         currentUserId: state.session.id,
-        channel: ownProps.channel
+        input: ownProps.input,
+        inputType: ownProps.inputType
     })
 }
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        requestMessages: channelId => dispatch(requestMessages(channelId)),
+        requestMessages: (input, inputId) => dispatch(requestMessages(input, inputId)),
         createMessage: message => dispatch(createMessage(message))
     });
 };

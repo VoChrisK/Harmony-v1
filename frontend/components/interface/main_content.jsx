@@ -29,11 +29,13 @@ class MainContent extends React.Component {
     }
 
     render() {
+        if(!this.props.channel && !this.props.server) return null;
+
         return this.renderContent();
     }
 
     renderContent() {
-        const { channel } = this.props;
+        const { server, channel } = this.props;
     
         if(this.props.match.path === "/servers/@me") {
             return ( 
@@ -43,14 +45,16 @@ class MainContent extends React.Component {
                 </main> 
             )
         } else {
+            const regex = /\/servers\/@me\/?[0-9]*/g;
+            const path = this.props.location.pathname;
             return (
                 <main className="main-content">
                     <header className="channel-header">
                         <i className="fa fa-hashtag"></i>
                         <h1 className="channel-name-header">{channel ? channel.name : ""}</h1>
                     </header>
-                    <MessageIndexContainer channel={channel} />
-                    <UserIndexContainer />
+                    {Boolean(path.match(regex)) ? <MessageIndexContainer input={server} inputType="server" /> : <MessageIndexContainer input={channel} inputType="channel" /> }
+                    {Boolean(path.match(regex)) ? null : <UserIndexContainer /> }
                 </main>
             )
         }
@@ -59,6 +63,7 @@ class MainContent extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return ({
+        server: state.entities.privateServers[ownProps.match.params.serverId],
         channel: state.entities.channels[ownProps.match.params.channelId]
     });
 };

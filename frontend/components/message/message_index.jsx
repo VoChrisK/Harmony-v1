@@ -1,6 +1,7 @@
 import React from 'react';
 import MessageIndexItemContainer from './message_index_item_container';
 import { createChannelMessage } from './../../util/channel_message_api_util';
+import { createDirectMessage } from './../../util/direct_message_api_util';
 
 class MessageIndex extends React.Component {
     constructor(props) {
@@ -12,7 +13,7 @@ class MessageIndex extends React.Component {
     }
 
     componentDidMount() {
-        this.props.requestMessages(this.props.match.params.channelId).then(
+        this.props.requestMessages(this.props.inputType, this.props.input.id).then(
             () => {
                 App.cable.subscriptions.create(
                     { channel: "ChannelChannel" },
@@ -49,8 +50,8 @@ class MessageIndex extends React.Component {
     }
 
     componentDidUpdate(preProps) {
-        if(this.props.match.params.channelId !== preProps.match.params.channelId) {
-            this.props.requestMessages(this.props.match.params.channelId).then(
+        if(this.props.input.id !== preProps.input.id) {
+            this.props.requestMessages(this.props.inputType, this.props.input.id).then(
                 () => {
                     this.setState({ messages: this.props.messages })
                 }
@@ -68,7 +69,11 @@ class MessageIndex extends React.Component {
         message["author_id"] = this.props.currentUserId;
         this.props.createMessage(message).then(
             newMessage => {
-                createChannelMessage(newMessage.message.id, this.props.match.params.channelId);
+                if(this.props.inputType === "channel") {
+                    createChannelMessage(newMessage.message.id, this.props.input.id);
+                } else {
+                    createDirectMessage(newMessage.message.id, this.props.input.id);
+                }
                 App.cable.subscriptions.subscriptions[0].speak({ message: newMessage.message, method: 'create' });
                 this.setState({ body: "" });
             }

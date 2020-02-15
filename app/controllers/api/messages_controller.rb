@@ -1,6 +1,12 @@
 class Api::MessagesController < ApplicationController
     def index
-        @messages = Channel.includes(:messages).find(params[:channel][:id]).messages
+        if !params[:channel].nil?
+            @messages = Channel.includes(:messages).find(params[:channel][:id]).messages
+        elsif !params[:server].nil?
+            @messages = Server.includes(:messages).find(params[:server][:id]).messages
+        else
+            @messages = {}
+        end
         render :index
     end
 

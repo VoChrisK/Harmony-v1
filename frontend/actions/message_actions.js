@@ -21,8 +21,8 @@ const removeMessage = messageId => {
     });
 };
 
-export const requestMessages = (channelId) => dispatch => {
-    return MessageApiUtil.fetchMessages(channelId).then(
+export const requestMessages = (input, inputId) => dispatch => {
+    return MessageApiUtil.fetchMessages(input, inputId).then(
         messages => dispatch(receiveMessages(messages))
     );
 };

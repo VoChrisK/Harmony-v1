@@ -1,4 +1,4 @@
-message_ids = server.private_messages.map { |message| message.id }
+message_ids = server.messages.map { |message| message.id }
 channel_ids = server.channels.map { |channel| channel.id }
 user_ids = server.users.map { |user| user.id }
 
