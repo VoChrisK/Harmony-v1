@@ -20,14 +20,9 @@ class User < ApplicationRecord
     through: :affiliations,
     source: :server
 
-    has_many :friends_1,
-    primary_key: :id,
-    foreign_key: :user_id_1,
-    class_name: "Friend"
-
     has_many :friends,
     primary_key: :id,
-    foreign_key: :user_id_2,
+    foreign_key: :user_id_1,
     class_name: "Friend"
 
     def self.find_by_credentials(email, password)

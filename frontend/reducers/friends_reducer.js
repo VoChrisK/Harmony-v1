@@ -8,7 +8,9 @@ const friendsReducer = (state = {}, action) => {
     let nextState;
     switch(action.type) {
         case RECEIVE_FRIENDS:
-            return Object.assign({}, action.friends);
+            nextState = {};
+            action.friends.forEach(friend => nextState[friend.id] = friend);
+            return nextState;
         case RECEIVE_FRIEND:
             nextState = Object.assign({}, state);
             nextState[action.friend.id] = action.friend;

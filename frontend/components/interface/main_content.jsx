@@ -10,26 +10,7 @@ class MainContent extends React.Component {
     constructor(props) {
         super(props);
     }
-
-    componentDidMount() {
-        if (document.getElementsByClassName("main-content home").length > 0) {
-            document.getElementsByClassName("main-content home")[0].style.background = `url(${wumpus}) no-repeat center center`;
-            document.getElementsByClassName("main-content home")[0].style.backgroundSize = '500px'; 
-            document.getElementsByClassName("main-content home")[0].style.backgroundColor = "#36393f";
-        }
-    }
-
-    componentDidUpdate() {
-        if (document.getElementsByClassName("main-content home").length > 0) {
-            document.getElementsByClassName("main-content home")[0].style.background = `url(${wumpus}) no-repeat center center`;
-            document.getElementsByClassName("main-content home")[0].style.backgroundSize = '500px';
-            document.getElementsByClassName("main-content home")[0].style.backgroundColor = "#36393f";
-        } 
-        else if (document.getElementsByClassName("main-content").length > 0) {
-            document.getElementsByClassName("main-content")[0].style.backgroundImage = "none";
-        }
-    }
-
+    
     render() {
         const { server, channel } = this.props;
 

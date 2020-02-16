@@ -64,6 +64,8 @@ aside::-webkit-scrollbar {
 
 .expand {
     width: 100%;
+    height: calc(100% - 48px);
+    overflow: auto;
 }
 
 #chat-log {

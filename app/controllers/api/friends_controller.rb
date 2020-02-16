@@ -1,15 +1,29 @@
 class Api::FriendsController < ApplicationController
     def index
-        @friends = User.includes(:friends_2).find(params[:friend][:user_id_1]).friends_2
+        user_friends = User.includes(:friends).find(params[:friend][:user_id_1]).friends
+        friends_indices = user_friends.map do |friend|
+            if friend[:user_id_1] != params[:friend][:user_id_1].to_i
+                friend[:user_id_1]
+            else
+                friend[:user_id_2]
+            end
+        end
+
+        @friends = User.where(:id => friends_indices)
         render json: @friends
     end
 
     def create
-        @friend = Friend.new(friend_params)
-        if @friend.save
+        new_friend = Friend.new(friend_params)
+        if new_friend.save
+            if new_friend[:user_id_1] != params[:friend][:user_id_1].to_i
+                @friend = User.where(id: new_friend[:user_id_1])
+            else
+                @friend = User.where(id: new_friend[:user_id_2])
+            end
             render json: @friend
         else
-            render json: @friend.errors.full_messages, status: 422
+            render json: new_friend.errors.full_messages, status: 422
         end
     end
 
