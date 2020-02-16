@@ -17,9 +17,9 @@ class Api::FriendsController < ApplicationController
         new_friend = Friend.new(friend_params)
         if new_friend.save
             if new_friend[:user_id_1] != params[:friend][:user_id_1].to_i
-                @friend = User.where(id: new_friend[:user_id_1])
+                @friend = User.where(id: new_friend[:user_id_1])[0]
             else
-                @friend = User.where(id: new_friend[:user_id_2])
+                @friend = User.where(id: new_friend[:user_id_2])[0]
             end
             render json: @friend
         else
@@ -27,10 +27,20 @@ class Api::FriendsController < ApplicationController
         end
     end
 
-    def destroy
-        @friend = Friend.find(params[:id])
-        @friend.destroy
-        render json: @friend
+    def find
+        removed_friend = Friend.find_by(user_id_1: params[:friend][:user_id_1], user_id_2: params[:friend][:user_id_2])
+
+        if removed_friend    
+            removed_friend.destroy
+            if removed_friend[:user_id_1] != params[:friend][:user_id_1].to_i
+                @friend = User.where(id: removed_friend[:user_id_1])[0]
+            else
+                @friend = User.where(id: removed_friend[:user_id_2])[0]
+            end
+            render json: @friend
+        else
+            render json: ["Cannot find friend"], status: 404
+        end
     end
 
     private

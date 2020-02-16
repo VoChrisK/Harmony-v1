@@ -39,7 +39,7 @@ class FriendIndex extends React.Component {
         return (
             <section className="expand">
                 {
-                    this.props.friends.map((friend, idx) => <FriendIndexItemContainer key={idx} friend={friend} />)
+                    this.props.friends.map((friend, idx) => <FriendIndexItemContainer key={idx} friend={friend} currentUserId={this.props.currentUserId} />)
                 }
             </section>
         )

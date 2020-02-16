@@ -172,15 +172,17 @@ var REMOVE_CHANNEL = "REMOVE_CHANNEL";
 /*!********************************************!*\
   !*** ./frontend/actions/friend_actions.js ***!
   \********************************************/
-/*! exports provided: requestFriends, createFriend, RECEIVE_FRIENDS, RECEIVE_FRIEND */
+/*! exports provided: requestFriends, createFriend, deleteFriend, RECEIVE_FRIENDS, RECEIVE_FRIEND, REMOVE_FRIEND */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestFriends", function() { return requestFriends; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createFriend", function() { return createFriend; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteFriend", function() { return deleteFriend; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_FRIENDS", function() { return RECEIVE_FRIENDS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_FRIEND", function() { return RECEIVE_FRIEND; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_FRIEND", function() { return REMOVE_FRIEND; });
 /* harmony import */ var _util_friends_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../util/friends_api_util */ "./frontend/util/friends_api_util.js");
 
 
@@ -194,6 +196,13 @@ var receiveFriends = function receiveFriends(friends) {
 var receiveFriend = function receiveFriend(friend) {
   return {
     type: "RECEIVE_FRIEND",
+    friend: friend
+  };
+};
+
+var removeFriend = function removeFriend(friend) {
+  return {
+    type: "REMOVE_FRIEND",
     friend: friend
   };
 };
@@ -212,8 +221,16 @@ var createFriend = function createFriend(user1, user2) {
     });
   };
 };
+var deleteFriend = function deleteFriend(userId1, userId2) {
+  return function (dispatch) {
+    return _util_friends_api_util__WEBPACK_IMPORTED_MODULE_0__["removeFriend"](userId1, userId2).then(function (friend) {
+      return dispatch(removeFriend(friend));
+    });
+  };
+};
 var RECEIVE_FRIENDS = "RECEIVE_FRIENDS";
 var RECEIVE_FRIEND = "RECEIVE_FRIEND";
+var REMOVE_FRIEND = "REMOVE_FRIEND";
 
 /***/ }),
 
@@ -1059,6 +1076,8 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this = this;
+
       if (this.props.friends.length === 0) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
           className: "expand home"
@@ -1072,7 +1091,8 @@ function (_React$Component) {
       }, this.props.friends.map(function (friend, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_friend_index_item_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: idx,
-          friend: friend
+          friend: friend,
+          currentUserId: _this.props.currentUserId
         });
       }));
     }
@@ -1169,11 +1189,15 @@ function (_React$Component) {
   _createClass(FriendIndexItem, [{
     key: "render",
     value: function render() {
-      var friend = this.props.friend;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "friend-container",
-        to: "#"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var _this = this;
+
+      var _this$props = this.props,
+          friend = _this$props.friend,
+          currentUserId = _this$props.currentUserId;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "friend-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "#",
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_2__["default"])(friend.id))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "discord-icon",
@@ -1186,6 +1210,9 @@ function (_React$Component) {
       }, friend.username), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "status"
       }, friend.status), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        onClick: function onClick() {
+          return _this.props.deleteFriend(currentUserId, friend.id);
+        },
         className: "fas fa-user-times"
       }));
     }
@@ -1209,6 +1236,8 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _friend_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./friend_index_item */ "./frontend/components/friend/friend_index_item.jsx");
+/* harmony import */ var _actions_friend_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/friend_actions */ "./frontend/actions/friend_actions.js");
+
 
 
 
@@ -1217,7 +1246,11 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    deleteFriend: function deleteFriend(userId1, userId2) {
+      return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_2__["deleteFriend"])(userId1, userId2));
+    }
+  };
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_friend_index_item__WEBPACK_IMPORTED_MODULE_1__["default"]));
@@ -5040,6 +5073,12 @@ var friendsReducer = function friendsReducer() {
       nextState[action.friend.id] = action.friend;
       return nextState;
 
+    case _actions_friend_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_FRIEND"]:
+      console.log(action.friend);
+      nextState = Object.assign({}, state);
+      delete nextState[action.friend.id];
+      return nextState;
+
     default:
       return state;
   }
@@ -5594,13 +5633,14 @@ var createDirectMessage = function createDirectMessage(messageId, serverId) {
 /*!*******************************************!*\
   !*** ./frontend/util/friends_api_util.js ***!
   \*******************************************/
-/*! exports provided: fetchFriends, createFriend */
+/*! exports provided: fetchFriends, createFriend, removeFriend */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchFriends", function() { return fetchFriends; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createFriend", function() { return createFriend; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeFriend", function() { return removeFriend; });
 var fetchFriends = function fetchFriends(userId) {
   return $.ajax({
     method: "GET",
@@ -5612,14 +5652,26 @@ var fetchFriends = function fetchFriends(userId) {
     }
   });
 };
-var createFriend = function createFriend(user_1, user_2) {
+var createFriend = function createFriend(user1, user2) {
   return $.ajax({
     method: "POST",
     url: "api/friends",
     data: {
       friend: {
-        user_id_1: user_1.id,
-        user_id_2: user_2.id
+        user_id_1: user1.id,
+        user_id_2: user2.id
+      }
+    }
+  });
+};
+var removeFriend = function removeFriend(userId1, userId2) {
+  return $.ajax({
+    method: "DELETE",
+    url: "api/friends/find",
+    data: {
+      friend: {
+        user_id_1: userId1,
+        user_id_2: userId2
       }
     }
   });
