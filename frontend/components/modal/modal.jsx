@@ -11,12 +11,13 @@ import DeleteChannelContainer from './delete_channel_container';
 import JoinServer from './join_server';
 import AddFriendContainer from './add_friend_container';
 import EditNameContainer from './edit_name_container';
+import UserProfile from './user_profile';
 
 const Modal = ({ modal, closeModal }) => {
     if (!modal) return null;
 
     let component;
-    switch (modal) {
+    switch (modal.action) {
         case 'options':
             component = <Options />;
             break;
@@ -46,6 +47,9 @@ const Modal = ({ modal, closeModal }) => {
             break;
         case 'addFriend':
             component = <AddFriendContainer />
+            break;
+        case 'userProfile':
+            component = <UserProfile user={modal.user} />
             break;
         default:
             return null;

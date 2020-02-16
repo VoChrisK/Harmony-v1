@@ -62,7 +62,7 @@ class UserIndexItem extends React.Component {
                     </section>
     
                     <section className="dropdown-section-2">
-                        <button className="view-user-profile">View Profile</button>
+                        <button onClick={() => this.props.userProfile(user)} className="view-user-profile">View Profile</button>
                         <form className="direct-message-input" onSubmit={ this.handlePrivateServer.bind(this) }>
                             <input type="text" className="form-input" autoComplete="off" placeholder={`message @${user.username}`} value={this.state.message} onChange={this.handleMessage.bind(this)} />
                         </form>

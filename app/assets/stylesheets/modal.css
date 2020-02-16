@@ -144,3 +144,9 @@
     height: 250px;
     background-color: #36393f;
 }
+
+.darker-modal {
+    width: 600px;
+    height: 400px;
+    background-color: #36393f;
+}

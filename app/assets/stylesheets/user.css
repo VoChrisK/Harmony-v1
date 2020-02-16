@@ -237,6 +237,34 @@
     border-bottom-right-radius: 10px;
 }
 
+.modal-section-1 {
+    display: flex;
+    align-items: center;
+    height: 35%;
+    background-color: #202225;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.modal-section-1 > .big.user-icon {
+    margin-left: 20px;
+}
+
+.modal-section-1 > h1 {
+    text-align: start;
+    font-size: 24px;
+    margin: 0 85px 0 20px;
+}
+
+.modal-section-2 {
+    height: 65%;
+    background-color: transparent;
+}
+
+.user-profile-container {
+    height: 100%;
+}
+
 .view-user-profile {
     width: 90%;
     margin: 0;
@@ -244,4 +272,11 @@
 
 .direct-message-input {
     width: 90%;
+}
+
+.message-button {
+    margin: 0;
+    border-radius: 7px;
+    width: 90px;
+    height: 25px;
 }

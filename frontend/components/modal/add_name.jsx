@@ -45,7 +45,7 @@ class AddName extends React.Component {
                     <label className="name-label form-label" htmlFor="edit-name-input">{this.props.formType === "editName" ? "EDIT NAME" : "ADD FRIEND"}</label>
                     <input type="text" id="edit-name-input" className="form-input" autoComplete="off" value={this.state.name} onChange={this.handleName.bind(this)} />
                 </div>
-                <input type="submit" value="Update" className="name-submit form-submit"/>
+                <input type="submit" value={this.props.formType === "editName" ? "Update" : "Add Friend"} className="name-submit form-submit"/>
             </form>
         );
     }

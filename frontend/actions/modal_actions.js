@@ -1,7 +1,8 @@
-export const openModal = modal => {
+export const openModal = (modal, user) => {
     return({
         type: "OPEN_MODAL",
-        modal
+        modal,
+        user
     });
 };
 

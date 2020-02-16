@@ -324,10 +324,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "closeModal", function() { return closeModal; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OPEN_MODAL", function() { return OPEN_MODAL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLOSE_MODAL", function() { return CLOSE_MODAL; });
-var openModal = function openModal(modal) {
+var openModal = function openModal(modal, user) {
   return {
     type: "OPEN_MODAL",
-    modal: modal
+    modal: modal,
+    user: user
   };
 };
 var closeModal = function closeModal() {
@@ -2160,7 +2161,7 @@ function (_React$Component) {
         onChange: this.handleName.bind(this)
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
-        value: "Update",
+        value: this.props.formType === "editName" ? "Update" : "Add Friend",
         className: "name-submit form-submit"
       }));
     }
@@ -2680,6 +2681,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _join_server__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./join_server */ "./frontend/components/modal/join_server.jsx");
 /* harmony import */ var _add_friend_container__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./add_friend_container */ "./frontend/components/modal/add_friend_container.js");
 /* harmony import */ var _edit_name_container__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./edit_name_container */ "./frontend/components/modal/edit_name_container.js");
+/* harmony import */ var _user_profile__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./user_profile */ "./frontend/components/modal/user_profile.jsx");
+
 
 
 
@@ -2700,7 +2703,7 @@ var Modal = function Modal(_ref) {
   if (!modal) return null;
   var component;
 
-  switch (modal) {
+  switch (modal.action) {
     case 'options':
       component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_options__WEBPACK_IMPORTED_MODULE_3__["default"], null);
       break;
@@ -2739,6 +2742,12 @@ var Modal = function Modal(_ref) {
 
     case 'addFriend':
       component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_add_friend_container__WEBPACK_IMPORTED_MODULE_11__["default"], null);
+      break;
+
+    case 'userProfile':
+      component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_profile__WEBPACK_IMPORTED_MODULE_13__["default"], {
+        user: modal.user
+      });
       break;
 
     default:
@@ -3211,6 +3220,134 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
+/***/ "./frontend/components/modal/user_profile.jsx":
+/*!****************************************************!*\
+  !*** ./frontend/components/modal/user_profile.jsx ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_friend_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/friend_actions */ "./frontend/actions/friend_actions.js");
+/* harmony import */ var _util_choose_color__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/choose_color */ "./frontend/util/choose_color.js");
+/* harmony import */ var _server_server_index_item__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../server/server_index_item */ "./frontend/components/server/server_index_item.jsx");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+
+
+
+var UserProfile =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(UserProfile, _React$Component);
+
+  function UserProfile(props) {
+    _classCallCheck(this, UserProfile);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(UserProfile).call(this, props));
+  }
+
+  _createClass(UserProfile, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      document.getElementsByClassName("modal-container")[0].classList.add("darker-modal");
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this = this;
+
+      var user = this.props.user;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-profile-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "modal-section-1"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "big user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_3__["default"])(user.id))
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "discord-icon",
+        src: discordIcon,
+        alt: ""
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "username"
+      }, user.username), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "add-friend"
+      }, "Add Friend"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "message-button"
+      }, "Message")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "modal-section-2"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Mutual Servers"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "mutual-servers"
+      }, user.serverIds.map(function (id, idx) {
+        return _this.renderServerIcon(id, idx);
+      }))));
+    }
+  }, {
+    key: "renderServerIcon",
+    value: function renderServerIcon(id, idx) {
+      var server = this.props.servers[id];
+
+      if (server) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_server_index_item__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          key: idx,
+          server: server,
+          closeModal: this.props.closeModal
+        });
+      } else {
+        return null;
+      }
+    }
+  }]);
+
+  return UserProfile;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    servers: state.entities.servers
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    createFriend: function createFriend(user1, user2) {
+      return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_2__["createFriend"])(user1, user2));
+    },
+    closeModal: function closeModal() {
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_5__["closeModal"])());
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(UserProfile));
+
+/***/ }),
+
 /***/ "./frontend/components/private_server/private_server_index.jsx":
 /*!*********************************************************************!*\
   !*** ./frontend/components/private_server/private_server_index.jsx ***!
@@ -3623,7 +3760,12 @@ function (_React$Component) {
   _createClass(ServerIndexItem, [{
     key: "render",
     value: function render() {
+      var _this = this;
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        onClick: Boolean(this.props.closeModal) ? function () {
+          return _this.props.closeModal();
+        } : null,
         className: "server-icon-container icon-container",
         to: "/servers/".concat(this.props.server.id, "/").concat(this.props.server.channelIds[0])
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -4516,6 +4658,8 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       var user = this.props.user;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.showDropdown.bind(this),
@@ -4545,6 +4689,9 @@ function (_React$Component) {
       }, user.username)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "dropdown-section-2"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick() {
+          return _this3.props.userProfile(user);
+        },
         className: "view-user-profile"
       }, "View Profile"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "direct-message-input",
@@ -4582,6 +4729,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _user_index_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user_index_item */ "./frontend/components/user/user_index_item.jsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.js");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+
 
 
 
@@ -4601,6 +4750,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     createMessage: function createMessage(message) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_4__["createMessage"])(message));
+    },
+    userProfile: function userProfile(userId) {
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_5__["openModal"])("userProfile", userId));
     }
   };
 };
@@ -4840,7 +4992,10 @@ var modalReducer = function modalReducer() {
 
   switch (action.type) {
     case _actions_modal_actions__WEBPACK_IMPORTED_MODULE_0__["OPEN_MODAL"]:
-      return action.modal;
+      return {
+        action: action.modal,
+        user: action.user
+      };
 
     case _actions_modal_actions__WEBPACK_IMPORTED_MODULE_0__["CLOSE_MODAL"]:
       return null;
