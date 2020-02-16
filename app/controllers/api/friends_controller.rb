@@ -1,4 +1,4 @@
-class FriendsController < ApplicationController
+class Api::FriendsController < ApplicationController
     def index
         @friends = User.includes(:friends_2).find(params[:friend][:user_id_1]).friends_2
         render json: @friends
@@ -6,7 +6,7 @@ class FriendsController < ApplicationController
 
     def create
         @friend = Friend.new(friend_params)
-        if @friends.save
+        if @friend.save
             render json: @friend
         else
             render json: @friend.errors.full_messages, status: 422

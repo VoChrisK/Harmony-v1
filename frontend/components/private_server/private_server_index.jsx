@@ -11,6 +11,7 @@ class PrivateServerIndex extends React.Component {
         this.props.requestPrivateServers(this.props.currentUserId).then(
             data => {
                 const userIds = Object.values(data.servers).map(server => server.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0]);
+                userIds.push(this.props.currentUserId);
                 this.props.requestUsersByIds(userIds);
             }
         );

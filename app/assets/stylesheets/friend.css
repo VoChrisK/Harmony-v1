@@ -1,0 +1,66 @@
+.fa.fa-user-friends {
+    font-size: 24px;    
+    margin: 0 14px 0 14px;
+}
+
+.friends-tab {
+    margin-top: 20px;
+}
+
+.friends-tab-header {
+    display: inline-block;
+    font-size: 18px;
+}
+
+.header.friends-tab {
+    margin-top: 0;
+}
+
+.friends-header {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: #8e9094;
+}
+
+.friends-header .fa.fa-user-friends {
+    font-size: 19px;
+}
+
+.friends-header h2 {
+    font-size: 20px;
+}
+
+.friends-header > li {
+    padding: 3px 10px;
+    margin: 0 15px;
+}
+
+.friends-header > li:not(:first-child):hover {
+    cursor: pointer;
+    border-radius: 7px;
+    background-color: #47494b;
+}
+
+.friends-header > li:first-child {
+    border-right: 1px solid #8e9094;
+    padding-right: 25px;
+    margin-right: 0;
+}
+
+.show-friends {
+    font-size: 20px;
+}
+
+.add-friend {
+    margin: 0 15px;
+    background-color: #4ace92;
+    border-radius: 7px;
+    width: 90px;
+    height: 25px;
+}
+
+.add-friend:hover {
+    background-color: #4ace92;
+    transition: none; 
+}

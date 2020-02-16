@@ -8,8 +8,9 @@ import CreateChannelContainer from './create_channel_container';
 import UpdateChannelContainer from './update_channel_container';
 import DeleteServerContainer from './delete_server_container';
 import DeleteChannelContainer from './delete_channel_container';
-import JoinServer from './../modal/join_server';
-import EditName from './../modal/edit_name';
+import JoinServer from './join_server';
+import AddFriendContainer from './add_friend_container';
+import EditNameContainer from './edit_name_container';
 
 const Modal = ({ modal, closeModal }) => {
     if (!modal) return null;
@@ -41,7 +42,10 @@ const Modal = ({ modal, closeModal }) => {
             component = <JoinServer />
             break;
         case 'editName':
-            component = <EditName />
+            component = <EditNameContainer />
+            break;
+        case 'addFriend':
+            component = <AddFriendContainer />
             break;
         default:
             return null;

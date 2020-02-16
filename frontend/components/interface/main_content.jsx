@@ -4,6 +4,7 @@ import UserIndexContainer from './../user/user_index_container';
 import FriendIndexContainer from './../friend/friend_index_container';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { openModal } from '../../actions/modal_actions';
 
 class MainContent extends React.Component {
     constructor(props) {
@@ -35,12 +36,29 @@ class MainContent extends React.Component {
         return (
             <main className="main-content">
                 <header className="channel-header">
-                    {channel ? <i className="fa fa-hashtag"></i> : server ? <i className="fas fa-at"></i> : "" }
+                    {channel ? <i className="fa fa-hashtag"></i> : server ? <i className="fas fa-at"></i> : this.renderFriendsHeader() }
                     {channel ? <h1 className="channel-name-header">{channel.name}</h1> : server ? "" : "" }
                 </header>
                 {this.renderMainContent()}
                 {this.renderUserIndex()}
             </main>
+        )
+    }
+
+    renderFriendsHeader() {
+        return (
+            <ul className="friends-header">
+                <li className="header friends-tab">
+                    <i className="fa fa-user-friends"></i>
+                    <h2 className="friends-tab-header">Friends</h2>
+                </li>
+
+                <li className="show-friends"><h1>Online</h1></li>
+
+                <li className="show-friends"><h1>All</h1></li>
+
+                <button onClick={() => this.props.addFriend()} className="add-friend">Add Friend</button>
+            </ul>
         )
     }
 
@@ -57,13 +75,13 @@ class MainContent extends React.Component {
 
     renderMainContent() {
         const privateServerRegex = /\/servers\/@me\/?[0-9]*/g;
-        const homeRegex = /\/servers\/@me\/?/g;
+        const homeRegex = /^\/servers\/@me\/?$/g;
         const path = this.props.location.pathname;
 
-        if (Boolean(path.match(privateServerRegex))) {
-            return <MessageIndexContainer inputType="server" /> 
-        } else if (Boolean(path.match(homeRegex))) {
+        if (Boolean(path.match(homeRegex))) {
             return <FriendIndexContainer />
+        } else if (Boolean(path.match(privateServerRegex))) {
+            return <MessageIndexContainer inputType="server" /> 
         } else {
             return <MessageIndexContainer inputType="channel" />
         }
@@ -90,4 +108,10 @@ const mapStateToProps = (state, ownProps) => {
     });
 };
 
-export default withRouter(connect(mapStateToProps, null)(MainContent));
+const mapDispatchToProps = (dispatch) => {
+    return ({
+        addFriend: () => dispatch(openModal("addFriend"))
+    })
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainContent));

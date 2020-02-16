@@ -245,17 +245,3 @@
 .direct-message-input {
     width: 90%;
 }
-
-.fa.fa-user-friends {
-    font-size: 24px;    
-    margin: 0 14px 0 14px;
-}
-
-.friends-tab {
-    margin-top: 20px;
-}
-
-.friends-tab-header {
-    display: inline-block;
-    font-size: 18px;
-}

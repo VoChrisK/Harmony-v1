@@ -5,7 +5,13 @@ class FriendIndex extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        this.props.requestFriends(this.props.currentUserId);
+    }
+
     render() {
+        if(this.props.friends.length === 0) return null;
+
         return (
             <section className="main-content">
                 <h1>hi</h1>
