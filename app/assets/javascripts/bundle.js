@@ -1615,7 +1615,7 @@ function (_React$Component) {
         className: "fas fa-at"
       }) : this.renderFriendsHeader(), channel ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "channel-name-header"
-      }, channel.name) : server ? "" : ""), this.renderMainContent(), this.renderUserIndex());
+      }, channel.name) : server ? this.renderUserInfo() : null), this.renderMainContent(), this.renderUserIndex());
     }
   }, {
     key: "renderFriendsHeader",
@@ -1646,6 +1646,7 @@ function (_React$Component) {
     value: function renderUserInfo() {
       var _this2 = this;
 
+      if (Object.keys(this.props.users).length === 0) return null;
       var index = this.props.server.userIds.filter(function (id) {
         return id != _this2.props.currentUserId;
       })[0];
@@ -1773,11 +1774,23 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      // if(this.props.inputType === "server") {
-      //     document.getElementsByClassName("chat-container")[0].classList.add("expand");
-      // } else {
-      //     document.getElementsByClassName("chat-container")[0].classList.remove("expand");
-      // }
+      if (this.props.input) {
+        var processForm;
+
+        if (this.props.inputType === "server") {
+          processForm = this.props.requestDirectMessages;
+        } else {
+          processForm = this.props.requestChannelMessages;
+        }
+
+        processForm(this.props.input.id).then(function () {
+          _this2.setState({
+            messages: _this2.props.messages
+          });
+        });
+        this.expandMessages();
+      }
+
       App.cable.subscriptions.create({
         channel: "ChannelChannel"
       }, {
@@ -1834,6 +1847,8 @@ function (_React$Component) {
             });
           });
         }
+
+        this.expandMessages();
       }
     }
   }, {
@@ -1867,6 +1882,17 @@ function (_React$Component) {
           body: ""
         });
       });
+    }
+  }, {
+    key: "expandMessages",
+    value: function expandMessages() {
+      if (document.getElementsByClassName("chat-container")[0]) {
+        if (this.props.inputType === "server") {
+          document.getElementsByClassName("chat-container")[0].classList.add("expand");
+        } else {
+          document.getElementsByClassName("chat-container")[0].classList.remove("expand");
+        }
+      }
     }
   }, {
     key: "render",

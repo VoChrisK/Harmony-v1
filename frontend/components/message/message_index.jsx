@@ -13,11 +13,22 @@ class MessageIndex extends React.Component {
     }
 
     componentDidMount() {
-        // if(this.props.inputType === "server") {
-        //     document.getElementsByClassName("chat-container")[0].classList.add("expand");
-        // } else {
-        //     document.getElementsByClassName("chat-container")[0].classList.remove("expand");
-        // }
+        if (this.props.input) {
+            let processForm;
+            if (this.props.inputType === "server") {
+                processForm = this.props.requestDirectMessages
+            } else {
+                processForm = this.props.requestChannelMessages
+            }
+
+            processForm(this.props.input.id).then(
+                () => {
+                    this.setState({ messages: this.props.messages })
+                }
+            );
+                
+            this.expandMessages();
+        }
 
         App.cable.subscriptions.create(
             { channel: "ChannelChannel" },
@@ -62,7 +73,9 @@ class MessageIndex extends React.Component {
                         this.setState({ messages: this.props.messages })
                     }
                 );
+
             }
+            this.expandMessages();
         }
     }
 
@@ -85,6 +98,16 @@ class MessageIndex extends React.Component {
                 this.setState({ body: "" });
             }
         );
+    }
+
+    expandMessages() {
+        if (document.getElementsByClassName("chat-container")[0]) {
+            if (this.props.inputType === "server") {
+                document.getElementsByClassName("chat-container")[0].classList.add("expand");
+            } else {
+                document.getElementsByClassName("chat-container")[0].classList.remove("expand");
+            }
+        }
     }
 
     render() {

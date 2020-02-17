@@ -13,11 +13,12 @@ class MainContent extends React.Component {
 
     render() {
         const { server, channel } = this.props;
+
         return (
             <main className="main-content">
                 <header className="channel-header">
                     {channel ? <i className="fa fa-hashtag"></i> : server ? <i className="fas fa-at"></i> : this.renderFriendsHeader() }
-                    {channel ? <h1 className="channel-name-header">{channel.name}</h1> : server ? "" : "" }
+                    {channel ? <h1 className="channel-name-header">{channel.name}</h1> : server ? this.renderUserInfo() : null }
                 </header>
                 {this.renderMainContent()}
                 {this.renderUserIndex()}
@@ -43,6 +44,7 @@ class MainContent extends React.Component {
     }
 
     renderUserInfo() {
+        if (Object.keys(this.props.users).length === 0 ) return null;
         const index = this.props.server.userIds.filter(id => id != this.props.currentUserId)[0];
         const otherUser = this.props.users[index];
         return (
