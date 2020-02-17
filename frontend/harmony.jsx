@@ -8,7 +8,17 @@ import { requestServers } from './actions/server_actions';
 //might want to store session token too and have an expiration date
 
 document.addEventListener('DOMContentLoaded', () => {
-    const store = configureStore();
+    let preloadedState = {};
+
+    if(localStorage.getItem("currentUserId")) {
+        preloadedState = {
+            session: {
+                id: localStorage.currentUserId
+            }
+        }
+    }
+
+    const store = configureStore(preloadedState);
     const root = document.getElementById("root");
     window.store = store;
     window.requestServers = requestServers;

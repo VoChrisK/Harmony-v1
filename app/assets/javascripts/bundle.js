@@ -1054,8 +1054,6 @@ function (_React$Component) {
   _createClass(FriendIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.requestFriends(this.props.currentUserId);
-
       if (document.getElementsByClassName("expand home").length > 0) {
         document.getElementsByClassName("expand home")[0].style.background = "url(".concat(wumpus, ") no-repeat center center");
         document.getElementsByClassName("expand home")[0].style.backgroundSize = '500px';
@@ -1116,8 +1114,6 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _friend_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./friend_index */ "./frontend/components/friend/friend_index.jsx");
-/* harmony import */ var _actions_friend_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../actions/friend_actions */ "./frontend/actions/friend_actions.js");
-
 
 
 
@@ -1128,15 +1124,7 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    requestFriends: function requestFriends(userId) {
-      return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_2__["requestFriends"])(userId));
-    }
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_friend_index__WEBPACK_IMPORTED_MODULE_1__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, null)(_friend_index__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 
@@ -1332,9 +1320,7 @@ function (_React$Component) {
       user["id"] = this.props.currentUserId;
       user["status"] = "Offline";
       this.props.updateUser(user).then(function () {
-        return _this.props.logout().then(function () {
-          _this.props.history.push("/login");
-        });
+        return _this.props.logout();
       });
       window.localStorage.clear();
     }
@@ -1381,10 +1367,10 @@ function (_React$Component) {
   return EditUser;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-var mapStateToProps = function mapStateToProps(state, ownProps) {
+var mapStateToProps = function mapStateToProps(state) {
   return {
-    currentUserId: ownProps.currentUserId,
-    currentUser: state.entities.users[ownProps.currentUserId]
+    currentUserId: state.session.id,
+    currentUser: state.entities.users[state.session.id]
   };
 };
 
@@ -1459,13 +1445,8 @@ function (_React$Component) {
   _createClass(Interface, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      if (Boolean(window.localStorage.getItem("currentUserId"))) {
-        this.props.receiveCurrentUserId(window.localStorage.getItem("currentUserId"));
-      } else {
-        window.localStorage.setItem("currentUserId", this.props.currentUserId);
-      }
-
-      this.props.requestServers(window.localStorage.getItem("currentUserId"));
+      this.props.requestServers(this.props.currentUserId);
+      this.props.requestFriends(this.props.currentUserId);
       document.getElementsByClassName("harmony-app")[0].addEventListener("click", function () {
         var dropdown = document.getElementsByClassName("dropdown-menu");
 
@@ -1511,6 +1492,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _actions_friend_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/friend_actions */ "./frontend/actions/friend_actions.js");
+
 
 
 
@@ -1531,6 +1514,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     requestServers: function requestServers(userId) {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServers"])(userId));
+    },
+    requestFriends: function requestFriends(userId) {
+      return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_6__["requestFriends"])(userId));
     },
     optionsModal: function optionsModal() {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["openModal"])("options"));
@@ -1646,11 +1632,13 @@ function (_React$Component) {
     value: function renderUserInfo() {
       var _this2 = this;
 
-      if (Object.keys(this.props.users).length === 0) return null;
+      if (Object.keys(this.props.users).length === 0 || Object.keys(this.props.server.userIds).length === 0) return null;
       var index = this.props.server.userIds.filter(function (id) {
         return id != _this2.props.currentUserId;
       })[0];
       var otherUser = this.props.users[index];
+      console.log(this.props.users);
+      console.log(this.props.server);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "channel-name-header"
       }, otherUser.username, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -1928,6 +1916,7 @@ function (_React$Component) {
     value: function renderUsername() {
       var _this6 = this;
 
+      if (Object.keys(this.props.input.userIds).length === 0) return null;
       var index = this.props.input.userIds.filter(function (id) {
         return id !== parseInt(_this6.props.currentUserId);
       })[0];
@@ -3462,6 +3451,8 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "modal-section-1"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "big user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_3__["default"])(user.id))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "discord-icon",
@@ -3469,13 +3460,17 @@ function (_React$Component) {
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "username"
-      }, user.username), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, user.username)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "buttons-group"
+      }, this.props.friends[user.id] ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "add-friend"
       }, "Add Friend"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "message-button"
-      }, "Message")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+      }, "Message"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "modal-section-2"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Mutual Servers"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "server-header"
+      }, "Mutual Servers"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "mutual-servers"
       }, user.serverIds.map(function (id, idx) {
         return _this.renderServerIcon(id, idx);
@@ -3503,7 +3498,8 @@ function (_React$Component) {
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    servers: state.entities.servers
+    servers: state.entities.servers,
+    friends: state.entities.friends
   };
 };
 
@@ -3936,7 +3932,9 @@ function (_React$Component) {
     value: function render() {
       var _this = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "server-index-item"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         onClick: Boolean(this.props.closeModal) ? function () {
           return _this.props.closeModal();
         } : null,
@@ -3944,7 +3942,9 @@ function (_React$Component) {
         to: "/servers/".concat(this.props.server.id, "/").concat(this.props.server.channelIds[0])
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "server-icon"
-      }, this.props.server.name.substring(0, 1))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+      }, this.props.server.name.substring(0, 1))), Boolean(this.props.closeModal) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "server-name show"
+      }, this.props.server.name) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "name-tooltip tooltip"
       }, this.props.server.name));
     }
@@ -4014,9 +4014,7 @@ function (_React$Component) {
       if (Boolean(path.match(regex))) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
           className: "channels-and-dms-sidebar"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_private_server_private_server_index_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_interface_edit_user__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          currentUserId: this.props.currentUserId
-        }));
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_private_server_private_server_index_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_interface_edit_user__WEBPACK_IMPORTED_MODULE_3__["default"], null));
       } else {
         var server = this.props.server;
         if (!server) return null;
@@ -4024,9 +4022,7 @@ function (_React$Component) {
           className: "channels-and-dms-sidebar"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_index_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           server: server
-        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_interface_edit_user__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          currentUserId: this.props.currentUserId
-        }));
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_interface_edit_user__WEBPACK_IMPORTED_MODULE_3__["default"], null));
       }
     }
   }]);
@@ -4196,22 +4192,17 @@ function (_React$Component) {
       if (!this.loginForm()) {
         setTimeout(function () {
           return _this2.props.processForm(user).then(function (newUser) {
-            return Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_3__["createAffiliation"])(newUser.currentUser.id, 1);
+            window.localStorage.setItem("currentUserId", newUser.currentUser.id);
+            Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_3__["createAffiliation"])(newUser.currentUser.id, 1);
           });
         }, this.totalTimer);
       } else {
         setTimeout(function () {
-          return _this2.props.processForm(user).then(function (user) {
-            return console.log(user);
+          _this2.props.processForm(user).then(function (newUser) {
+            return window.localStorage.setItem("currentUserId", newUser.currentUser.id);
           });
         }, this.totalTimer);
       }
-
-      this.setState({
-        email: "",
-        username: "",
-        password: ""
-      });
     }
   }, {
     key: "handleInput",
@@ -4825,7 +4816,9 @@ function (_React$Component) {
         _this2.props.createPrivateServer(server).then(function (newServer) {
           Object(_util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_3__["createDirectMessage"])(newMessage.message.id, newServer.server.id);
           Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(_this2.props.currentUser.id, newServer.server.id);
-          Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(_this2.props.user.id, newServer.server.id).then(_this2.props.history.push("/servers/@me/".concat(newServer.server.id)));
+          Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(_this2.props.user.id, newServer.server.id).then(function () {
+            return _this2.props.history.push("/servers/@me/".concat(newServer.server.id));
+          });
         });
       });
     }
@@ -4959,7 +4952,17 @@ __webpack_require__.r(__webpack_exports__);
 //might want to store session token too and have an expiration date
 
 document.addEventListener('DOMContentLoaded', function () {
-  var store = Object(_store_store__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  var preloadedState = {};
+
+  if (localStorage.getItem("currentUserId")) {
+    preloadedState = {
+      session: {
+        id: localStorage.currentUserId
+      }
+    };
+  }
+
+  var store = Object(_store_store__WEBPACK_IMPORTED_MODULE_2__["default"])(preloadedState);
   var root = document.getElementById("root");
   window.store = store;
   window.requestServers = _actions_server_actions__WEBPACK_IMPORTED_MODULE_4__["requestServers"];
@@ -5784,7 +5787,7 @@ var Auth = function Auth(_ref) {
     path: path,
     exact: exact,
     render: function render(props) {
-      return !loggedIn && !Boolean(window.localStorage.getItem("currentUserId")) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, props) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+      return !loggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, props) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
         to: "/servers/@me"
       });
     }
@@ -5800,7 +5803,7 @@ var Protected = function Protected(_ref2) {
     path: path,
     exact: exact,
     render: function render(props) {
-      return loggedIn || Boolean(window.localStorage.getItem("currentUserId")) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, props) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+      return loggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, props) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
         to: "/login"
       });
     }

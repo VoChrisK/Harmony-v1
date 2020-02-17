@@ -7,8 +7,6 @@ class FriendIndex extends React.Component {
     }
 
     componentDidMount() {
-        this.props.requestFriends(this.props.currentUserId);
-
         if (document.getElementsByClassName("expand home").length > 0) {
             document.getElementsByClassName("expand home")[0].style.background = `url(${wumpus}) no-repeat center center`;
             document.getElementsByClassName("expand home")[0].style.backgroundSize = '500px';

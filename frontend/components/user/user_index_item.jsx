@@ -34,7 +34,7 @@ class UserIndexItem extends React.Component {
                         createDirectMessage(newMessage.message.id, newServer.server.id);
                         createAffiliation(this.props.currentUser.id, newServer.server.id);
                         createAffiliation(this.props.user.id, newServer.server.id).then(
-                            this.props.history.push(`/servers/@me/${newServer.server.id}`)
+                            () => this.props.history.push(`/servers/@me/${newServer.server.id}`)
                         );
                     }
                 );

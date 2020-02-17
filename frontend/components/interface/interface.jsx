@@ -10,14 +10,8 @@ class Interface extends React.Component {
     }
 
     componentDidMount() {
-        if(Boolean(window.localStorage.getItem("currentUserId"))) {
-            this.props.receiveCurrentUserId(window.localStorage.getItem("currentUserId"))
-        } 
-        else {
-            window.localStorage.setItem("currentUserId", this.props.currentUserId);
-        }
-
-        this.props.requestServers(window.localStorage.getItem("currentUserId"));
+        this.props.requestServers(this.props.currentUserId);
+        this.props.requestFriends(this.props.currentUserId);
 
         document.getElementsByClassName("harmony-app")[0].addEventListener("click", () => {
             const dropdown = document.getElementsByClassName("dropdown-menu");

@@ -132,6 +132,7 @@ class MessageIndex extends React.Component {
     }
 
     renderUsername() {
+        if (Object.keys(this.props.input.userIds).length === 0) return null;
         const index = this.props.input.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0];
         const otherUser = this.props.users[index];
         return "@" + otherUser.username;

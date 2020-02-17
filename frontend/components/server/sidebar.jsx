@@ -16,7 +16,7 @@ class Sidebar extends React.Component {
             return (
                 <aside className="channels-and-dms-sidebar">
                     <PrivateServerIndexContainer /> 
-                    <EditUser currentUserId={this.props.currentUserId} />
+                    <EditUser />
                 </aside>
             )
         } else {
@@ -25,7 +25,7 @@ class Sidebar extends React.Component {
             return (
                 <aside className="channels-and-dms-sidebar">
                     <ChannelIndexContainer server={server} />
-                    <EditUser currentUserId={this.props.currentUserId} />
+                    <EditUser />
                 </aside>
             )
         }

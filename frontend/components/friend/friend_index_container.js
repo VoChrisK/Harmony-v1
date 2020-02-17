@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import FriendIndex from './friend_index';
-import { requestFriends } from './../../actions/friend_actions';
 
 const mapStateToProps = (state) => {
     return ({
@@ -9,10 +8,4 @@ const mapStateToProps = (state) => {
     });
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return ({
-        requestFriends: userId => dispatch(requestFriends(userId))
-    });
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(FriendIndex);
+export default connect(mapStateToProps, null)(FriendIndex);

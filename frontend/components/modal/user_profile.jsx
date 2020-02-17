@@ -20,16 +20,21 @@ class UserProfile extends React.Component {
         return (
             <div className="user-profile-container">
                 <section className="modal-section-1">
-                    <div className={`big user-icon icon-container ${chooseColor(user.id)}`}>
-                        <img className="discord-icon" src={discordIcon} alt="" />
+                    <div className="user-container">
+                        <div className={`big user-icon icon-container ${chooseColor(user.id)}`}>
+                            <img className="discord-icon" src={discordIcon} alt="" />
+                        </div>
+                        <h1 className="username">{user.username}</h1>
                     </div>
-                    <h1 className="username">{user.username}</h1>
-                    <button className="add-friend">Add Friend</button>
-                    <button className="message-button">Message</button>
+                    
+                    <div className="buttons-group">
+                        { this.props.friends[user.id] ? null : <button className="add-friend">Add Friend</button> }
+                        <button className="message-button">Message</button>
+                    </div>
                 </section>
 
                 <section className="modal-section-2">
-                    <h1>Mutual Servers</h1>
+                    <h1 className="server-header">Mutual Servers</h1>
                     <ul className="mutual-servers">
                         {
                             user.serverIds.map((id, idx) => this.renderServerIcon(id, idx))
@@ -52,7 +57,8 @@ class UserProfile extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
     return ({
-        servers: state.entities.servers
+        servers: state.entities.servers,
+        friends: state.entities.friends
     });
 };
 

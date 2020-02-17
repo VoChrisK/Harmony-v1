@@ -26,11 +26,7 @@ class EditUser extends React.Component {
         user["id"] = this.props.currentUserId;
         user["status"] = "Offline"
         this.props.updateUser(user).then(
-            () => this.props.logout().then(
-                () => {
-                    this.props.history.push("/login");
-                }
-            )
+            () => this.props.logout()
         );
 
         window.localStorage.clear();
@@ -58,10 +54,10 @@ class EditUser extends React.Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return ({
-        currentUserId: ownProps.currentUserId,
-        currentUser: state.entities.users[ownProps.currentUserId]
+        currentUserId: state.session.id,
+        currentUser: state.entities.users[state.session.id]
     });
 }
 

@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 
 const Auth = ({ component: Component, path, loggedIn, exact }) => (
     <Route path={path} exact={exact} render={props =>
-            !loggedIn && !Boolean(window.localStorage.getItem("currentUserId")) ? <Component {...props} /> : <Redirect to="/servers/@me" />
+            !loggedIn ? <Component {...props} /> : <Redirect to="/servers/@me" />
         }
     />
 );
 
 const Protected = ({ component: Component, path, loggedIn, exact }) => (
     <Route path={path} exact={exact} render={(props) => (
-        loggedIn || Boolean(window.localStorage.getItem("currentUserId")) ? (
+        loggedIn ? (
             <Component {...props} />
         ) : (
                 <Redirect to="/login" />

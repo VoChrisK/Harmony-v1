@@ -234,3 +234,22 @@
     top: 1px;
     left: 10px;
 }
+
+.server-index-item {
+    position: relative;
+}
+
+.server-name.show {
+    position: absolute;
+    left: 75px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 250px;
+    text-align: start;
+}
+
+.server-header {
+    margin: 15px 0;
+    font-size: 18px;
+    color: #dadada;
+}

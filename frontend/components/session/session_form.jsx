@@ -27,15 +27,19 @@ class SessionForm extends React.Component {
         user["status"] = "Online";
         if(!this.loginForm()) {
             setTimeout(() => this.props.processForm(user).then(
-                newUser => createAffiliation(newUser.currentUser.id, 1)
-            ), this.totalTimer);
+                newUser => {
+                    window.localStorage.setItem("currentUserId", newUser.currentUser.id)
+                    createAffiliation(newUser.currentUser.id, 1)
+                }), this.totalTimer);
         }
         else {
-            setTimeout(() => this.props.processForm(user).then(
-                user => console.log(user)
-            ), this.totalTimer);
+            setTimeout(() => {
+                this.props.processForm(user).then(
+                    newUser => window.localStorage.setItem("currentUserId", newUser.currentUser.id)
+                )
+            }
+            , this.totalTimer);
         }
-        this.setState({email: "", username: "", password: ""});
     }
 
     handleInput(input) {

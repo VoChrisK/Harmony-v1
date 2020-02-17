@@ -8,12 +8,11 @@ class ServerIndexItem extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="server-index-item">
                 <Link onClick={ Boolean(this.props.closeModal) ? () => this.props.closeModal() : null } className="server-icon-container icon-container" to={`/servers/${this.props.server.id}/${this.props.server.channelIds[0]}`}>
                     <h1 className="server-icon">{this.props.server.name.substring(0, 1)}</h1>
                 </Link>
-
-                <h1 className="name-tooltip tooltip">{this.props.server.name}</h1>
+                {Boolean(this.props.closeModal) ? <h1 className="server-name show">{this.props.server.name}</h1> : <h1 className="name-tooltip tooltip">{this.props.server.name}</h1> }
             </div>
         );
     }
