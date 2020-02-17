@@ -10,10 +10,9 @@ class MainContent extends React.Component {
     constructor(props) {
         super(props);
     }
-    
+
     render() {
         const { server, channel } = this.props;
-
         return (
             <main className="main-content">
                 <header className="channel-header">
