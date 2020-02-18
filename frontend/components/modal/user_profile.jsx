@@ -4,6 +4,9 @@ import { createFriend } from '../../actions/friend_actions';
 import chooseColor from '../../util/choose_color';
 import ServerIndexItem from './../server/server_index_item';
 import { closeModal } from '../../actions/modal_actions';
+import { createAffiliation } from './../../util/affiliation_api_util';
+import { createPrivateServer } from './../../actions/server_actions';
+import { withRouter } from 'react-router-dom';
 
 class UserProfile extends React.Component {
     constructor(props) {
@@ -12,6 +15,23 @@ class UserProfile extends React.Component {
 
     componentDidMount() {
         document.getElementsByClassName("modal-container")[0].classList.add("darker-modal");
+    }
+
+    handlePrivateServer(event) {
+        event.preventDefault();
+        let users = [this.props.currentUser.username, this.props.user.username].sort();
+        const server = Object.assign({}, { "name": `DM between ${users[0]} and ${users[1]}` });
+        this.props.createPrivateServer(server).then(
+            newServer => {
+                createAffiliation(this.props.currentUser.id, newServer.server.id);
+                createAffiliation(this.props.user.id, newServer.server.id).then(
+                    () => {
+                        this.props.closeModal();
+                        this.props.history.push(`/servers/@me/${newServer.server.id}`);
+                    }
+                );
+            }
+        );
     }
 
     render() {
@@ -28,8 +48,8 @@ class UserProfile extends React.Component {
                     </div>
                     
                     <div className="buttons-group">
-                        { this.props.friends[user.id] ? null : <button className="add-friend">Add Friend</button> }
-                        <button className="message-button">Message</button>
+                        <button className={this.props.friends[user.id] ? "dropdown-menu add-friend" : "add-friend"} onClick={event => this.props.createFriend(this.props.currentUser, user)}>Add Friend</button>
+                        <button onClick={this.handlePrivateServer.bind(this)} className="message-button">Message</button>
                     </div>
                 </section>
 
@@ -58,15 +78,17 @@ class UserProfile extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     return ({
         servers: state.entities.servers,
-        friends: state.entities.friends
+        friends: state.entities.friends,
+        currentUser: state.entities.users[state.session.id]
     });
 };
 
 const mapDispatchToProps = (dispatch) => {
     return ({
         createFriend: (user1, user2) => dispatch(createFriend(user1, user2)),
+        createPrivateServer: server => dispatch(createPrivateServer(server)),
         closeModal: () => dispatch(closeModal())
     });
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserProfile));

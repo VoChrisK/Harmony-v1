@@ -5,6 +5,7 @@ import FriendIndexContainer from './../friend/friend_index_container';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { openModal } from '../../actions/modal_actions';
+import { filterOnline } from '../../actions/online_actions';
 
 class MainContent extends React.Component {
     constructor(props) {
@@ -34,9 +35,9 @@ class MainContent extends React.Component {
                     <h2 className="friends-tab-header">Friends</h2>
                 </li>
 
-                <li className="show-friends"><h1>Online</h1></li>
+                <li onClick={() => this.props.filterOnline("Online")} className="show-friends"><h1>Online</h1></li>
 
-                <li className="show-friends"><h1>All</h1></li>
+                <li onClick={() => this.props.filterOnline("All")} className="show-friends"><h1>All</h1></li>
 
                 <button onClick={() => this.props.addFriend()} className="add-friend">Add Friend</button>
             </ul>
@@ -47,8 +48,6 @@ class MainContent extends React.Component {
         if (Object.keys(this.props.users).length === 0 || Object.keys(this.props.server.userIds).length === 0 ) return null;
         const index = this.props.server.userIds.filter(id => id != this.props.currentUserId)[0];
         const otherUser = this.props.users[index];
-        console.log(this.props.users);
-        console.log(this.props.server);
         return (
             <h1 className="channel-name-header">
                 {otherUser.username}
@@ -94,7 +93,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        addFriend: () => dispatch(openModal("addFriend"))
+        addFriend: () => dispatch(openModal("addFriend")),
+        filterOnline: status => dispatch(filterOnline(status))
     })
 }
 

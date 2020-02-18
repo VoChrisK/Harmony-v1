@@ -34,10 +34,12 @@ class FriendIndex extends React.Component {
             )
         }
 
+        const friends = this.props.status === "Online" ? this.props.friends.filter(friend => friend.status !== "Offline") : this.props.friends;
+
         return (
             <section className="expand">
                 {
-                    this.props.friends.map((friend, idx) => <FriendIndexItemContainer key={idx} friend={friend} currentUserId={this.props.currentUserId} />)
+                    friends.map((friend, idx) => <FriendIndexItemContainer key={idx} friend={friend} currentUserId={this.props.currentUserId} />)
                 }
             </section>
         )
