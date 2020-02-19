@@ -14,6 +14,8 @@ class MessageIndex extends React.Component {
 
     componentDidMount() {
         if (this.props.input) {
+            document.getElementById("chat-log").style.background = `url(${discordChat2}) no-repeat bottom left, url(${discordChat1}) no-repeat bottom right`;
+
             let processForm;
             if (this.props.inputType === "server") {
                 processForm = this.props.requestDirectMessages
@@ -47,15 +49,15 @@ class MessageIndex extends React.Component {
                         this.setState({ messages: messages })
                     }
     
-                    document.getElementById("chat-log").lastChild.scrollIntoView();
+                    if (document.getElementById("chat-log").children.length > 0) {
+                        document.getElementById("chat-log").lastChild.scrollIntoView();
+                    }
                     
                 },
                 speak: function (data) {
                     return this.perform("speak", data);
                 }
             });
-
-        // document.getElementById("chat-log").style.background = `url(${discordChat2}) no-repeat bottom left, url(${discordChat1}) no-repeat bottom right`
     }
 
     componentDidUpdate(preProps) {

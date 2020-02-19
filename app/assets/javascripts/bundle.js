@@ -1823,6 +1823,7 @@ function (_React$Component) {
       var _this2 = this;
 
       if (this.props.input) {
+        document.getElementById("chat-log").style.background = "url(".concat(discordChat2, ") no-repeat bottom left, url(").concat(discordChat1, ") no-repeat bottom right");
         var processForm;
 
         if (this.props.inputType === "server") {
@@ -1867,12 +1868,14 @@ function (_React$Component) {
             });
           }
 
-          document.getElementById("chat-log").lastChild.scrollIntoView();
+          if (document.getElementById("chat-log").children.length > 0) {
+            document.getElementById("chat-log").lastChild.scrollIntoView();
+          }
         },
         speak: function speak(data) {
           return this.perform("speak", data);
         }
-      }); // document.getElementById("chat-log").style.background = `url(${discordChat2}) no-repeat bottom left, url(${discordChat1}) no-repeat bottom right`
+      });
     }
   }, {
     key: "componentDidUpdate",
@@ -3690,9 +3693,7 @@ function (_React$Component) {
         className: "header-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         className: "inline-header"
-      }, "DIRECT MESSAGES"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-plus"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }, "DIRECT MESSAGES")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "private-servers-list"
       }, this.props.servers.map(function (server, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_private_server_index_item_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -3937,7 +3938,9 @@ function (_React$Component) {
   _createClass(ServerIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      // document.getElementById("home-server").style.background = `url(${harmonyIcon}) no-repeat center center`;
+      document.getElementById("home-server").style.backgroundImage = "url(".concat(harmonyIcon, ")");
+      document.getElementById("home-server").style.backgroundRepeat = "no-repeat";
+      document.getElementById("home-server").style.backgroundPosition = "center center";
       document.getElementById("home-server").style.backgroundSize = '50px';
     }
   }, {

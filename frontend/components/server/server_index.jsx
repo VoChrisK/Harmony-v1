@@ -8,7 +8,9 @@ class ServerIndex extends React.Component {
     }
 
     componentDidMount() {
-        // document.getElementById("home-server").style.background = `url(${harmonyIcon}) no-repeat center center`;
+        document.getElementById("home-server").style.backgroundImage = `url(${harmonyIcon})`;
+        document.getElementById("home-server").style.backgroundRepeat = "no-repeat";
+        document.getElementById("home-server").style.backgroundPosition = "center center";
         document.getElementById("home-server").style.backgroundSize = '50px';
     }
 

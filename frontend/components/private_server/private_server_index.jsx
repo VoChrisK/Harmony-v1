@@ -29,7 +29,7 @@ class PrivateServerIndex extends React.Component {
 
                 <div className="header-container">
                     <h2 className="inline-header">DIRECT MESSAGES</h2>
-                    <i className="fa fa-plus"></i>
+                    {/* <i className="fa fa-plus"></i> */}
                 </div>
 
                 <ul className="private-servers-list">
