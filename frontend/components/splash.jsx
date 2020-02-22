@@ -6,27 +6,36 @@ class Splash extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        document.getElementsByClassName("home-icon")[0].style.backgroundImage = `url(${harmonyIcon})`;
+        document.getElementsByClassName("home-icon")[0].style.backgroundSize = 'cover';
+        document.getElementsByClassName("home-icon")[0].style.backgroundPosition = 'center center';
+    }
+
     render() {
         return (
             <div id="splash">
                 <header id="header-nav">
                     <ul className="nav-links">
-                        <li><a target="_blank" href="https://github.com/VoChrisK">Github</a></li>
-                        <li><a target="_blank" href="https://www.linkedin.com/in/chris-vo-/">LinkedIn</a></li>
+                        <li><a className="home-icon-link" href="https://harmony-chat.herokuapp.com/#/"><i className="home-icon"></i>HARMONY</a></li>
+                        <li><a target="_blank" href="https://github.com/VoChrisK"><i className="fab fa-github"></i></a></li>
+                        <li><a target="_blank" href="https://www.linkedin.com/in/chris-vo-/"><i className="fab fa-linkedin"></i></a></li>
+                        <li><a target="_blank" href="https://angel.co/chris-vo-3"><i className="fab fa-angellist"></i></a></li>
+                        <li><a className="cv-website" target="_blank" href="https://chrisvo.dev/">CV</a></li>
                     </ul>
 
                     <Link id="login-link" to="/login">Login</Link>
                 </header>
 
                 <section id="splash-content">
-                    <h1>It's time to ditch Skype and Teamspeak.</h1>
-                    <p>All-in-one text chat for gamers that's free, secure, and works on both your desktop and phone. Stop paying for TeamSpeak servers and hassling with Skype. Simplify your life.</p>
+                    <h1>It's time to ditch Discord.</h1>
+                    <p>All-in-one text chat for everyone who wants to communicate with other people. Stop using Discord. Rejoice and harmonize with each other instead.</p>
                 </section>
 
-                <section className="splash-buttons">
-                    <Link to="/servers/@me">Open in browser</Link>
-                    <Link to="/login">Login</Link>
-                </section>
+                <div className="splash-buttons">
+                    <Link className="open-browser form-submit" to="/servers/@me">Open in browser</Link>
+                    <Link className="login form-submit" to="/login">Login</Link>
+                </div>
 
                 <section className="bundle-images">
                     <img src="https://discordapp.com/assets/215346366a9a7d50924fc245ddb048d2.svg" className="cartridge" />                
