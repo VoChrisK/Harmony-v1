@@ -69,11 +69,3 @@ App.cable.subscriptions.create(
     ChannelChannel.broadcast_to('channel_channel', socket)
   end
 ```
-
-
-## Future Features
-* Direct messaging via private servers
-* Friends, and sending friend requests in real time
-* Create, update, and delete servers, channels, and users in real time
-* Allow users to send images and set profile/server pictures through image hosting in AWS
-* Voice channels
