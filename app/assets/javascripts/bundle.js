@@ -1914,14 +1914,14 @@ function (_React$Component) {
             _this3.setState({
               messages: _this3.props.messages
             });
+
+            if (document.getElementById("chat-log").children.length > 0) {
+              document.getElementById("chat-log").lastChild.scrollIntoView();
+            }
           });
         }
 
         this.expandMessages();
-
-        if (document.getElementById("chat-log").children.length > 0) {
-          document.getElementById("chat-log").lastChild.scrollIntoView();
-        }
       }
     }
   }, {
@@ -4665,7 +4665,7 @@ function (_React$Component) {
         to: "/login"
       }, "Login")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         id: "splash-content"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "It's time to ditch Discord."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "All-in-one text chat for everyone who wants to communicate with other people. Stop using Discord. Rejoice and harmonize with each other instead.")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "It's time to ditch Discord."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "All-in-one text chat for everyone who wants to communicate with other people. Stop using Discord. Rejoice and harmonize with each other in this app instead.")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "splash-buttons"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "open-browser form-submit",

@@ -72,15 +72,15 @@ class MessageIndex extends React.Component {
     
                 processForm(this.props.input.id).then(
                     () => {
-                        this.setState({ messages: this.props.messages })
+                        this.setState({ messages: this.props.messages });
+                        if (document.getElementById("chat-log").children.length > 0) {
+                            document.getElementById("chat-log").lastChild.scrollIntoView();
+                        }
                     }
                 );
 
             }
             this.expandMessages();
-            if (document.getElementById("chat-log").children.length > 0) {
-                document.getElementById("chat-log").lastChild.scrollIntoView();
-            }
         }
     }
 

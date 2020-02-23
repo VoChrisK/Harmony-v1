@@ -29,7 +29,7 @@ class Splash extends React.Component {
 
                 <section id="splash-content">
                     <h1>It's time to ditch Discord.</h1>
-                    <p>All-in-one text chat for everyone who wants to communicate with other people. Stop using Discord. Rejoice and harmonize with each other instead.</p>
+                    <p>All-in-one text chat for everyone who wants to communicate with other people. Stop using Discord. Rejoice and harmonize with each other in this app instead.</p>
                 </section>
 
                 <div className="splash-buttons">
