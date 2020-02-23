@@ -1,10 +1,21 @@
 import React from 'react';
 import chooseColor from './../../util/choose_color';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 class PrivateServerIndexItem extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    addFocus() {
+        this.clearFocus();
+        document.getElementsByClassName("user-info")[this.props.idx + 1].classList.add("focus");
+    }
+
+    clearFocus() {
+        for (let i = 0; i < document.getElementsByClassName("user-info").length; i++) {
+            document.getElementsByClassName("user-info")[i].classList.remove("focus");
+        }
     }
 
     render() {
@@ -12,7 +23,7 @@ class PrivateServerIndexItem extends React.Component {
         if(!this.props.users[otherUserId]) return null;
 
         return (
-            <Link to={`/servers/@me/${this.props.server.id}`} className="user-info">
+            <Link to={`/servers/@me/${this.props.server.id}`} onClick={this.addFocus.bind(this)} className="user-info">
                 <div className={`user-icon icon-container ${chooseColor(otherUserId)}`}>
                     <img className="discord-icon" src={discordIcon} alt="" />
                 </div>
@@ -23,4 +34,4 @@ class PrivateServerIndexItem extends React.Component {
     }
 }
 
-export default PrivateServerIndexItem;
+export default withRouter(PrivateServerIndexItem);

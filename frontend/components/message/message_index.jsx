@@ -78,6 +78,9 @@ class MessageIndex extends React.Component {
 
             }
             this.expandMessages();
+            if (document.getElementById("chat-log").children.length > 0) {
+                document.getElementById("chat-log").lastChild.scrollIntoView();
+            }
         }
     }
 

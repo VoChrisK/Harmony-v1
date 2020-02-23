@@ -46,6 +46,11 @@
     background-color: rgb(54, 57, 63);
 }
 
+.user-info:focus {
+    background-color: #3e4147;
+    outline: none;
+}
+
 .user-icon.icon-container {
     position: relative;
     display: inline-block;

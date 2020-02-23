@@ -7,15 +7,22 @@ class ChannelIndexItem extends React.Component {
     }
 
     componentDidMount() {
-        document.getElementsByClassName("channel-info")[0].focus();
+        document.getElementById(`channel-info-${this.props.match.params.channelId}`).classList.add("focus");
     }
 
     componentDidUpdate(preProps) {
         if(this.props.match.params.serverId !== preProps.match.params.serverId) {
-            document.getElementsByClassName("channel-info")[0].focus();
+            document.getElementsByClassName("channel-info")[0].classList.add("focus");
         }
         else if(this.props.match.params.channelId !== preProps.match.params.channelId) {
-            document.getElementById(`channel-info-${this.props.match.params.channelId}`).focus();
+            this.clearFocus();
+            document.getElementById(`channel-info-${this.props.match.params.channelId}`).classList.add("focus");
+        }
+    }
+
+    clearFocus() {
+        for (let i = 0; i < document.getElementsByClassName("channel-info").length; i++) {
+            document.getElementsByClassName("channel-info")[i].classList.remove("focus");
         }
     }
 

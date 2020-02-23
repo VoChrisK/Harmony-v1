@@ -832,7 +832,8 @@ function (_React$Component) {
       }, this.props.channels.map(function (channel, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_index_item_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: idx,
-          channel: channel
+          channel: channel,
+          idx: idx
         });
       })));
     }
@@ -941,15 +942,23 @@ function (_React$Component) {
   _createClass(ChannelIndexItem, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      document.getElementsByClassName("channel-info")[0].focus();
+      document.getElementById("channel-info-".concat(this.props.match.params.channelId)).classList.add("focus");
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(preProps) {
       if (this.props.match.params.serverId !== preProps.match.params.serverId) {
-        document.getElementsByClassName("channel-info")[0].focus();
+        document.getElementsByClassName("channel-info")[0].classList.add("focus");
       } else if (this.props.match.params.channelId !== preProps.match.params.channelId) {
-        document.getElementById("channel-info-".concat(this.props.match.params.channelId)).focus();
+        this.clearFocus();
+        document.getElementById("channel-info-".concat(this.props.match.params.channelId)).classList.add("focus");
+      }
+    }
+  }, {
+    key: "clearFocus",
+    value: function clearFocus() {
+      for (var i = 0; i < document.getElementsByClassName("channel-info").length; i++) {
+        document.getElementsByClassName("channel-info")[i].classList.remove("focus");
       }
     }
   }, {
@@ -1901,6 +1910,10 @@ function (_React$Component) {
         }
 
         this.expandMessages();
+
+        if (document.getElementById("chat-log").children.length > 0) {
+          document.getElementById("chat-log").lastChild.scrollIntoView();
+        }
       }
     }
   }, {
@@ -3678,6 +3691,19 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "addFocus",
+    value: function addFocus() {
+      this.clearFocus();
+      document.getElementsByClassName("user-info")[0].classList.add("focus");
+    }
+  }, {
+    key: "clearFocus",
+    value: function clearFocus() {
+      for (var i = 0; i < document.getElementsByClassName("user-info").length; i++) {
+        document.getElementsByClassName("user-info")[i].classList.remove("focus");
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       if (this.props.servers.length === 0) return null;
@@ -3685,6 +3711,7 @@ function (_React$Component) {
         className: "private-servers-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/servers/@me",
+        onClick: this.addFocus.bind(this),
         className: "friends-tab user-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-user-friends"
@@ -3699,7 +3726,8 @@ function (_React$Component) {
       }, this.props.servers.map(function (server, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_private_server_index_item_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: idx,
-          server: server
+          server: server,
+          idx: idx
         });
       })));
     }
@@ -3799,6 +3827,19 @@ function (_React$Component) {
   }
 
   _createClass(PrivateServerIndexItem, [{
+    key: "addFocus",
+    value: function addFocus() {
+      this.clearFocus();
+      document.getElementsByClassName("user-info")[this.props.idx + 1].classList.add("focus");
+    }
+  }, {
+    key: "clearFocus",
+    value: function clearFocus() {
+      for (var i = 0; i < document.getElementsByClassName("user-info").length; i++) {
+        document.getElementsByClassName("user-info")[i].classList.remove("focus");
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this = this;
@@ -3809,6 +3850,7 @@ function (_React$Component) {
       if (!this.props.users[otherUserId]) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/servers/@me/".concat(this.props.server.id),
+        onClick: this.addFocus.bind(this),
         className: "user-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(otherUserId))
@@ -3827,7 +3869,7 @@ function (_React$Component) {
   return PrivateServerIndexItem;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (PrivateServerIndexItem);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(PrivateServerIndexItem));
 
 /***/ }),
 
@@ -4922,6 +4964,7 @@ function (_React$Component) {
     key: "showDropdown",
     value: function showDropdown() {
       if (this.props.user.id !== this.props.currentUser.id) {
+        document.getElementsByClassName("user-info")[this.props.idx].focus();
         document.getElementsByClassName("user-dropdown")[this.props.idx].classList.toggle("is-showing");
       }
     }
@@ -4963,7 +5006,8 @@ function (_React$Component) {
       var user = this.props.user;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.showDropdown.bind(this),
-        className: "user-info"
+        className: "user-info",
+        tabIndex: "0"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(user.id))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {

@@ -13,6 +13,7 @@ class UserIndexItem extends React.Component {
 
     showDropdown() {
         if(this.props.user.id !== this.props.currentUser.id) {
+            document.getElementsByClassName("user-info")[this.props.idx].focus();
             document.getElementsByClassName("user-dropdown")[this.props.idx].classList.toggle("is-showing");
         }
     }
@@ -46,7 +47,7 @@ class UserIndexItem extends React.Component {
         const { user } = this.props;
 
         return (
-            <div onClick={this.showDropdown.bind(this)} className="user-info">
+            <div onClick={this.showDropdown.bind(this)} className="user-info" tabIndex="0">
                 <div className={`user-icon icon-container ${chooseColor(user.id)}`}>
                     <img className="discord-icon" src={discordIcon} alt=""/>
                 </div>

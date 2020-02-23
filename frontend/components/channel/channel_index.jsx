@@ -72,7 +72,7 @@ class ChannelIndex extends React.Component {
 
                 <ul className="channels-list">
                     {
-                        this.props.channels.map((channel, idx) => <ChannelIndexItemContainer key={idx} channel={channel} />)
+                        this.props.channels.map((channel, idx) => <ChannelIndexItemContainer key={idx} channel={channel} idx={idx} />)
                     }
                 </ul>
             </div>

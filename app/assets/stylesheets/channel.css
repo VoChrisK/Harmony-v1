@@ -52,17 +52,11 @@
     visibility: visible;
 }
 
-.channel-info:focus {
+.focus {
     background-color: #3e4147;
-    outline: none;
 }
 
-.channel-options {
-    color: black;
-    visibility: hidden;
-}
-
-.channel-info:focus > .channel-options {
+.focus > .channel-options {
     visibility: visible;
 }
 
@@ -78,12 +72,12 @@
 }
 
 .fa.fa-edit {
-    position: relative;
-    top: 1px;
     padding-right: 5px;
 }
 
 .channel-options {
+    color: black;
+    visibility: hidden;
     position: absolute;
     right: 10px;
     display: inline;
