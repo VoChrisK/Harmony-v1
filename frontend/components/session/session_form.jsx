@@ -24,8 +24,8 @@ class SessionForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         const user = Object.assign({}, this.state);
-        user["status"] = "Online";
         if(!this.loginForm()) {
+            user["status"] = "Online";
             setTimeout(() => this.props.processForm(user).then(
                 newUser => {
                     window.localStorage.setItem("currentUserId", newUser.currentUser.id)
@@ -35,7 +35,11 @@ class SessionForm extends React.Component {
         else {
             setTimeout(() => {
                 this.props.processForm(user).then(
-                    newUser => window.localStorage.setItem("currentUserId", newUser.currentUser.id)
+                    newUser => {
+                        newUser.currentUser.status = "Online";
+                        this.props.updateUser(newUser.currentUser);    
+                        window.localStorage.setItem("currentUserId", newUser.currentUser.id);
+                    }
                 )
             }
             , this.totalTimer);

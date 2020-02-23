@@ -1097,7 +1097,11 @@ function (_React$Component) {
     value: function render() {
       var _this = this;
 
-      if (this.props.friends.length === 0) {
+      var friends = this.props.status === "Online" ? this.props.friends.filter(function (friend) {
+        return friend.status !== "Offline";
+      }) : this.props.friends;
+
+      if (friends.length === 0) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
           className: "expand home"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -1105,9 +1109,6 @@ function (_React$Component) {
         }, "No one's around to play with wumpus"));
       }
 
-      var friends = this.props.status === "Online" ? this.props.friends.filter(function (friend) {
-        return friend.status !== "Offline";
-      }) : this.props.friends;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "expand"
       }, friends.map(function (friend, idx) {
@@ -4187,6 +4188,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _session_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./session_form */ "./frontend/components/session/session_form.jsx");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+
 
 
 
@@ -4202,6 +4205,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     processForm: function processForm(user) {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["login"])(user));
+    },
+    updateUser: function updateUser(user) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["updateUser"])(user));
     }
   };
 };
@@ -4283,9 +4289,9 @@ function (_React$Component) {
 
       event.preventDefault();
       var user = Object.assign({}, this.state);
-      user["status"] = "Online";
 
       if (!this.loginForm()) {
+        user["status"] = "Online";
         setTimeout(function () {
           return _this2.props.processForm(user).then(function (newUser) {
             window.localStorage.setItem("currentUserId", newUser.currentUser.id);
@@ -4295,7 +4301,11 @@ function (_React$Component) {
       } else {
         setTimeout(function () {
           _this2.props.processForm(user).then(function (newUser) {
-            return window.localStorage.setItem("currentUserId", newUser.currentUser.id);
+            newUser.currentUser.status = "Online";
+
+            _this2.props.updateUser(newUser.currentUser);
+
+            window.localStorage.setItem("currentUserId", newUser.currentUser.id);
           });
         }, this.totalTimer);
       }

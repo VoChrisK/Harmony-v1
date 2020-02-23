@@ -26,15 +26,14 @@ class FriendIndex extends React.Component {
     }
 
     render() {
-        if(this.props.friends.length === 0) {
+        const friends = this.props.status === "Online" ? this.props.friends.filter(friend => friend.status !== "Offline") : this.props.friends;
+        if(friends.length === 0) {
             return (
                 <section className="expand home">
                     <h1 className="poor-wumpus">No one's around to play with wumpus</h1>
                 </section>
             )
         }
-
-        const friends = this.props.status === "Online" ? this.props.friends.filter(friend => friend.status !== "Offline") : this.props.friends;
 
         return (
             <section className="expand">
