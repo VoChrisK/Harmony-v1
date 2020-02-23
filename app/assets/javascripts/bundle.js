@@ -1667,6 +1667,14 @@ function (_React$Component) {
       }, channel.name) : server ? this.renderUserInfo() : null), this.renderMainContent(), this.renderUserIndex());
     }
   }, {
+    key: "changeFilter",
+    value: function changeFilter(filter) {
+      document.getElementsByClassName("show-online-friends")[0].classList.remove("focus");
+      document.getElementsByClassName("show-all-friends")[0].classList.remove("focus");
+      document.getElementsByClassName("show-".concat(filter.toLowerCase(), "-friends"))[0].classList.add("focus");
+      this.props.filterOnline(filter);
+    }
+  }, {
     key: "renderFriendsHeader",
     value: function renderFriendsHeader() {
       var _this = this;
@@ -1681,14 +1689,14 @@ function (_React$Component) {
         className: "friends-tab-header"
       }, "Friends")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         onClick: function onClick() {
-          return _this.props.filterOnline("Online");
+          return _this.changeFilter("Online");
         },
-        className: "show-friends"
+        className: "show-online-friends focus"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Online")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         onClick: function onClick() {
-          return _this.props.filterOnline("All");
+          return _this.changeFilter("All");
         },
-        className: "show-friends"
+        className: "show-all-friends"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "All")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
           return _this.props.addFriend();

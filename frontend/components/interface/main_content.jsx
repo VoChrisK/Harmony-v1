@@ -27,6 +27,13 @@ class MainContent extends React.Component {
         )
     }
 
+    changeFilter(filter) {
+        document.getElementsByClassName("show-online-friends")[0].classList.remove("focus");
+        document.getElementsByClassName("show-all-friends")[0].classList.remove("focus");
+        document.getElementsByClassName(`show-${filter.toLowerCase()}-friends`)[0].classList.add("focus");
+        this.props.filterOnline(filter);
+    }
+
     renderFriendsHeader() {
         return (
             <ul className="friends-header">
@@ -35,9 +42,9 @@ class MainContent extends React.Component {
                     <h2 className="friends-tab-header">Friends</h2>
                 </li>
 
-                <li onClick={() => this.props.filterOnline("Online")} className="show-friends"><h1>Online</h1></li>
+                <li onClick={() => this.changeFilter("Online")} className="show-online-friends focus"><h1>Online</h1></li>
 
-                <li onClick={() => this.props.filterOnline("All")} className="show-friends"><h1>All</h1></li>
+                <li onClick={() => this.changeFilter("All")} className="show-all-friends"><h1>All</h1></li>
 
                 <button onClick={() => this.props.addFriend()} className="add-friend">Add Friend</button>
             </ul>
