@@ -7,17 +7,12 @@ class ChannelIndexItem extends React.Component {
     }
 
     componentDidMount() {
-        document.getElementById(`channel-info-${this.props.match.params.channelId}`).classList.add("focus");
+        document.getElementsByClassName("channel-info")[this.props.idx].classList.add("focus");
     }
 
-    componentDidUpdate(preProps) {
-        if(this.props.match.params.serverId !== preProps.match.params.serverId) {
-            document.getElementsByClassName("channel-info")[0].classList.add("focus");
-        }
-        else if(this.props.match.params.channelId !== preProps.match.params.channelId) {
-            this.clearFocus();
-            document.getElementById(`channel-info-${this.props.match.params.channelId}`).classList.add("focus");
-        }
+    addFocus() {
+        this.clearFocus();
+        document.getElementsByClassName("channel-info")[this.props.idx].classList.add("focus");
     }
 
     clearFocus() {
@@ -30,7 +25,7 @@ class ChannelIndexItem extends React.Component {
         if(!this.props.channel) return null;
 
         return (
-            <Link to={`/servers/${this.props.match.params.serverId}/${this.props.channel.id}`} className="channel-info" id={`channel-info-${this.props.channel.id}`}>
+            <Link onClick={this.addFocus.bind(this)} to={`/servers/${this.props.match.params.serverId}/${this.props.channel.id}`} className="channel-info">
                 <i className="fa fa-hashtag"></i>
                 <strong className="channel-name">{this.props.channel.name}</strong>
                 <div className="channel-options">

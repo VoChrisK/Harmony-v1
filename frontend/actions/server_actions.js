@@ -56,7 +56,7 @@ export const requestServer = serverId => dispatch => {
 export const createServer = server => dispatch => {
     return ServerApiUtil.createServer(server).then(
         newServer => dispatch(receiveServer(newServer))
-    );
+    )
 };
 
 export const createPrivateServer = server => dispatch => {

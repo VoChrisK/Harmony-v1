@@ -12,26 +12,6 @@
     box-shadow: 0 2px 2px black;
 }
 
-/* .fade-in-animation {
-    animation-name: fade-in;
-    animation-duration: 0.25s;
-}
-
-.fade-out-animation {
-    animation-name: fade-out;
-    animation-duration: 0.25s;
-}
-
-@keyframes fade-out {
-    from {top: 20%; opacity: 1;}
-    to {top: 17%; opacity: 0;}
-}
-
-@keyframes fade-in {
-    from {top: 17%; opacity: 0;}
-    to {top: 20%; opacity: 1;}
-} */
-
 #session-form {
     display: flex;
     flex-direction: column;
@@ -54,20 +34,37 @@
     font-size: 14px;
 }
 
-#session-form-container a {
+#session-form-container a, #forgot-password-link {
     text-decoration: none;
     font-size: 14px;
     color: #7289da
 }
 
-#session-form-container a:hover {
+#session-form-container a:hover, #forgot-password-link:hover {
     text-decoration: underline;
 }
 
 #forgot-password-link {
-    margin-top: 20px;
+    height: 0;
+    background-color: transparent;
+    transition: none;
+    margin: 15px 0;
+    cursor: pointer;
 }
 
 #username-input > .form-input {
     width: 390px;
+}
+
+.login-error, .signup-error {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+    margin: auto;
+    margin-top: 15px;
+}
+
+.signup-error {
+    float: right;
+    margin: 0;
 }

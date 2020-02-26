@@ -77,8 +77,27 @@ class SessionForm extends React.Component {
         }, intervalLength);
     }
 
-    render() {
+    checkError(input) {
+        if(this.props.errors.length === 0 || this.loginForm()) return null;
 
+        for(let i = 0; i < this.props.errors.length; i++) {
+            if (this.props.errors[i].includes(input)) return <h1 className="signup-error">{this.props.errors[i]}</h1>;
+        }
+
+        return null;
+    }
+
+    renderLoginError() {
+        if(this.loginForm() && this.props.errors.length > 0) {
+            return (
+                <h1 className="login-error">{this.props.errors}</h1>
+            )
+        } else {
+            return null;
+        }
+    }
+
+    render() {
         return(
             <div id="background">
                 <div id="session-form-container">
@@ -87,17 +106,20 @@ class SessionForm extends React.Component {
                     <form id="session-form" onSubmit={this.handleSubmit.bind(this)}>
                         <div id="email-input" className="input-field">
                             <label htmlFor="email" className="form-label">Email</label>
-                            <input type="text" name="email" id="email" value={this.state.email} className="form-input" autoComplete="off" onChange={this.handleInput("email")} />
+                            {this.checkError("Email")}
+                            <input type="email" name="email" id="email" value={this.state.email} className="form-input" autoComplete="off" onChange={this.handleInput("email")} />
                         </div>
 
                         { this.renderUsernameInput() }
 
                         <div id="password-input" className="input-field">
                             <label htmlFor="password" className="form-label">Password</label>
+                            {this.checkError("Password")}
                             <input type="password" name="password" id="password" value={this.state.password} className="form-input" onChange={this.handleInput("password")}/>
                         </div>
 
-                        {this.loginForm() ? <a id="forgot-password-link" href="#">Forgot your password?</a> : null }
+                        { this.renderLoginError() }
+                        {this.loginForm() ? <button onClick={this.demoUser.bind(this)} id="forgot-password-link">Forgot your password? Try the demo login instead!</button> : null }
 
                         <input type="submit" className="form-submit" value={this.loginForm() ? "Login" : "Continue"}/>
 
@@ -140,6 +162,7 @@ class SessionForm extends React.Component {
             return (
                 <div id="username-input" className="input-field">
                     <label htmlFor="username" className="form-label">Username</label>
+                    {this.checkError("Username")}
                     <input type="text" name="username" id="username" autoComplete="off" value={this.state.username} className="form-input" onChange={this.handleInput("username")}/>
                 </div>
                 
@@ -157,15 +180,13 @@ class SessionForm extends React.Component {
 
     //this method changes the link to either /signup or /login, whichever one is not the current address
     switchLinks() {
-        if(this.loginForm()) {
-            return <h3>Need an account? <Link to="/signup">Register</Link></h3>
-        } else {
-            return <Link onClick={this.addTransition.bind(this)} to="/login">Already have an account?</Link>
-        }
-    }
+        const { clearSessionErrors } = this.props;
 
-    addTransition() {
-        document.getElementById("session-form-container").classList.add("fade-in-animation");
+        if(this.loginForm()) {
+            return <h3>Need an account? <Link onClick={() => clearSessionErrors()} to="/signup">Register</Link></h3>
+        } else {
+            return <Link onClick={() => clearSessionErrors()} to="/login">Already have an account?</Link>
+        }
     }
 }
 

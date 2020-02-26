@@ -51,6 +51,11 @@
     outline: none;
 }
 
+.user-tab {
+    display: flex;
+    align-items: center;
+}
+
 .user-icon.icon-container {
     position: relative;
     display: inline-block;
@@ -169,7 +174,7 @@
     padding-top: 50px;
 }
 
-#edit-name-input, #username-input {
+#edit-name-input {
     width: 80%;
 }
 

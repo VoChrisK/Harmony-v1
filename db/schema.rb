@@ -57,7 +57,8 @@ ActiveRecord::Schema.define(version: 2020_02_15_174412) do
   create_table "messages", force: :cascade do |t|
     t.text "body", null: false
     t.integer "author_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_
+    at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_messages_on_author_id"
   end
