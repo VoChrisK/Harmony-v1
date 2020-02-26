@@ -1,5 +1,6 @@
 import * as UserApiUtil from './../util/user_api_util';
 import { receiveCurrentUser } from './session_actions';
+import { receiveErrors } from './error_actions';
 
 const receiveUsers = (users) => {
     return ({
@@ -29,7 +30,8 @@ export const requestUsersByIds = userIds => dispatch => {
 
 export const updateUser = user => dispatch => {
     return UserApiUtil.updateUser(user).then(
-        updatedUser => dispatch(receiveCurrentUser(updatedUser))
+        updatedUser => dispatch(receiveCurrentUser(updatedUser)),
+        errors => dispatch(receiveErrors(errors.responseJSON))
     );
 };
 

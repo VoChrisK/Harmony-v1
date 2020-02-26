@@ -31,10 +31,19 @@ class AddName extends React.Component {
             findUser(this.state.name).then(
                 user => {
                     this.props.createFriend(this.props.currentUser, user).then(
-                    () => this.props.closeModal()
+                        () => this.props.closeModal()
                 )
-                }
+                },
+                errors => this.props.receiveErrors(errors.responseJSON)
             );
+        }
+    }
+
+    renderError() {
+        if (this.props.errors.length === 0) {
+            return null;
+        } else {
+            return <i className="general-error">{" - " + this.props.errors[0]}</i>;
         }
     }
 
@@ -42,8 +51,10 @@ class AddName extends React.Component {
         return (
             <form className="edit-name" onSubmit={this.handleSubmit.bind(this)}>
                 <div className="edit-name-div">
-                    <label className="name-label form-label" htmlFor="edit-name-input">{this.props.formType === "editName" ? "EDIT NAME" : "ADD FRIEND"}</label>
-                    <input type="text" id="edit-name-input" className="form-input" autoComplete="off" value={this.state.name} onChange={this.handleName.bind(this)} />
+                    <label className={`name-label form-label ${Boolean(this.renderError()) ? " red-label" : ""}`} htmlFor="edit-name-input">{this.props.formType === "editName" ? "EDIT NAME" : "ADD FRIEND"}
+                        {this.renderError()}
+                    </label>
+                    <input type="text" id="edit-name-input" className={`form-input ${Boolean(this.renderError()) ? " red-highlight" : ""}`} autoComplete="off" value={this.state.name} onChange={this.handleName.bind(this)} />
                 </div>
                 <input type="submit" value={this.props.formType === "editName" ? "Update" : "Add Friend"} className="name-submit form-submit"/>
             </form>

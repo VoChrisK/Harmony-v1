@@ -11,6 +11,7 @@
     display: inline-block;
     font-size: 12px;
     margin-bottom: 8px;
+    margin-right: 5px;
 }
 
 .form-input {
@@ -98,4 +99,18 @@
     justify-content: space-between;
     align-items: center;
     margin: 20px 0 10px 0;
+}
+
+.general-error {
+    margin-top: 10px;
+    font-size: 12px;
+    color: red;
+}
+
+.red-highlight {
+    outline: 1px red auto;
+}
+
+.red-label {
+    color: red !important;
 }

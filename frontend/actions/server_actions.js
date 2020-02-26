@@ -1,4 +1,5 @@
 import * as ServerApiUtil from './../util/server_api_util';
+import { receiveErrors } from './error_actions';
 
 const receiveServers = servers => {
     return ({
@@ -35,6 +36,13 @@ const removeServer = serverId => {
     });
 };
 
+const receiveServerErrors = errors => {
+    return ({
+        type: "RECEIVE_SERVER_ERRORS",
+        errors
+    })
+}
+
 export const requestServers = (userId) => dispatch => {
     return ServerApiUtil.fetchServers(userId).then(
         servers => dispatch(receiveServers(servers))
@@ -55,7 +63,8 @@ export const requestServer = serverId => dispatch => {
 
 export const createServer = server => dispatch => {
     return ServerApiUtil.createServer(server).then(
-        newServer => dispatch(receiveServer(newServer))
+        newServer => dispatch(receiveServer(newServer)),
+        errors => dispatch(receiveErrors(errors.responseJSON))
     )
 };
 
@@ -67,7 +76,8 @@ export const createPrivateServer = server => dispatch => {
 
 export const updateServer = server => dispatch => {
     return ServerApiUtil.updateServer(server).then(
-        updatedServer => dispatch(receiveServer(updatedServer))
+        updatedServer => dispatch(receiveServer(updatedServer)),
+        errors => dispatch(receiveErrors(errors.responseJSON))
     );
 };
 
@@ -82,3 +92,4 @@ export const RECEIVE_PRIVATE_SERVERS = "RECEIVE_PRIVATE_SERVERS"
 export const RECEIVE_SERVER = "RECEIVE_SERVER";
 export const RECEIVE_PRIVATE_SERVER = "RECEIVE_PRIVATE_SERVER"
 export const REMOVE_SERVER = "REMOVE_SERVER";
+export const RECEIVE_SERVER_ERRORS = "RECEIVE_SERVER_ERRORS";

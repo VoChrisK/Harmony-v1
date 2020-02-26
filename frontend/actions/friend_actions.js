@@ -1,4 +1,5 @@
 import * as FriendApiUtil from './../util/friends_api_util';
+import { receiveErrors } from './error_actions';
 
 const receiveFriends = (friends) => {
     return ({
@@ -29,7 +30,8 @@ export const requestFriends = (userId) => dispatch => {
 
 export const createFriend = (user1, user2) => dispatch => {
     return FriendApiUtil.createFriend(user1, user2).then(
-        friend => dispatch(receiveFriend(friend))
+        friend => dispatch(receiveFriend(friend)),
+        errors => dispatch(receiveErrors(errors.responseJSON))
     );
 };
 

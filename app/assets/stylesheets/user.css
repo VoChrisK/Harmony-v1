@@ -167,10 +167,13 @@
 
 .name-label {
     color: white;
-    margin-right: 264px;
 }
 
 .edit-name-div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 55px;
     padding-top: 50px;
 }
 

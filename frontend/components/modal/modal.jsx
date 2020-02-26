@@ -12,8 +12,9 @@ import JoinServer from './join_server';
 import AddFriendContainer from './add_friend_container';
 import EditNameContainer from './edit_name_container';
 import UserProfile from './user_profile';
+import { clearErrors } from '../../actions/error_actions';
 
-const Modal = ({ modal, closeModal }) => {
+const Modal = ({ modal, closeModal, clearErrors }) => {
     if (!modal) return null;
 
     let component;
@@ -55,8 +56,13 @@ const Modal = ({ modal, closeModal }) => {
             return null;
     }
 
+    const handleClose = () => {
+        clearErrors();
+        closeModal();
+    }
+
     return (
-        <div className="modal-screen" onClick={closeModal}>
+        <div className="modal-screen" onClick={handleClose}>
             <div className="modal-container" onClick={e => e.stopPropagation()}>
                 {component}
             </div>
@@ -72,7 +78,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        closeModal: () => dispatch(closeModal())
+        closeModal: () => dispatch(closeModal()),
+        clearErrors: () => dispatch(clearErrors())
     };
 };
 

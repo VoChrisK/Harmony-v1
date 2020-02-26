@@ -77,8 +77,9 @@ class SessionForm extends React.Component {
         }, intervalLength);
     }
 
-    checkError(input) {
-        if(this.props.errors.length === 0 || this.loginForm()) return null;
+    renderSignupErrors(input, check) {
+        if(check && this.loginForm()) return null;
+        if(this.props.errors.length === 0) return null;
 
         for(let i = 0; i < this.props.errors.length; i++) {
             if (this.props.errors[i].includes(input)) return <h1 className="signup-error">{this.props.errors[i]}</h1>;
@@ -106,16 +107,16 @@ class SessionForm extends React.Component {
                     <form id="session-form" onSubmit={this.handleSubmit.bind(this)}>
                         <div id="email-input" className="input-field">
                             <label htmlFor="email" className="form-label">Email</label>
-                            {this.checkError("Email")}
-                            <input type="email" name="email" id="email" value={this.state.email} className="form-input" autoComplete="off" onChange={this.handleInput("email")} />
+                            {this.renderSignupErrors("Email", true)}
+                            <input type="email" name="email" id="email" value={this.state.email} className={`form-input ${Boolean(this.renderSignupErrors("Email", false)) ? "red-highlight" : ""}`} autoComplete="off" onChange={this.handleInput("email")} />
                         </div>
 
                         { this.renderUsernameInput() }
 
                         <div id="password-input" className="input-field">
                             <label htmlFor="password" className="form-label">Password</label>
-                            {this.checkError("Password")}
-                            <input type="password" name="password" id="password" value={this.state.password} className="form-input" onChange={this.handleInput("password")}/>
+                            {this.renderSignupErrors("Password", true)}
+                            <input type="password" name="password" id="password" value={this.state.password} className={`form-input ${Boolean(this.renderSignupErrors("Email", false)) ? "red-highlight" : ""}`} onChange={this.handleInput("password")}/>
                         </div>
 
                         { this.renderLoginError() }
@@ -162,8 +163,8 @@ class SessionForm extends React.Component {
             return (
                 <div id="username-input" className="input-field">
                     <label htmlFor="username" className="form-label">Username</label>
-                    {this.checkError("Username")}
-                    <input type="text" name="username" id="username" autoComplete="off" value={this.state.username} className="form-input" onChange={this.handleInput("username")}/>
+                    {this.renderSignupErrors("Username", true)}
+                    <input type="text" name="username" id="username" autoComplete="off" value={this.state.username} className={`form-input ${Boolean(this.renderSignupErrors("Email", false)) ? "red-highlight" : ""}`} onChange={this.handleInput("username")}/>
                 </div>
                 
             );

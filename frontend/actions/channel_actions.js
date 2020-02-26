@@ -1,4 +1,5 @@
 import * as ChannelApiUtil from './../util/channel_api_util';
+import { receiveErrors } from './error_actions';
 
 const receiveChannels = channels => {
     return ({
@@ -35,13 +36,15 @@ export const requestChannel = channelId => dispatch => {
 
 export const createChannel = channel => dispatch => {
     return ChannelApiUtil.createChannel(channel).then(
-        newChannel => dispatch(receiveChannel(newChannel))
+        newChannel => dispatch(receiveChannel(newChannel)),
+        errors => dispatch(receiveErrors(errors.responseJSON))
     );
 };
 
 export const updateChannel = channel => dispatch => {
     return ChannelApiUtil.updateChannel(channel).then(
-        newChannel => dispatch(receiveChannel(newChannel))
+        newChannel => dispatch(receiveChannel(newChannel)),
+        errors => dispatch(receiveErrors(errors.responseJSON))
     );
 };
 

@@ -7,7 +7,8 @@ import { requestServer } from '../../actions/server_actions';
 
 const mapStateToProps = (state) => {
     return ({
-        formType: 'create'
+        formType: 'create',
+        errors: state.errors.general
     });
 }
 

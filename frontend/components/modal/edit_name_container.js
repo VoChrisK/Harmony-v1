@@ -6,7 +6,8 @@ import AddName from './add_name';
 const mapStateToProps = (state) => {
     return ({
         currentUser: state.entities.users[state.session.id],
-        formType: "editName"
+        formType: "editName",
+        errors: state.errors.general
     });
 };
 

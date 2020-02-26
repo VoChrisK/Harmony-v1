@@ -6,7 +6,8 @@ import { closeModal } from '../../actions/modal_actions';
 
 const mapStateToProps = (state) => {
     return ({
-        formType: 'update'
+        formType: 'update',
+        errors: state.errors.general
     });
 };
 
