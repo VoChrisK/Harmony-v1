@@ -25,13 +25,19 @@ class AddName extends React.Component {
             user = Object.assign({}, this.props.currentUser);
             user["username"] = this.state.name;
             this.props.updateUser(user).then(
-                () => this.props.closeModal()
+                () => {
+                    this.props.clearErrors();
+                    this.props.closeModal();
+                }
             );
         } else {
             findUser(this.state.name).then(
                 user => {
                     this.props.createFriend(this.props.currentUser, user).then(
-                        () => this.props.closeModal()
+                        () => {
+                            this.props.clearErrors();
+                            this.props.closeModal();
+                        }
                 )
                 },
                 errors => this.props.receiveErrors(errors.responseJSON)

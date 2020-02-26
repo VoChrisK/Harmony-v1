@@ -14,10 +14,19 @@ class ChannelIndex extends React.Component {
     }
 
     componentDidUpdate(preProps) {
-        if(this.props.match.params.serverId !== preProps.match.params.serverId) {
+        if(this.props.match.params.serverId !== preProps.match.params.serverId || this.props.match.params.channelId !== preProps.match.params.channelId) {
             this.props.requestChannels(this.props.match.params.serverId).then(
-                () => document.getElementById(`channel-info-${this.props.match.params.channelId}`).classList.add("focus")
+                () => {
+                    this.clearFocus();
+                    document.getElementById(`channel-info-${this.props.match.params.channelId}`).classList.add("focus");
+                }
             );
+        }
+    }
+
+    clearFocus() {
+        for (let i = 0; i < document.getElementsByClassName("channel-info").length; i++) {
+            document.getElementsByClassName("channel-info")[i].classList.remove("focus");
         }
     }
 
@@ -58,8 +67,9 @@ class ChannelIndex extends React.Component {
     }
 
     render() {
-        if(!this.props.channels) return null;
+        if(this.props.channels.length === 0) return null;
         const { server } = this.props;
+        const flag = this.props.channels.length === 1;
 
         return(
             <div className="channel-index-container">
@@ -76,7 +86,7 @@ class ChannelIndex extends React.Component {
 
                 <ul className="channels-list">
                     {
-                        this.props.channels.map((channel, idx) => <ChannelIndexItemContainer key={idx} channel={channel} idx={idx} />)
+                        this.props.channels.map((channel, idx) => <ChannelIndexItemContainer key={idx} channel={channel} idx={idx} flag={flag} />)
                     }
                 </ul>
             </div>

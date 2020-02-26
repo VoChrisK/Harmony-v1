@@ -17,7 +17,8 @@ class Notification extends React.Component {
             this.props.processEntity(id).then(this.props.history.push("/servers/@me"));
         }
         else {
-            this.props.processEntity(id).then(this.props.history.push("/servers/"));
+            this.props.processEntity(id).then(
+                () => this.props.history.push(`/servers/${this.props.server.id}/${this.props.server.channelIds[0]}`));
         }
         this.props.closeModal();
     }

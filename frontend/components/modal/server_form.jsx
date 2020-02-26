@@ -26,6 +26,7 @@ class ServerForm extends React.Component {
             this.props.processForm(server).then(
                 () => {
                     this.setState({ name: "" });
+                    this.props.clearErrors();
                     this.props.closeModal();
                 }
             );
@@ -34,6 +35,7 @@ class ServerForm extends React.Component {
                 newServer => {
                     createAffiliation(this.props.currentUserId, newServer.server.id)
                     this.setState({ name: "" });
+                    this.props.clearErrors();
                     this.props.closeModal();
                 }
             )

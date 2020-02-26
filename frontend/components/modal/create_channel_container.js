@@ -4,6 +4,7 @@ import { createChannel } from '../../actions/channel_actions';
 import { withRouter } from 'react-router-dom';
 import { closeModal } from '../../actions/modal_actions';
 import { requestServer } from '../../actions/server_actions';
+import { clearErrors } from '../../actions/error_actions';
 
 const mapStateToProps = (state) => {
     return ({
@@ -16,7 +17,8 @@ const mapDispatchToProps = (dispatch) => {
     return ({
         processForm: channel => dispatch(createChannel(channel)),
         requestServer: serverId => dispatch(requestServer(serverId)),
-        closeModal: () => dispatch(closeModal())
+        closeModal: () => dispatch(closeModal()),
+        clearErrors: () => dispatch(clearErrors())
     });
 };
 

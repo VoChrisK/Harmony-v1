@@ -4,9 +4,10 @@ import { deleteChannel } from './../../actions/channel_actions';
 import Notification from './notification';
 import { closeModal } from './../../actions/modal_actions';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return ({
-        formType: 'channel'
+        formType: 'channel',
+        server: state.entities.servers[ownProps.match.params.serverId]
     });
 }
 

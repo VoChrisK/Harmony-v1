@@ -49,9 +49,7 @@ class MessageIndex extends React.Component {
                         this.setState({ messages: messages })
                     }
     
-                    if (document.getElementById("chat-log").children.length > 0) {
-                        document.getElementById("chat-log").lastChild.scrollIntoView();
-                    }
+                    this.checkChatLog();
                     
                 },
                 speak: function (data) {
@@ -73,13 +71,34 @@ class MessageIndex extends React.Component {
                 processForm(this.props.input.id).then(
                     () => {
                         this.setState({ messages: this.props.messages });
-                        if (document.getElementById("chat-log").children.length > 0) {
-                            document.getElementById("chat-log").lastChild.scrollIntoView();
-                        }
+                        this.checkChatLog();
                         this.expandMessages();
                     }
                 );
+            } else if (Object.keys(this.props.users).length > 0 && Object.keys(preProps.users).length > 0) {
+                if (this.props.users[this.props.currentUserId].username !== preProps.users[this.props.currentUserId].username) {
+                    let processForm;
+                    if (this.props.inputType === "server") {
+                        processForm = this.props.requestDirectMessages
+                    } else {
+                        processForm = this.props.requestChannelMessages
+                    }
 
+                    processForm(this.props.input.id).then(
+                        () => {
+                            this.setState({ messages: this.props.messages });
+                            this.checkChatLog();
+                        }
+                    );
+                }
+            }
+        } 
+    }
+
+    checkChatLog() {
+        if (Boolean(document.getElementById("chat-log"))) {
+            if (document.getElementById("chat-log").children.length > 0) {
+                document.getElementById("chat-log").lastChild.scrollIntoView();
             }
         }
     }

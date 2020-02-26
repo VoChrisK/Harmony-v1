@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { updateUser } from '../../actions/user_actions';
 import { closeModal } from '../../actions/modal_actions';
 import AddName from './add_name';
+import { clearErrors } from '../../actions/error_actions';
 
 const mapStateToProps = (state) => {
     return ({
@@ -14,7 +15,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return ({
         updateUser: user => dispatch(updateUser(user)),
-        closeModal: () => dispatch(closeModal())
+        closeModal: () => dispatch(closeModal()),
+        clearErrors: () => dispatch(clearErrors())
     });
 };
 

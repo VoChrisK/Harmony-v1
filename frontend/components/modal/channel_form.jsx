@@ -29,6 +29,7 @@ class ChannelForm extends React.Component {
         this.props.processForm(channel).then(
             () => {
                 this.setState({ name: "" });
+                this.props.clearErrors();
                 this.props.closeModal();
             }
         );

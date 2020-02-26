@@ -17,15 +17,25 @@ class ChannelIndexItem extends React.Component {
         }
     }
 
+    renderChannelOptions() {
+        if(!this.props.flag) {
+            return (
+                <div className="channel-options">
+                    <i onClick={() => this.props.updateChannelModal()} className="fa fa-edit"></i>
+                    <i onClick={() => this.props.deleteChannelModal()} className="fa fa-trash"></i>
+                </div>
+            )
+        } else {
+            return null;
+        }
+    }
+
     render() {
         return (
             <Link onClick={this.addFocus.bind(this)} to={`/servers/${this.props.match.params.serverId}/${this.props.channel.id}`} className="channel-info" id={`channel-info-${this.props.channel.id}`}>
                 <i className="fa fa-hashtag"></i>
                 <strong className="channel-name">{this.props.channel.name}</strong>
-                <div className="channel-options">
-                    <i onClick={() => this.props.updateChannelModal()} className="fa fa-edit"></i>
-                    <i onClick={() => this.props.deleteChannelModal()} className="fa fa-trash"></i>
-                </div>
+                { this.renderChannelOptions() }
             </Link>
         )
     }
