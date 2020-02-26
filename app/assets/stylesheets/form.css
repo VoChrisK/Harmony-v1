@@ -52,8 +52,8 @@
     cursor: pointer;
 }
 
-#username-input > .form-input {
-    width: 390px;
+#username-input {
+    width: 80%;
 }
 
 .login-error, .signup-error {

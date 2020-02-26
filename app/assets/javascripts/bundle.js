@@ -812,13 +812,21 @@ function (_React$Component) {
   _createClass(ChannelIndex, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.requestChannels(this.props.match.params.serverId);
+      var _this = this;
+
+      this.props.requestChannels(this.props.match.params.serverId).then(function () {
+        return document.getElementById("channel-info-".concat(_this.props.match.params.channelId)).classList.add("focus");
+      });
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(preProps) {
+      var _this2 = this;
+
       if (this.props.match.params.serverId !== preProps.match.params.serverId) {
-        this.props.requestChannels(this.props.match.params.serverId);
+        this.props.requestChannels(this.props.match.params.serverId).then(function () {
+          return document.getElementById("channel-info-".concat(_this2.props.match.params.channelId)).classList.add("focus");
+        });
       }
     }
   }, {
@@ -834,18 +842,18 @@ function (_React$Component) {
   }, {
     key: "handleLeave",
     value: function handleLeave() {
-      var _this = this;
+      var _this3 = this;
 
       Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["deleteAffiliation"])(this.props.currentUserId, this.props.match.params.serverId).then(function () {
-        return _this.props.requestServers(_this.props.currentUserId).then(function () {
-          return _this.props.history.push("/servers/@me");
+        return _this3.props.requestServers(_this3.props.currentUserId).then(function () {
+          return _this3.props.history.push("/servers/@me");
         });
       });
     }
   }, {
     key: "renderChoice",
     value: function renderChoice() {
-      var _this2 = this;
+      var _this4 = this;
 
       if (this.props.currentUserId === this.props.server.owner_id.toString()) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
@@ -853,7 +861,7 @@ function (_React$Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "update-server",
           onClick: function onClick() {
-            return _this2.props.updateServerModal();
+            return _this4.props.updateServerModal();
           }
         }, "Edit Server"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "delete-server",
@@ -871,7 +879,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this5 = this;
 
       if (!this.props.channels) return null;
       var server = this.props.server;
@@ -890,7 +898,7 @@ function (_React$Component) {
         className: "inline-header"
       }, "TEXT CHANNELS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         onClick: function onClick() {
-          return _this3.props.createChannelModal();
+          return _this5.props.createChannelModal();
         },
         className: "fa fa-plus"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
@@ -1006,11 +1014,6 @@ function (_React$Component) {
   }
 
   _createClass(ChannelIndexItem, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      document.getElementsByClassName("channel-info")[this.props.idx].classList.add("focus");
-    }
-  }, {
     key: "addFocus",
     value: function addFocus() {
       this.clearFocus();
@@ -1028,11 +1031,11 @@ function (_React$Component) {
     value: function render() {
       var _this = this;
 
-      if (!this.props.channel) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         onClick: this.addFocus.bind(this),
         to: "/servers/".concat(this.props.match.params.serverId, "/").concat(this.props.channel.id),
-        className: "channel-info"
+        className: "channel-info",
+        id: "channel-info-".concat(this.props.channel.id)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-hashtag"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
@@ -1916,8 +1919,9 @@ function (_React$Component) {
           _this2.setState({
             messages: _this2.props.messages
           });
+
+          _this2.expandMessages();
         });
-        this.expandMessages();
       }
 
       App.cable.subscriptions.create({
@@ -1980,10 +1984,10 @@ function (_React$Component) {
             if (document.getElementById("chat-log").children.length > 0) {
               document.getElementById("chat-log").lastChild.scrollIntoView();
             }
+
+            _this3.expandMessages();
           });
         }
-
-        this.expandMessages();
       }
     }
   }, {
@@ -2889,6 +2893,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _actions_error_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../actions/error_actions */ "./frontend/actions/error_actions.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2906,6 +2911,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -2950,13 +2956,33 @@ function (_React$Component) {
       var _this2 = this;
 
       e.preventDefault();
-      Object(_util_user_api_util__WEBPACK_IMPORTED_MODULE_2__["findUser"])(this.state.name).then(function (user) {
-        return Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_1__["createAffiliation"])(user.id, _this2.props.match.params.serverId).then(function () {
-          return _this2.props.requestServer(_this2.props.match.params.serverId).then(function () {
-            return _this2.props.closeModal();
+
+      if (this.props.location.pathname.includes("@me")) {
+        this.props.receiveErrors(["Invalid Server"]);
+      } else {
+        Object(_util_user_api_util__WEBPACK_IMPORTED_MODULE_2__["findUser"])(this.state.name).then(function (user) {
+          Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_1__["createAffiliation"])(user.id, _this2.props.match.params.serverId).then(function () {
+            return _this2.props.requestServer(_this2.props.match.params.serverId).then(function () {
+              _this2.props.clearErrors();
+
+              _this2.props.closeModal();
+            });
           });
+        }, function (errors) {
+          return _this2.props.receiveErrors(errors.responseJSON);
         });
-      });
+      }
+    }
+  }, {
+    key: "renderError",
+    value: function renderError() {
+      if (this.props.errors.length === 0) {
+        return null;
+      } else {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "general-error"
+        }, " - " + this.props.errors[0]);
+      }
     }
   }, {
     key: "render",
@@ -2970,12 +2996,12 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "join-name-div"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        className: "name-label form-label",
+        className: "name-label form-label ".concat(Boolean(this.renderError()) ? " red-label" : ""),
         htmlFor: "username-input"
-      }, "USERNAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "USERNAME", this.renderError()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         id: "username-input",
-        className: "form-input",
+        className: "form-input ".concat(Boolean(this.renderError()) ? " red-highlight" : ""),
         value: this.state.value,
         onChange: this.handleName.bind(this)
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -2989,6 +3015,12 @@ function (_React$Component) {
   return JoinServer;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    errors: state.errors.general
+  };
+};
+
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     closeModal: function closeModal() {
@@ -2996,11 +3028,17 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     requestServer: function requestServer(serverId) {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_6__["requestServer"])(serverId));
+    },
+    receiveErrors: function receiveErrors(errors) {
+      return dispatch(Object(_actions_error_actions__WEBPACK_IMPORTED_MODULE_7__["receiveErrors"])(errors));
+    },
+    clearErrors: function clearErrors() {
+      return dispatch(Object(_actions_error_actions__WEBPACK_IMPORTED_MODULE_7__["clearErrors"])());
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_5__["connect"])(null, mapDispatchToProps)(JoinServer)));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_5__["connect"])(mapStateToProps, mapDispatchToProps)(JoinServer)));
 
 /***/ }),
 
@@ -3856,7 +3894,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/servers/@me",
         onClick: this.addFocus.bind(this),
-        className: "friends-tab user-info"
+        className: "friends-tab user-info focus"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-user-friends"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {

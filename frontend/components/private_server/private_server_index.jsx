@@ -33,7 +33,7 @@ class PrivateServerIndex extends React.Component {
 
         return (
             <aside className="private-servers-container">
-                <Link to="/servers/@me" onClick={this.addFocus.bind(this)} className="friends-tab user-info">
+                <Link to="/servers/@me" onClick={this.addFocus.bind(this)} className="friends-tab user-info focus">
                     <i className="fa fa-user-friends"></i>
                     <h2 className="friends-tab-header">Friends</h2>
                 </Link>

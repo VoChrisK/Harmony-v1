@@ -8,12 +8,16 @@ class ChannelIndex extends React.Component {
     }
 
     componentDidMount() {
-        this.props.requestChannels(this.props.match.params.serverId);
+        this.props.requestChannels(this.props.match.params.serverId).then(
+            () => document.getElementById(`channel-info-${this.props.match.params.channelId}`).classList.add("focus")
+        );
     }
 
     componentDidUpdate(preProps) {
         if(this.props.match.params.serverId !== preProps.match.params.serverId) {
-            this.props.requestChannels(this.props.match.params.serverId);
+            this.props.requestChannels(this.props.match.params.serverId).then(
+                () => document.getElementById(`channel-info-${this.props.match.params.channelId}`).classList.add("focus")
+            );
         }
     }
 

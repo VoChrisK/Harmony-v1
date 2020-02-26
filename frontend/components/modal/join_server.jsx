@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { closeModal } from '../../actions/modal_actions';
 import { connect } from 'react-redux';
 import { requestServer } from './../../actions/server_actions'
+import { receiveErrors, clearErrors } from '../../actions/error_actions';
 
 class JoinServer extends React.Component {
     constructor(props) {
@@ -24,13 +25,31 @@ class JoinServer extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        findUser(this.state.name).then(
-            user => createAffiliation(user.id, this.props.match.params.serverId).then(
-                () => this.props.requestServer(this.props.match.params.serverId).then(
-                    () => this.props.closeModal()
-                )
-            )
-        );
+
+        if (this.props.location.pathname.includes("@me")) {
+            this.props.receiveErrors(["Invalid Server"])
+        } else {
+            findUser(this.state.name).then(
+                user => {
+                    createAffiliation(user.id, this.props.match.params.serverId).then(
+                    () => this.props.requestServer(this.props.match.params.serverId).then(
+                        () => {
+                            this.props.clearErrors();
+                            this.props.closeModal();
+                        }
+                    )
+                )},
+                errors => this.props.receiveErrors(errors.responseJSON)
+            );
+        }
+    }
+
+    renderError() {
+        if (this.props.errors.length === 0) {
+            return null;
+        } else {
+            return <i className="general-error">{" - " + this.props.errors[0]}</i>;
+        }
     }
 
     render() {
@@ -39,8 +58,10 @@ class JoinServer extends React.Component {
                 <h1 className="join-server-header">Enter a username and they will join instantly!</h1>
                 <form onSubmit={this.handleSubmit.bind(this)}>
                     <div className="join-name-div">
-                        <label className="name-label form-label" htmlFor="username-input">USERNAME</label>
-                        <input type="text" id="username-input" className="form-input" value={this.state.value} onChange={this.handleName.bind(this)}/>
+                        <label className={`name-label form-label ${Boolean(this.renderError()) ? " red-label" : ""}`} htmlFor="username-input">USERNAME
+                            {this.renderError()}
+                        </label>
+                        <input type="text" id="username-input" className={`form-input ${Boolean(this.renderError()) ? " red-highlight" : ""}`} value={this.state.value} onChange={this.handleName.bind(this)}/>
                     </div>
                     <input type="submit" value="Add User" className="join-submit name-submit form-submit"/>
                 </form>
@@ -49,11 +70,19 @@ class JoinServer extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
     return ({
-        closeModal: () => dispatch(closeModal()),
-        requestServer: serverId => dispatch(requestServer(serverId))
+        errors: state.errors.general
     });
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(JoinServer));
+const mapDispatchToProps = (dispatch) => {
+    return ({
+        closeModal: () => dispatch(closeModal()),
+        requestServer: serverId => dispatch(requestServer(serverId)),
+        receiveErrors: errors => dispatch(receiveErrors(errors)),
+        clearErrors: () => dispatch(clearErrors())
+    });
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(JoinServer));

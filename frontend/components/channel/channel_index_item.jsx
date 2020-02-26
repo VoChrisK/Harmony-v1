@@ -6,10 +6,6 @@ class ChannelIndexItem extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        document.getElementsByClassName("channel-info")[this.props.idx].classList.add("focus");
-    }
-
     addFocus() {
         this.clearFocus();
         document.getElementsByClassName("channel-info")[this.props.idx].classList.add("focus");
@@ -22,10 +18,8 @@ class ChannelIndexItem extends React.Component {
     }
 
     render() {
-        if(!this.props.channel) return null;
-
         return (
-            <Link onClick={this.addFocus.bind(this)} to={`/servers/${this.props.match.params.serverId}/${this.props.channel.id}`} className="channel-info">
+            <Link onClick={this.addFocus.bind(this)} to={`/servers/${this.props.match.params.serverId}/${this.props.channel.id}`} className="channel-info" id={`channel-info-${this.props.channel.id}`}>
                 <i className="fa fa-hashtag"></i>
                 <strong className="channel-name">{this.props.channel.name}</strong>
                 <div className="channel-options">

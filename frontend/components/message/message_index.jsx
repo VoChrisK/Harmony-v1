@@ -26,10 +26,10 @@ class MessageIndex extends React.Component {
             processForm(this.props.input.id).then(
                 () => {
                     this.setState({ messages: this.props.messages })
+                    this.expandMessages();
                 }
             );
-                
-            this.expandMessages();
+            
         }
 
         App.cable.subscriptions.create(
@@ -76,11 +76,11 @@ class MessageIndex extends React.Component {
                         if (document.getElementById("chat-log").children.length > 0) {
                             document.getElementById("chat-log").lastChild.scrollIntoView();
                         }
+                        this.expandMessages();
                     }
                 );
 
             }
-            this.expandMessages();
         }
     }
 
