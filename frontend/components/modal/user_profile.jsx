@@ -19,8 +19,8 @@ class UserProfile extends React.Component {
 
     handlePrivateServer(event) {
         event.preventDefault();
-        let users = [this.props.currentUser.username, this.props.user.username].sort();
-        const server = Object.assign({}, { "name": `DM between ${users[0]} and ${users[1]}` });
+        let users = [this.props.currentUser.id, this.props.user.id].sort();
+        const server = Object.assign({}, { "name": `DM ${users[0]} and ${users[1]}` });
         this.props.createPrivateServer(server).then(
             newServer => {
                 createAffiliation(this.props.currentUser.id, newServer.server.id);

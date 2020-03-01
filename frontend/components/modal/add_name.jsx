@@ -1,5 +1,7 @@
 import React from 'react';
 import { findUser } from './../../util/user_api_util';
+import { createAffiliation } from './../../util/affiliation_api_util';
+import { withRouter } from 'react-router-dom';
 
 class AddName extends React.Component {
     constructor(props) {
@@ -30,7 +32,7 @@ class AddName extends React.Component {
                     this.props.closeModal();
                 }
             );
-        } else {
+        } else if(this.props.formType === "addFriend") {
             findUser(this.state.name).then(
                 user => {
                     this.props.createFriend(this.props.currentUser, user).then(
@@ -42,6 +44,26 @@ class AddName extends React.Component {
                 },
                 errors => this.props.receiveErrors(errors.responseJSON)
             );
+        } else {
+            findUser(this.state.name).then(
+                user => {
+                    let users = [this.props.currentUser.id, user.id].sort();
+                    const server = Object.assign({}, { "name": `DM ${users[0]} and ${users[1]}` });
+                    this.props.createPrivateServer(server).then(
+                        newServer => {
+                            createAffiliation(users[0], newServer.server.id);
+                            createAffiliation(users[1], newServer.server.id).then(
+                                () => {
+                                    this.props.clearErrors();
+                                    this.props.closeModal();
+                                    this.props.history.push(`/servers/@me/${newServer.server.id}`)
+                                }
+                            )
+                        }
+                    )
+                },
+                errors => this.props.receiveErrors(errors.responseJSON)
+            )
         }
     }
 
@@ -57,15 +79,15 @@ class AddName extends React.Component {
         return (
             <form className="edit-name" onSubmit={this.handleSubmit.bind(this)}>
                 <div className="edit-name-div">
-                    <label className={`name-label form-label ${Boolean(this.renderError()) ? " red-label" : ""}`} htmlFor="edit-name-input">{this.props.formType === "editName" ? "EDIT NAME" : "ADD FRIEND"}
+                    <label className={`name-label form-label ${Boolean(this.renderError()) ? " red-label" : ""}`} htmlFor="edit-name-input">{this.props.formType === "editName" ? "EDIT NAME" : this.props.formType === "addFriend" ? "ADD FRIEND" : "ENTER A USERNAME" }
                         {this.renderError()}
                     </label>
                     <input type="text" id="edit-name-input" className={`form-input ${Boolean(this.renderError()) ? " red-highlight" : ""}`} autoComplete="off" value={this.state.name} onChange={this.handleName.bind(this)} />
                 </div>
-                <input type="submit" value={this.props.formType === "editName" ? "Update" : "Add Friend"} className="name-submit form-submit"/>
+                <input type="submit" value={this.props.formType === "editName" ? "Update" : this.props.formType === "addFriend" ? "Add Friend" : "Create DM"} className="name-submit form-submit"/>
             </form>
         );
     }
 }
 
-export default AddName;
+export default withRouter(AddName);

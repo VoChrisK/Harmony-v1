@@ -150,3 +150,12 @@
     height: 400px;
     background-color: #36393f;
 }
+
+.fas.fa-times {
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    color: red;
+    font-size: 24px;
+    cursor: pointer;
+}

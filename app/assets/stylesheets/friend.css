@@ -78,6 +78,10 @@
     border-top: 1px solid #3c3f44;
 }
 
+.friend-container > .username {
+    overflow: unset; 
+}
+
 .friend-container:hover > .fas.fa-user-times {
     visibility: visible;
 }

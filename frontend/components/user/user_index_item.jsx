@@ -27,8 +27,8 @@ class UserIndexItem extends React.Component {
         message["author_id"] = this.props.currentUser.id;
         this.props.createMessage(message).then(
             newMessage => {
-                let users = [this.props.currentUser.username, this.props.user.username].sort();
-                const server = Object.assign({}, { "name": `DM between ${users[0]} and ${users[1]}` });
+                let users = [this.props.currentUser.id, this.props.user.id].sort();
+                const server = Object.assign({}, { "name": `DM ${users[0]} and ${users[1]}` });
                 this.props.createPrivateServer(server).then(
                     newServer => {
                         createDirectMessage(newMessage.message.id, newServer.server.id);

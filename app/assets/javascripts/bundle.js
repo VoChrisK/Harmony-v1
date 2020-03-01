@@ -2435,6 +2435,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util_user_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../util/user_api_util */ "./frontend/util/user_api_util.js");
+/* harmony import */ var _util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../util/affiliation_api_util */ "./frontend/util/affiliation_api_util.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2452,6 +2454,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
 
 
 
@@ -2501,12 +2505,32 @@ function (_React$Component) {
 
           _this2.props.closeModal();
         });
-      } else {
+      } else if (this.props.formType === "addFriend") {
         Object(_util_user_api_util__WEBPACK_IMPORTED_MODULE_1__["findUser"])(this.state.name).then(function (user) {
           _this2.props.createFriend(_this2.props.currentUser, user).then(function () {
             _this2.props.clearErrors();
 
             _this2.props.closeModal();
+          });
+        }, function (errors) {
+          return _this2.props.receiveErrors(errors.responseJSON);
+        });
+      } else {
+        Object(_util_user_api_util__WEBPACK_IMPORTED_MODULE_1__["findUser"])(this.state.name).then(function (user) {
+          var users = [_this2.props.currentUser.id, user.id].sort();
+          var server = Object.assign({}, {
+            "name": "DM ".concat(users[0], " and ").concat(users[1])
+          });
+
+          _this2.props.createPrivateServer(server).then(function (newServer) {
+            Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(users[0], newServer.server.id);
+            Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(users[1], newServer.server.id).then(function () {
+              _this2.props.clearErrors();
+
+              _this2.props.closeModal();
+
+              _this2.props.history.push("/servers/@me/".concat(newServer.server.id));
+            });
           });
         }, function (errors) {
           return _this2.props.receiveErrors(errors.responseJSON);
@@ -2535,7 +2559,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         className: "name-label form-label ".concat(Boolean(this.renderError()) ? " red-label" : ""),
         htmlFor: "edit-name-input"
-      }, this.props.formType === "editName" ? "EDIT NAME" : "ADD FRIEND", this.renderError()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, this.props.formType === "editName" ? "EDIT NAME" : this.props.formType === "addFriend" ? "ADD FRIEND" : "ENTER A USERNAME", this.renderError()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         id: "edit-name-input",
         className: "form-input ".concat(Boolean(this.renderError()) ? " red-highlight" : ""),
@@ -2544,7 +2568,7 @@ function (_React$Component) {
         onChange: this.handleName.bind(this)
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
-        value: this.props.formType === "editName" ? "Update" : "Add Friend",
+        value: this.props.formType === "editName" ? "Update" : this.props.formType === "addFriend" ? "Add Friend" : "Create DM",
         className: "name-submit form-submit"
       }));
     }
@@ -2553,7 +2577,7 @@ function (_React$Component) {
   return AddName;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (AddName);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["withRouter"])(AddName));
 
 /***/ }),
 
@@ -3024,12 +3048,16 @@ function (_React$Component) {
         this.props.receiveErrors(["Invalid Server"]);
       } else {
         Object(_util_user_api_util__WEBPACK_IMPORTED_MODULE_2__["findUser"])(this.state.name).then(function (user) {
-          Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_1__["createAffiliation"])(user.id, _this2.props.match.params.serverId).then(function () {
-            return _this2.props.requestServer(_this2.props.match.params.serverId).then(function () {
-              _this2.props.clearErrors();
+          Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_1__["createAffiliation"])(user.id, _this2.props.match.params.serverId).then(function (flag) {
+            if (!flag) {
+              _this2.props.receiveErrors(["User is already in the server!"]);
+            } else {
+              _this2.props.requestServer(_this2.props.match.params.serverId).then(function () {
+                _this2.props.clearErrors();
 
-              _this2.props.closeModal();
-            });
+                _this2.props.closeModal();
+              });
+            }
           });
         }, function (errors) {
           return _this2.props.receiveErrors(errors.responseJSON);
@@ -3129,7 +3157,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _add_friend_container__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./add_friend_container */ "./frontend/components/modal/add_friend_container.js");
 /* harmony import */ var _edit_name_container__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./edit_name_container */ "./frontend/components/modal/edit_name_container.js");
 /* harmony import */ var _user_profile__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./user_profile */ "./frontend/components/modal/user_profile.jsx");
-/* harmony import */ var _actions_error_actions__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../actions/error_actions */ "./frontend/actions/error_actions.js");
+/* harmony import */ var _new_direct_message__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./new_direct_message */ "./frontend/components/modal/new_direct_message.js");
+/* harmony import */ var _actions_error_actions__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../actions/error_actions */ "./frontend/actions/error_actions.js");
+
 
 
 
@@ -3200,6 +3230,10 @@ var Modal = function Modal(_ref) {
       });
       break;
 
+    case 'newDM':
+      component = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_new_direct_message__WEBPACK_IMPORTED_MODULE_14__["default"], null);
+      break;
+
     default:
       return null;
   }
@@ -3217,7 +3251,10 @@ var Modal = function Modal(_ref) {
     onClick: function onClick(e) {
       return e.stopPropagation();
     }
-  }, component));
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+    onClick: handleClose,
+    "class": "fas fa-times"
+  }), component));
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -3232,12 +3269,61 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_1__["closeModal"])());
     },
     clearErrors: function clearErrors() {
-      return dispatch(Object(_actions_error_actions__WEBPACK_IMPORTED_MODULE_14__["clearErrors"])());
+      return dispatch(Object(_actions_error_actions__WEBPACK_IMPORTED_MODULE_15__["clearErrors"])());
     }
   };
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps)(Modal));
+
+/***/ }),
+
+/***/ "./frontend/components/modal/new_direct_message.js":
+/*!*********************************************************!*\
+  !*** ./frontend/components/modal/new_direct_message.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _add_name__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./add_name */ "./frontend/components/modal/add_name.jsx");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+/* harmony import */ var _actions_error_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/error_actions */ "./frontend/actions/error_actions.js");
+
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    currentUser: state.entities.users[state.session.id],
+    formType: "newDM",
+    errors: state.errors.general
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    createPrivateServer: function createPrivateServer(server) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_1__["createPrivateServer"])(server));
+    },
+    closeModal: function closeModal() {
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["closeModal"])());
+    },
+    clearErrors: function clearErrors() {
+      return dispatch(Object(_actions_error_actions__WEBPACK_IMPORTED_MODULE_4__["clearErrors"])());
+    },
+    receiveErrors: function receiveErrors(errors) {
+      return dispatch(Object(_actions_error_actions__WEBPACK_IMPORTED_MODULE_4__["receiveErrors"])(errors));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_add_name__WEBPACK_IMPORTED_MODULE_2__["default"]));
 
 /***/ }),
 
@@ -3787,9 +3873,9 @@ function (_React$Component) {
       var _this = this;
 
       event.preventDefault();
-      var users = [this.props.currentUser.username, this.props.user.username].sort();
+      var users = [this.props.currentUser.id, this.props.user.id].sort();
       var server = Object.assign({}, {
-        "name": "DM between ".concat(users[0], " and ").concat(users[1])
+        "name": "DM ".concat(users[0], " and ").concat(users[1])
       });
       this.props.createPrivateServer(server).then(function (newServer) {
         Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_6__["createAffiliation"])(_this.props.currentUser.id, newServer.server.id);
@@ -3964,6 +4050,8 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       if (this.props.servers.length === 0) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "private-servers-container"
@@ -3979,7 +4067,12 @@ function (_React$Component) {
         className: "header-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         className: "inline-header"
-      }, "DIRECT MESSAGES")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }, "DIRECT MESSAGES"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        onClick: function onClick() {
+          return _this2.props.newDirectMessage();
+        },
+        className: "fa fa-plus"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "private-servers-list"
       }, this.props.servers.map(function (server, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_private_server_index_item_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -4011,6 +4104,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _private_server_index__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./private_server_index */ "./frontend/components/private_server/private_server_index.jsx");
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../actions/server_actions */ "./frontend/actions/server_actions.js");
 /* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+
 
 
 
@@ -4030,6 +4125,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     requestUsersByIds: function requestUsersByIds(userIds) {
       return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["requestUsersByIds"])(userIds));
+    },
+    newDirectMessage: function newDirectMessage() {
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__["openModal"])("newDM"));
     }
   };
 };
@@ -5274,9 +5372,9 @@ function (_React$Component) {
       var message = Object.assign({}, this.state);
       message["author_id"] = this.props.currentUser.id;
       this.props.createMessage(message).then(function (newMessage) {
-        var users = [_this2.props.currentUser.username, _this2.props.user.username].sort();
+        var users = [_this2.props.currentUser.id, _this2.props.user.id].sort();
         var server = Object.assign({}, {
-          "name": "DM between ".concat(users[0], " and ").concat(users[1])
+          "name": "DM ".concat(users[0], " and ").concat(users[1])
         });
 
         _this2.props.createPrivateServer(server).then(function (newServer) {

@@ -2,7 +2,7 @@ class Api::AffiliationsController < ApplicationController
     def create
         @affiliation = Affiliation.find_by(user_id: params[:affiliation][:user_id], server_id: params[:affiliation][:server_id])
         if @affiliation
-            render json: @affiliation
+            render json: false
         else
             @affiliation = Affiliation.new(affiliation_params)
             if @affiliation.save

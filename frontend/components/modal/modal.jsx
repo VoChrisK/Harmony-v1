@@ -12,6 +12,7 @@ import JoinServer from './join_server';
 import AddFriendContainer from './add_friend_container';
 import EditNameContainer from './edit_name_container';
 import UserProfile from './user_profile';
+import NewDirectMessage from './new_direct_message';
 import { clearErrors } from '../../actions/error_actions';
 
 const Modal = ({ modal, closeModal, clearErrors }) => {
@@ -52,6 +53,9 @@ const Modal = ({ modal, closeModal, clearErrors }) => {
         case 'userProfile':
             component = <UserProfile user={modal.user} />
             break;
+        case 'newDM':
+            component = < NewDirectMessage />;
+            break;
         default:
             return null;
     }
@@ -64,6 +68,7 @@ const Modal = ({ modal, closeModal, clearErrors }) => {
     return (
         <div className="modal-screen" onClick={handleClose}>
             <div className="modal-container" onClick={e => e.stopPropagation()}>
+                <i onClick={handleClose} class="fas fa-times"></i>
                 {component}
             </div>
         </div>

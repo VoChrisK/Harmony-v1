@@ -32,12 +32,18 @@ class JoinServer extends React.Component {
             findUser(this.state.name).then(
                 user => {
                     createAffiliation(user.id, this.props.match.params.serverId).then(
-                    () => this.props.requestServer(this.props.match.params.serverId).then(
-                        () => {
-                            this.props.clearErrors();
-                            this.props.closeModal();
+                    flag => {
+                        if(!flag) {
+                            this.props.receiveErrors(["User is already in the server!"]);
+                        } else {
+                            this.props.requestServer(this.props.match.params.serverId).then(
+                                () => {
+                                    this.props.clearErrors();
+                                    this.props.closeModal();
+                                }
+                            )
                         }
-                    )
+                    }
                 )},
                 errors => this.props.receiveErrors(errors.responseJSON)
             );
