@@ -4,7 +4,8 @@ class Server < ApplicationRecord
     has_many :affiliations,
     primary_key: :id,
     foreign_key: :server_id,
-    class_name: 'Affiliation'
+    class_name: 'Affiliation',
+    dependent: :destroy
 
     has_many :channels,
     primary_key: :id,

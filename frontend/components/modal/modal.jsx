@@ -68,7 +68,6 @@ const Modal = ({ modal, closeModal, clearErrors }) => {
     return (
         <div className="modal-screen" onClick={handleClose}>
             <div className="modal-container" onClick={e => e.stopPropagation()}>
-                <i onClick={handleClose} class="fas fa-times"></i>
                 {component}
             </div>
         </div>

@@ -42,7 +42,7 @@ class MainContent extends React.Component {
                     <h2 className="friends-tab-header">Friends</h2>
                 </li>
 
-                <li onClick={() => this.changeFilter("Online")} className="show-online-friends focus"><h1>Online</h1></li>
+                <li onClick={() => this.changeFilter("Online")} className="show-online-friends"><h1>Online</h1></li>
 
                 <li onClick={() => this.changeFilter("All")} className="show-all-friends"><h1>All</h1></li>
 

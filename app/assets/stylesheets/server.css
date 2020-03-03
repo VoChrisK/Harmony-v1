@@ -250,3 +250,13 @@
     font-size: 18px;
     color: #dadada;
 }
+
+.far.fa-times-circle {
+    display: none;
+    margin-right: 5px;
+    color: red;
+}
+
+.user-info:hover > .far.fa-times-circle {
+    display: inline;
+}

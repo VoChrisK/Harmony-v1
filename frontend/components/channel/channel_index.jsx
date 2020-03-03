@@ -47,7 +47,7 @@ class ChannelIndex extends React.Component {
     }
 
     renderChoice() {
-        if (this.props.currentUserId === this.props.server.owner_id.toString()) {
+        if (parseInt(this.props.currentUserId) === this.props.server.owner_id) {
             return (
                 <ul className="server-dropdown dropdown-menu">
                     <li className="update-server" onClick={() => this.props.updateServerModal()}>Edit Server</li>

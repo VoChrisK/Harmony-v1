@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import { createPrivateServer } from '../../actions/server_actions';
+import { findUser } from './../../actions/user_actions';
+import { createPrivateServer, requestPrivateServer } from '../../actions/server_actions';
 import AddName from './add_name';
 import { closeModal } from '../../actions/modal_actions';
 import { clearErrors, receiveErrors } from '../../actions/error_actions';
@@ -14,7 +15,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return ({
+        findUser: username => dispatch(findUser(username)),
         createPrivateServer: server => dispatch(createPrivateServer(server)),
+        requestPrivateServer: serverId => dispatch(requestPrivateServer(serverId)),
         closeModal: () => dispatch(closeModal()),
         clearErrors: () => dispatch(clearErrors()),
         receiveErrors: errors => dispatch(receiveErrors(errors))

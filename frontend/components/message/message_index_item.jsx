@@ -37,7 +37,7 @@ class MessageIndexItem extends React.Component {
     }
 
     showDropdown() {
-        if (this.props.currentUserId === this.props.message.author_id.toString()) {
+        if (parseInt(this.props.currentUserId) === this.props.message.author_id) {
             document.getElementsByClassName("message-dropdown")[this.props.idx].classList.toggle("is-showing");
         }
     }

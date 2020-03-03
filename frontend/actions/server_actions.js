@@ -61,6 +61,12 @@ export const requestServer = serverId => dispatch => {
     );
 };
 
+export const requestPrivateServer = serverId => dispatch => {
+    return ServerApiUtil.fetchServer(serverId).then(
+        server => dispatch(receivePrivateServer(server))
+    )
+}
+
 export const createServer = server => dispatch => {
     return ServerApiUtil.createServer(server).then(
         newServer => dispatch(receiveServer(newServer)),

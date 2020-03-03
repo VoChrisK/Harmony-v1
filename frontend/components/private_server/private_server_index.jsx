@@ -1,6 +1,6 @@
 import React from 'react';
 import PrivateServerIndexItemContainer from './private_server_index_item_container';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 class PrivateServerIndex extends React.Component {
     constructor(props) {
@@ -12,7 +12,15 @@ class PrivateServerIndex extends React.Component {
             data => {
                 const userIds = Object.values(data.servers).map(server => server.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0]);
                 userIds.push(this.props.currentUserId);
-                this.props.requestUsersByIds(userIds);
+                this.props.requestUsersByIds(userIds).then(
+                    () => {
+                        if(this.props.location.pathname === "/servers/@me") {
+                            document.getElementsByClassName("user-info")[0].classList.add("focus");
+                        } else {
+                            document.getElementById(`user-info-${this.props.match.params.serverId}`).classList.add("focus");
+                        }
+                    }
+                );
             }
         );
     }
@@ -29,11 +37,9 @@ class PrivateServerIndex extends React.Component {
     }
     
     render() {
-        if (this.props.servers.length === 0) return null;
-
         return (
             <aside className="private-servers-container">
-                <Link to="/servers/@me" onClick={this.addFocus.bind(this)} className="friends-tab user-info focus">
+                <Link to="/servers/@me" onClick={this.addFocus.bind(this)} className="friends-tab user-info">
                     <i className="fa fa-user-friends"></i>
                     <h2 className="friends-tab-header">Friends</h2>
                 </Link>
@@ -53,4 +59,4 @@ class PrivateServerIndex extends React.Component {
     }
 }
 
-export default PrivateServerIndex;
+export default withRouter(PrivateServerIndex);

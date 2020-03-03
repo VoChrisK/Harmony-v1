@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import PrivateServerIndexItem from './private_server_index_item';
+import { deleteServer } from '../../actions/server_actions';
 
 const mapStateToProps = (state) => {
     return ({
@@ -10,7 +11,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        
+        deleteServer: serverId => dispatch(deleteServer(serverId))
     });
 };
 

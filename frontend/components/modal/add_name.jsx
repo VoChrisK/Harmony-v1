@@ -45,24 +45,24 @@ class AddName extends React.Component {
                 errors => this.props.receiveErrors(errors.responseJSON)
             );
         } else {
-            findUser(this.state.name).then(
-                user => {
-                    let users = [this.props.currentUser.id, user.id].sort();
+            this.props.findUser(this.state.name).then(
+                data => {
+                    let users = [this.props.currentUser.id, data.user.id].sort();
                     const server = Object.assign({}, { "name": `DM ${users[0]} and ${users[1]}` });
                     this.props.createPrivateServer(server).then(
                         newServer => {
                             createAffiliation(users[0], newServer.server.id);
                             createAffiliation(users[1], newServer.server.id).then(
                                 () => {
+                                    this.props.requestPrivateServer(newServer.server.id);
                                     this.props.clearErrors();
                                     this.props.closeModal();
-                                    this.props.history.push(`/servers/@me/${newServer.server.id}`)
+                                    this.props.history.push(`/servers/@me/${newServer.server.id}`);
                                 }
                             )
                         }
                     )
-                },
-                errors => this.props.receiveErrors(errors.responseJSON)
+                }
             )
         }
     }

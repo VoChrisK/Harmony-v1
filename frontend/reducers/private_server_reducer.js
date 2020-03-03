@@ -1,6 +1,7 @@
 import {
     RECEIVE_PRIVATE_SERVERS,
-    RECEIVE_PRIVATE_SERVER
+    RECEIVE_PRIVATE_SERVER,
+    REMOVE_SERVER
 } from './../actions/server_actions';
 
 const privateServersReducer = (state = {}, action) => {
@@ -12,6 +13,10 @@ const privateServersReducer = (state = {}, action) => {
         case RECEIVE_PRIVATE_SERVER:
             nextState = Object.assign({}, state);
             nextState[action.server.id] = action.server;
+            return nextState;
+        case REMOVE_SERVER:
+            nextState = Object.assign({}, state);
+            delete nextState[action.serverId];
             return nextState;
         default:
             return state;

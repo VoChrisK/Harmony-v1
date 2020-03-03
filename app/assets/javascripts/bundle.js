@@ -422,7 +422,7 @@ var FILTER_ONLINE = "FILTER_ONLINE";
 /*!********************************************!*\
   !*** ./frontend/actions/server_actions.js ***!
   \********************************************/
-/*! exports provided: requestServers, requestPrivateServers, requestServer, createServer, createPrivateServer, updateServer, deleteServer, RECEIVE_SERVERS, RECEIVE_PRIVATE_SERVERS, RECEIVE_SERVER, RECEIVE_PRIVATE_SERVER, REMOVE_SERVER, RECEIVE_SERVER_ERRORS */
+/*! exports provided: requestServers, requestPrivateServers, requestServer, requestPrivateServer, createServer, createPrivateServer, updateServer, deleteServer, RECEIVE_SERVERS, RECEIVE_PRIVATE_SERVERS, RECEIVE_SERVER, RECEIVE_PRIVATE_SERVER, REMOVE_SERVER, RECEIVE_SERVER_ERRORS */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -430,6 +430,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestServers", function() { return requestServers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestPrivateServers", function() { return requestPrivateServers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestServer", function() { return requestServer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestPrivateServer", function() { return requestPrivateServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createServer", function() { return createServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createPrivateServer", function() { return createPrivateServer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateServer", function() { return updateServer; });
@@ -505,6 +506,13 @@ var requestServer = function requestServer(serverId) {
   return function (dispatch) {
     return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchServer"](serverId).then(function (server) {
       return dispatch(receiveServer(server));
+    });
+  };
+};
+var requestPrivateServer = function requestPrivateServer(serverId) {
+  return function (dispatch) {
+    return _util_server_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchServer"](serverId).then(function (server) {
+      return dispatch(receivePrivateServer(server));
     });
   };
 };
@@ -641,7 +649,7 @@ var CLEAR_SESSION_ERRORS = "CLEAR_SESSION_ERRORS";
 /*!******************************************!*\
   !*** ./frontend/actions/user_actions.js ***!
   \******************************************/
-/*! exports provided: removeUser, requestUsers, requestUsersByIds, updateUser, deleteUser, RECEIVE_USERS, REMOVE_USER */
+/*! exports provided: removeUser, requestUsers, requestUsersByIds, findUser, updateUser, deleteUser, RECEIVE_USERS, RECEIVE_USER, REMOVE_USER */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -649,13 +657,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeUser", function() { return removeUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestUsers", function() { return requestUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestUsersByIds", function() { return requestUsersByIds; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findUser", function() { return findUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUser", function() { return updateUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteUser", function() { return deleteUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USERS", function() { return RECEIVE_USERS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USER", function() { return RECEIVE_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_USER", function() { return REMOVE_USER; });
 /* harmony import */ var _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../util/user_api_util */ "./frontend/util/user_api_util.js");
 /* harmony import */ var _session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.js");
+var _this = undefined;
+
 
 
 
@@ -664,6 +676,13 @@ var receiveUsers = function receiveUsers(users) {
   return {
     type: "RECEIVE_USERS",
     users: users
+  };
+};
+
+var receiveUser = function receiveUser(user) {
+  return {
+    type: "RECEIVE_USER",
+    user: user
   };
 };
 
@@ -687,6 +706,15 @@ var requestUsersByIds = function requestUsersByIds(userIds) {
     });
   };
 };
+var findUser = function findUser(username) {
+  return function (dispatch) {
+    return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["findUser"](username).then(function (user) {
+      return dispatch(receiveUser(user));
+    }, function (errors) {
+      return _this.props.receiveErrors(errors.responseJSON);
+    });
+  };
+};
 var updateUser = function updateUser(user) {
   return function (dispatch) {
     return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["updateUser"](user).then(function (updatedUser) {
@@ -704,6 +732,7 @@ var deleteUser = function deleteUser(userId) {
   };
 };
 var RECEIVE_USERS = "RECEIVE_USERS";
+var RECEIVE_USER = "RECEIVE_USER";
 var REMOVE_USER = "REMOVE_USER";
 
 /***/ }),
@@ -864,7 +893,7 @@ function (_React$Component) {
     value: function renderChoice() {
       var _this4 = this;
 
-      if (this.props.currentUserId === this.props.server.owner_id.toString()) {
+      if (parseInt(this.props.currentUserId) === this.props.server.owner_id) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "server-dropdown dropdown-menu"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -1776,7 +1805,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this.changeFilter("Online");
         },
-        className: "show-online-friends focus"
+        className: "show-online-friends"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Online")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         onClick: function onClick() {
           return _this.changeFilter("All");
@@ -2271,7 +2300,7 @@ function (_React$Component) {
   }, {
     key: "showDropdown",
     value: function showDropdown() {
-      if (this.props.currentUserId === this.props.message.author_id.toString()) {
+      if (parseInt(this.props.currentUserId) === this.props.message.author_id) {
         document.getElementsByClassName("message-dropdown")[this.props.idx].classList.toggle("is-showing");
       }
     }
@@ -2516,8 +2545,8 @@ function (_React$Component) {
           return _this2.props.receiveErrors(errors.responseJSON);
         });
       } else {
-        Object(_util_user_api_util__WEBPACK_IMPORTED_MODULE_1__["findUser"])(this.state.name).then(function (user) {
-          var users = [_this2.props.currentUser.id, user.id].sort();
+        this.props.findUser(this.state.name).then(function (data) {
+          var users = [_this2.props.currentUser.id, data.user.id].sort();
           var server = Object.assign({}, {
             "name": "DM ".concat(users[0], " and ").concat(users[1])
           });
@@ -2525,6 +2554,8 @@ function (_React$Component) {
           _this2.props.createPrivateServer(server).then(function (newServer) {
             Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(users[0], newServer.server.id);
             Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(users[1], newServer.server.id).then(function () {
+              _this2.props.requestPrivateServer(newServer.server.id);
+
               _this2.props.clearErrors();
 
               _this2.props.closeModal();
@@ -2532,8 +2563,6 @@ function (_React$Component) {
               _this2.props.history.push("/servers/@me/".concat(newServer.server.id));
             });
           });
-        }, function (errors) {
-          return _this2.props.receiveErrors(errors.responseJSON);
         });
       }
     }
@@ -3251,10 +3280,7 @@ var Modal = function Modal(_ref) {
     onClick: function onClick(e) {
       return e.stopPropagation();
     }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-    onClick: handleClose,
-    "class": "fas fa-times"
-  }), component));
+  }, component));
 };
 
 var mapStateToProps = function mapStateToProps(state) {
@@ -3288,10 +3314,12 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
-/* harmony import */ var _add_name__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./add_name */ "./frontend/components/modal/add_name.jsx");
-/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
-/* harmony import */ var _actions_error_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/error_actions */ "./frontend/actions/error_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _add_name__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./add_name */ "./frontend/components/modal/add_name.jsx");
+/* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+/* harmony import */ var _actions_error_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/error_actions */ "./frontend/actions/error_actions.js");
+
 
 
 
@@ -3308,22 +3336,28 @@ var mapStateToProps = function mapStateToProps(state) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
+    findUser: function findUser(username) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["findUser"])(username));
+    },
     createPrivateServer: function createPrivateServer(server) {
-      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_1__["createPrivateServer"])(server));
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["createPrivateServer"])(server));
+    },
+    requestPrivateServer: function requestPrivateServer(serverId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestPrivateServer"])(serverId));
     },
     closeModal: function closeModal() {
-      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_3__["closeModal"])());
+      return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__["closeModal"])());
     },
     clearErrors: function clearErrors() {
-      return dispatch(Object(_actions_error_actions__WEBPACK_IMPORTED_MODULE_4__["clearErrors"])());
+      return dispatch(Object(_actions_error_actions__WEBPACK_IMPORTED_MODULE_5__["clearErrors"])());
     },
     receiveErrors: function receiveErrors(errors) {
-      return dispatch(Object(_actions_error_actions__WEBPACK_IMPORTED_MODULE_4__["receiveErrors"])(errors));
+      return dispatch(Object(_actions_error_actions__WEBPACK_IMPORTED_MODULE_5__["receiveErrors"])(errors));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_add_name__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_add_name__WEBPACK_IMPORTED_MODULE_3__["default"]));
 
 /***/ }),
 
@@ -4031,7 +4065,13 @@ function (_React$Component) {
         });
         userIds.push(_this.props.currentUserId);
 
-        _this.props.requestUsersByIds(userIds);
+        _this.props.requestUsersByIds(userIds).then(function () {
+          if (_this.props.location.pathname === "/servers/@me") {
+            document.getElementsByClassName("user-info")[0].classList.add("focus");
+          } else {
+            document.getElementById("user-info-".concat(_this.props.match.params.serverId)).classList.add("focus");
+          }
+        });
       });
     }
   }, {
@@ -4052,13 +4092,12 @@ function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      if (this.props.servers.length === 0) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "private-servers-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/servers/@me",
         onClick: this.addFocus.bind(this),
-        className: "friends-tab user-info focus"
+        className: "friends-tab user-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-user-friends"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
@@ -4087,7 +4126,7 @@ function (_React$Component) {
   return PrivateServerIndex;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (PrivateServerIndex);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(PrivateServerIndex));
 
 /***/ }),
 
@@ -4186,7 +4225,7 @@ function (_React$Component) {
     key: "addFocus",
     value: function addFocus() {
       this.clearFocus();
-      document.getElementsByClassName("user-info")[this.props.idx + 1].classList.add("focus");
+      document.getElementsByClassName("user-info")[this.props.idx].classList.add("focus");
     }
   }, {
     key: "clearFocus",
@@ -4196,18 +4235,28 @@ function (_React$Component) {
       }
     }
   }, {
-    key: "render",
-    value: function render() {
+    key: "handleDelete",
+    value: function handleDelete() {
       var _this = this;
 
+      this.props.deleteServer(this.props.server.id).then(function () {
+        return _this.props.history.push("/servers/@me");
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
       var otherUserId = this.props.server.userIds.filter(function (id) {
-        return id !== parseInt(_this.props.currentUserId);
+        return id !== parseInt(_this2.props.currentUserId);
       })[0];
       if (!this.props.users[otherUserId]) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/servers/@me/".concat(this.props.server.id),
         onClick: this.addFocus.bind(this),
-        className: "user-info"
+        className: "user-info",
+        id: "user-info-".concat(this.props.server.id)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(otherUserId))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -4218,7 +4267,10 @@ function (_React$Component) {
         className: "fa fa-circle ".concat(this.props.users[otherUserId].status)
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "username"
-      }, this.props.users[otherUserId].username));
+      }, this.props.users[otherUserId].username), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        onClick: this.handleDelete.bind(this),
+        className: "far fa-times-circle"
+      }));
     }
   }]);
 
@@ -4240,6 +4292,8 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _private_server_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./private_server_index_item */ "./frontend/components/private_server/private_server_index_item.jsx");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
+
 
 
 
@@ -4251,7 +4305,11 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    deleteServer: function deleteServer(serverId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["deleteServer"])(serverId));
+    }
+  };
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_private_server_index_item__WEBPACK_IMPORTED_MODULE_1__["default"]));
@@ -5862,6 +5920,11 @@ var privateServersReducer = function privateServersReducer() {
       nextState[action.server.id] = action.server;
       return nextState;
 
+    case _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_SERVER"]:
+      nextState = Object.assign({}, state);
+      delete nextState[action.serverId];
+      return nextState;
+
     default:
       return state;
   }
@@ -6067,6 +6130,11 @@ var usersReducer = function usersReducer() {
   switch (action.type) {
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_USERS"]:
       return Object.assign({}, action.users);
+
+    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_USER"]:
+      nextState = Object.assign({}, state);
+      nextState[action.user.id] = action.user;
+      return nextState;
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
       nextState = Object.assign({}, state);
