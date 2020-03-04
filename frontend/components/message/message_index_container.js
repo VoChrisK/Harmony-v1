@@ -8,6 +8,7 @@ const mapStateToProps = (state, ownProps) => {
         messages: Object.values(state.entities.messages),
         currentUserId: state.session.id,
         users: state.entities.users,
+        friends: state.entities.friends,
         input: ownProps.inputType === "server" ? state.entities.privateServers[ownProps.match.params.serverId] : state.entities.channels[ownProps.match.params.channelId]
     })
 }

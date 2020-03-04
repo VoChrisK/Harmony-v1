@@ -42,9 +42,9 @@ class MainContent extends React.Component {
                     <h2 className="friends-tab-header">Friends</h2>
                 </li>
 
-                <li onClick={() => this.changeFilter("Online")} className="show-online-friends"><h1>Online</h1></li>
+                <li onClick={() => this.changeFilter("Online")} className={`show-online-friends ${this.props.status === "Online" ? "focus" : ""}`}><h1>Online</h1></li>
 
-                <li onClick={() => this.changeFilter("All")} className="show-all-friends"><h1>All</h1></li>
+                <li onClick={() => this.changeFilter("All")} className={`show-all-friends ${this.props.status === "All" ? "focus" : ""}`}><h1>All</h1></li>
 
                 <button onClick={() => this.props.addFriend()} className="add-friend">Add Friend</button>
             </ul>
@@ -52,9 +52,10 @@ class MainContent extends React.Component {
     }
 
     renderUserInfo() {
-        if (Object.keys(this.props.users).length === 0 || Object.keys(this.props.server.userIds).length === 0 ) return null;
+        if (Object.keys(this.props.friends).length === 0 || Object.keys(this.props.server.userIds).length === 0 ) return null;
         const index = this.props.server.userIds.filter(id => id != this.props.currentUserId)[0];
-        const otherUser = this.props.users[index];
+        const otherUser = this.props.users[index] || this.props.friends[index];
+        
         return (
             <h1 className="channel-name-header">
                 {otherUser.username}
@@ -94,7 +95,9 @@ const mapStateToProps = (state, ownProps) => {
         server: state.entities.privateServers[ownProps.match.params.serverId],
         channel: state.entities.channels[ownProps.match.params.channelId],
         users: state.entities.users,
-        currentUserId: state.session.id
+        friends: state.entities.friends,
+        currentUserId: state.session.id,
+        status: state.ui.status
     });
 };
 

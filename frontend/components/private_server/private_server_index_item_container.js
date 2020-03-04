@@ -5,7 +5,8 @@ import { deleteServer } from '../../actions/server_actions';
 const mapStateToProps = (state) => {
     return ({
         currentUserId: state.session.id,
-        users: state.entities.users
+        users: state.entities.users,
+        friends: state.entities.friends
     });
 };
 

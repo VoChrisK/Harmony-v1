@@ -255,6 +255,7 @@
     display: none;
     margin-right: 5px;
     color: red;
+    z-index: 1;
 }
 
 .user-info:hover > .far.fa-times-circle {

@@ -1331,14 +1331,16 @@ function (_React$Component) {
       var _this = this;
 
       event.preventDefault();
-      var users = [this.props.currentUser.username, this.props.friend.username].sort();
+      var users = [this.props.currentUser.id, this.props.friend.id].sort();
       var server = Object.assign({}, {
-        "name": "DM between ".concat(users[0], " and ").concat(users[1])
+        "name": "DM ".concat(users[0], " and ").concat(users[1])
       });
       this.props.createPrivateServer(server).then(function (newServer) {
         Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_1__["createAffiliation"])(_this.props.currentUser.id, newServer.server.id);
         Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_1__["createAffiliation"])(_this.props.friend.id, newServer.server.id).then(function () {
-          _this.props.history.push("/servers/@me/".concat(newServer.server.id));
+          _this.props.requestPrivateServer(newServer.server.id).then(function () {
+            return _this.props.history.push("/servers/@me/".concat(newServer.server.id));
+          });
         });
       });
     }
@@ -1356,6 +1358,8 @@ function (_React$Component) {
         onClick: this.handlePrivateServer.bind(this),
         className: "friend-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "friend-info-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_2__["default"])(friend.id))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "discord-icon",
@@ -1365,7 +1369,7 @@ function (_React$Component) {
         className: "fa fa-circle ".concat(friend.status)
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "username"
-      }, friend.username), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+      }, friend.username)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "status"
       }, friend.status), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         onClick: this.handleDelete.bind(this),
@@ -1409,6 +1413,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     createPrivateServer: function createPrivateServer(server) {
       return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_3__["createPrivateServer"])(server));
+    },
+    requestPrivateServer: function requestPrivateServer(serverId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_3__["requestPrivateServer"])(serverId));
     },
     deleteFriend: function deleteFriend(userId1, userId2) {
       return dispatch(Object(_actions_friend_actions__WEBPACK_IMPORTED_MODULE_2__["deleteFriend"])(userId1, userId2));
@@ -1805,12 +1812,12 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this.changeFilter("Online");
         },
-        className: "show-online-friends"
+        className: "show-online-friends ".concat(this.props.status === "Online" ? "focus" : "")
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Online")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         onClick: function onClick() {
           return _this.changeFilter("All");
         },
-        className: "show-all-friends"
+        className: "show-all-friends ".concat(this.props.status === "All" ? "focus" : "")
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "All")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
           return _this.props.addFriend();
@@ -1823,11 +1830,11 @@ function (_React$Component) {
     value: function renderUserInfo() {
       var _this2 = this;
 
-      if (Object.keys(this.props.users).length === 0 || Object.keys(this.props.server.userIds).length === 0) return null;
+      if (Object.keys(this.props.friends).length === 0 || Object.keys(this.props.server.userIds).length === 0) return null;
       var index = this.props.server.userIds.filter(function (id) {
         return id != _this2.props.currentUserId;
       })[0];
-      var otherUser = this.props.users[index];
+      var otherUser = this.props.users[index] || this.props.friends[index];
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "channel-name-header"
       }, otherUser.username, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -1875,7 +1882,9 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     server: state.entities.privateServers[ownProps.match.params.serverId],
     channel: state.entities.channels[ownProps.match.params.channelId],
     users: state.entities.users,
-    currentUserId: state.session.id
+    friends: state.entities.friends,
+    currentUserId: state.session.id,
+    status: state.ui.status
   };
 };
 
@@ -1954,8 +1963,9 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      document.getElementById("chat-log").style.background = "url(".concat(discordChat2, ") no-repeat bottom left, url(").concat(discordChat1, ") no-repeat bottom right");
+
       if (this.props.input) {
-        document.getElementById("chat-log").style.background = "url(".concat(discordChat2, ") no-repeat bottom left, url(").concat(discordChat1, ") no-repeat bottom right");
         var processForm;
 
         if (this.props.inputType === "server") {
@@ -2106,12 +2116,28 @@ function (_React$Component) {
       }
     }
   }, {
+    key: "renderChat",
+    value: function renderChat() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "chat-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        id: "chat-log"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "message-input-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "message-input",
+        value: this.state.body,
+        onChange: this.handleBody.bind(this)
+      })));
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this5 = this;
 
-      if (!this.props.input) return null;
-      if (this.props.input && Object.keys(this.props.users).length === 0) return null;
+      if (!this.props.input) return this.renderChat();
+      if (this.props.input && Object.keys(this.props.users).length === 0) return this.renderChat();
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "chat-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -2143,7 +2169,7 @@ function (_React$Component) {
       var index = this.props.input.userIds.filter(function (id) {
         return id !== parseInt(_this6.props.currentUserId);
       })[0];
-      var otherUser = this.props.users[index];
+      var otherUser = this.props.users[index] || this.props.friends[index];
       return "@" + otherUser.username;
     }
   }]);
@@ -2178,6 +2204,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     messages: Object.values(state.entities.messages),
     currentUserId: state.session.id,
     users: state.entities.users,
+    friends: state.entities.friends,
     input: ownProps.inputType === "server" ? state.entities.privateServers[ownProps.match.params.serverId] : state.entities.channels[ownProps.match.params.channelId]
   };
 };
@@ -4075,6 +4102,14 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(preProps) {
+      if (this.props.match.params.serverId && this.props.match.params.serverId !== preProps.match.params.serverId) {
+        this.clearFocus();
+        document.getElementById("user-info-".concat(this.props.match.params.serverId)).classList.add("focus");
+      }
+    }
+  }, {
     key: "addFocus",
     value: function addFocus() {
       this.clearFocus();
@@ -4222,19 +4257,6 @@ function (_React$Component) {
   }
 
   _createClass(PrivateServerIndexItem, [{
-    key: "addFocus",
-    value: function addFocus() {
-      this.clearFocus();
-      document.getElementsByClassName("user-info")[this.props.idx].classList.add("focus");
-    }
-  }, {
-    key: "clearFocus",
-    value: function clearFocus() {
-      for (var i = 0; i < document.getElementsByClassName("user-info").length; i++) {
-        document.getElementsByClassName("user-info")[i].classList.remove("focus");
-      }
-    }
-  }, {
     key: "handleDelete",
     value: function handleDelete() {
       var _this = this;
@@ -4251,10 +4273,10 @@ function (_React$Component) {
       var otherUserId = this.props.server.userIds.filter(function (id) {
         return id !== parseInt(_this2.props.currentUserId);
       })[0];
-      if (!this.props.users[otherUserId]) return null;
+      var otherUser = this.props.users[otherUserId] || this.props.friends[otherUserId];
+      if (!otherUser) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/servers/@me/".concat(this.props.server.id),
-        onClick: this.addFocus.bind(this),
         className: "user-info",
         id: "user-info-".concat(this.props.server.id)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4264,10 +4286,10 @@ function (_React$Component) {
         src: discordIcon,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-circle ".concat(this.props.users[otherUserId].status)
+        className: "fa fa-circle ".concat(otherUser.status)
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "username"
-      }, this.props.users[otherUserId].username), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      }, otherUser.username), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         onClick: this.handleDelete.bind(this),
         className: "far fa-times-circle"
       }));
@@ -4300,7 +4322,8 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state) {
   return {
     currentUserId: state.session.id,
-    users: state.entities.users
+    users: state.entities.users,
+    friends: state.entities.friends
   };
 };
 

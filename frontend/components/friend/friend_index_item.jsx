@@ -10,14 +10,16 @@ class FriendIndexItem extends React.Component {
 
     handlePrivateServer(event) {
         event.preventDefault();
-        let users = [this.props.currentUser.username, this.props.friend.username].sort();
-        const server = Object.assign({}, { "name": `DM between ${users[0]} and ${users[1]}` });
+        let users = [this.props.currentUser.id, this.props.friend.id].sort();
+        const server = Object.assign({}, { "name": `DM ${users[0]} and ${users[1]}` });
         this.props.createPrivateServer(server).then(
             newServer => {
                 createAffiliation(this.props.currentUser.id, newServer.server.id);
                 createAffiliation(this.props.friend.id, newServer.server.id).then(
                     () => {
-                        this.props.history.push(`/servers/@me/${newServer.server.id}`);
+                        this.props.requestPrivateServer(newServer.server.id).then(
+                            () => this.props.history.push(`/servers/@me/${newServer.server.id}`)
+                        );
                     }
                 );
             }
@@ -34,11 +36,13 @@ class FriendIndexItem extends React.Component {
 
         return (
             <div onClick={this.handlePrivateServer.bind(this)} className="friend-container">
-                <div className={`user-icon icon-container ${chooseColor(friend.id)}`}>
-                    <img className="discord-icon" src={discordIcon} alt="" />
+                <div className="friend-info-container">
+                    <div className={`user-icon icon-container ${chooseColor(friend.id)}`}>
+                        <img className="discord-icon" src={discordIcon} alt="" />
+                    </div>
+                    <i className={`fa fa-circle ${friend.status}`}></i>
+                    <h1 className="username">{friend.username}</h1>
                 </div>
-                <i className={`fa fa-circle ${friend.status}`}></i>
-                <h1 className="username">{friend.username}</h1>
                 <h1 className="status">{friend.status}</h1>
                 <i onClick={this.handleDelete.bind(this)} className="fas fa-user-times"></i>
             </div>

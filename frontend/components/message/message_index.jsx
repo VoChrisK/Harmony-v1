@@ -13,8 +13,8 @@ class MessageIndex extends React.Component {
     }
 
     componentDidMount() {
+        document.getElementById("chat-log").style.background = `url(${discordChat2}) no-repeat bottom left, url(${discordChat1}) no-repeat bottom right`;
         if (this.props.input) {
-            document.getElementById("chat-log").style.background = `url(${discordChat2}) no-repeat bottom left, url(${discordChat1}) no-repeat bottom right`;
 
             let processForm;
             if (this.props.inputType === "server") {
@@ -134,9 +134,25 @@ class MessageIndex extends React.Component {
         }
     }
 
+    renderChat() {
+        return (
+            <section className="chat-container">
+
+                <section id="chat-log">
+                    
+                </section>
+
+                <form className="message-input-container">
+                    <input type="text" className="message-input" value={this.state.body} onChange={this.handleBody.bind(this)} />
+                </form>
+
+            </section>
+        )
+    }
+
     render() {
-        if(!this.props.input) return null;
-        if(this.props.input && Object.keys(this.props.users).length === 0) return null;
+        if(!this.props.input) return this.renderChat();
+        if(this.props.input && Object.keys(this.props.users).length === 0) return this.renderChat();
 
         return (
             <section className="chat-container">
@@ -158,7 +174,7 @@ class MessageIndex extends React.Component {
     renderUsername() {
         if (Object.keys(this.props.input.userIds).length === 0) return null;
         const index = this.props.input.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0];
-        const otherUser = this.props.users[index];
+        const otherUser = this.props.users[index] || this.props.friends[index];
         return "@" + otherUser.username;
     }
 }

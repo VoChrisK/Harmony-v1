@@ -69,6 +69,7 @@
 .friend-container {
     width: 90%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     cursor: pointer;
     color: #8e9094;
@@ -78,8 +79,8 @@
     border-top: 1px solid #3c3f44;
 }
 
-.friend-container > .username {
-    overflow: unset; 
+.friend-container .username {
+    overflow: unset;
 }
 
 .friend-container:hover > .fas.fa-user-times {
@@ -95,21 +96,21 @@
     border: none;
 }
 
-.status {
-    margin-left: 200px;
-}
-
 .friend.user-icon {
     cursor: pointer;
 }
 
 .fas.fa-user-times {
     cursor: pointer;
-    margin-left: 1000px;
     visibility: hidden;
     transition: color 0.25s;
 }
 
 .fas.fa-user-times:hover {
     color: #aaacb1;
+}
+
+.friend-info-container {
+    display: flex;
+    align-items: center;
 }

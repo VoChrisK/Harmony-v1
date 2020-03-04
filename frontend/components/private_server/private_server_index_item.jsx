@@ -6,17 +6,6 @@ class PrivateServerIndexItem extends React.Component {
     constructor(props) {
         super(props);
     }
-
-    addFocus() {
-        this.clearFocus();
-        document.getElementsByClassName("user-info")[this.props.idx].classList.add("focus");
-    }
-
-    clearFocus() {
-        for (let i = 0; i < document.getElementsByClassName("user-info").length; i++) {
-            document.getElementsByClassName("user-info")[i].classList.remove("focus");
-        }
-    }
     
     handleDelete() {
         this.props.deleteServer(this.props.server.id).then(
@@ -26,15 +15,16 @@ class PrivateServerIndexItem extends React.Component {
 
     render() {
         const otherUserId = this.props.server.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0];
-        if(!this.props.users[otherUserId]) return null;
+        const otherUser = this.props.users[otherUserId] || this.props.friends[otherUserId];
+        if(!otherUser) return null;
 
         return (
-            <Link to={`/servers/@me/${this.props.server.id}`} onClick={this.addFocus.bind(this)} className="user-info" id={`user-info-${this.props.server.id}`}>
+            <Link to={`/servers/@me/${this.props.server.id}`} className="user-info" id={`user-info-${this.props.server.id}`}>
                 <div className={`user-icon icon-container ${chooseColor(otherUserId)}`}>
                     <img className="discord-icon" src={discordIcon} alt="" />
                 </div>
-                <i className={`fa fa-circle ${this.props.users[otherUserId].status}`}></i>
-                <h1 className="username">{this.props.users[otherUserId].username}</h1>
+                <i className={`fa fa-circle ${otherUser.status}`}></i>
+                <h1 className="username">{otherUser.username}</h1>
                 <i onClick={this.handleDelete.bind(this)} className="far fa-times-circle"></i>
             </Link>
         )
