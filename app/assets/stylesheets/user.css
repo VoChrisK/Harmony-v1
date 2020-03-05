@@ -75,7 +75,7 @@
 }
 
 .username {
-    width: 150px;
+    width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -84,6 +84,7 @@
 .users-list-container {
     float: right;
     width: 15%;
+    min-width: 15%;
     height: calc(100% - 47px);
     background-color: #2f3136;
 }

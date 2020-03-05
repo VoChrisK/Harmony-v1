@@ -3534,6 +3534,8 @@ function (_React$Component) {
       document.getElementsByClassName("create-icon")[0].style.background = "url(".concat(createIcon, ") no-repeat");
       document.getElementsByClassName("create-icon")[0].style.backgroundSize = "contain";
       document.getElementsByClassName("create-icon")[0].style.backgroundPosition = "50%";
+      document.getElementsByClassName("options-modal")[0].style.background = "url(".concat(discordOption1, ") no-repeat bottom right, url(").concat(discordOption2, ") no-repeat bottom left");
+      document.getElementsByClassName("options-modal")[0].style.backgroundSize = "100px";
       document.getElementsByClassName("join-icon")[0].style.background = "url(".concat(joinIcon, ") no-repeat");
       document.getElementsByClassName("join-icon")[0].style.backgroundSize = "contain";
       document.getElementsByClassName("join-icon")[0].style.backgroundPosition = "50%";
@@ -5134,8 +5136,8 @@ function (_React$Component) {
         to: "/servers/@me"
       }, "Open in browser"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "login form-submit",
-        to: "/login"
-      }, "Login")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        to: "/signup"
+      }, "Signup")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "bundle-images"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "https://discordapp.com/assets/215346366a9a7d50924fc245ddb048d2.svg",
@@ -5760,7 +5762,6 @@ var friendsReducer = function friendsReducer() {
       return nextState;
 
     case _actions_friend_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_FRIEND"]:
-      console.log(action.friend);
       nextState = Object.assign({}, state);
       delete nextState[action.friend.id];
       return nextState;
@@ -6201,7 +6202,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var configureStore = function configureStore() {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);

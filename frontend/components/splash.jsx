@@ -34,7 +34,7 @@ class Splash extends React.Component {
 
                 <div className="splash-buttons">
                     <Link className="open-browser form-submit" to="/servers/@me">Open in browser</Link>
-                    <Link className="login form-submit" to="/login">Login</Link>
+                    <Link className="login form-submit" to="/signup">Signup</Link>
                 </div>
 
                 <section className="bundle-images">

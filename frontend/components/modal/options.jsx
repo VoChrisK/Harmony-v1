@@ -11,6 +11,8 @@ class Options extends React.Component {
         document.getElementsByClassName("create-icon")[0].style.background = `url(${createIcon}) no-repeat`;
         document.getElementsByClassName("create-icon")[0].style.backgroundSize = "contain";
         document.getElementsByClassName("create-icon")[0].style.backgroundPosition = "50%";
+        document.getElementsByClassName("options-modal")[0].style.background = `url(${discordOption1}) no-repeat bottom right, url(${discordOption2}) no-repeat bottom left`;
+        document.getElementsByClassName("options-modal")[0].style.backgroundSize = "100px";
         document.getElementsByClassName("join-icon")[0].style.background = `url(${joinIcon}) no-repeat`;
         document.getElementsByClassName("join-icon")[0].style.backgroundSize = "contain";
         document.getElementsByClassName("join-icon")[0].style.backgroundPosition = "50%";

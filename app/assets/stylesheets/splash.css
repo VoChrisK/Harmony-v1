@@ -1,5 +1,7 @@
 #splash {
-    height: 125vh;
+    width: 100%;
+    overflow: auto;
+    height: auto;
     background-color: #26272b;
     color: white;
 }
@@ -80,7 +82,7 @@
 
 .bundle-images {
     position: relative;
-    height: 40%;
+    min-height: 440px;
     margin-top: 300px;
 }
 

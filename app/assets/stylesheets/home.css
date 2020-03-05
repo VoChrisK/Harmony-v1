@@ -7,7 +7,7 @@
 .servers-sidebar {
     background-color: #202225;
     width: 79px;
-    min-width: 79x;
+    min-width: 79px;
     height: 100%;
     border-right: 1px solid black;
     overflow: scroll;
@@ -34,8 +34,8 @@ aside::-webkit-scrollbar {
 .main-content {
     background-color: #36393f;
     height: calc(100% - 0px);
-    /* width: calc(100% - 238px - 80px); */
-    min-width: calc(100% - 238px - 80px);
+    width: calc(100% - 238px - 80px);
+    /* width: 1603px; */
 }
 
 .channel-header {
@@ -72,7 +72,7 @@ aside::-webkit-scrollbar {
 #chat-log {
     background-size: 500px;
     height: 89%;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 .message-input-container {

@@ -1,0 +1,19 @@
+@media only screen and (max-width: 1666px) {
+    .chat-container { width: 80%; }
+    .users-list-container { width: 20% !important; }
+}
+
+@media only screen and (max-width: 1335px) {
+    .chat-container { width: 75%; }
+    .users-list-container { width: 25% !important; }
+}
+
+@media only screen and (max-width: 1132px) {
+    .chat-container { width: 70%; }
+    .users-list-container { width: 30% !important; }
+}
+
+@media only screen and (max-width: 974px) {
+    .chat-container { width: 65%; }
+    .users-list-container { width: 35% !important; }
+}

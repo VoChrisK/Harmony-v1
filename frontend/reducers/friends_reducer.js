@@ -17,7 +17,6 @@ const friendsReducer = (state = {}, action) => {
             nextState[action.friend.id] = action.friend;
             return nextState;
         case REMOVE_FRIEND:
-            console.log(action.friend);
             nextState = Object.assign({}, state);
             delete nextState[action.friend.id];
             return nextState;            
