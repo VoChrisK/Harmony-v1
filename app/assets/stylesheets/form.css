@@ -68,3 +68,7 @@
     float: right;
     margin: 0;
 }
+
+#username-input {
+    width: 399px;
+}
