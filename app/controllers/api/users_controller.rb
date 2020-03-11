@@ -1,4 +1,6 @@
 class Api::UsersController < ApplicationController
+    before_action :require_current_user, except: [:create]
+
     def index
         @users = Server.find(params[:server][:id]).users
         render :index

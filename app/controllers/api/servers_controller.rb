@@ -1,4 +1,6 @@
 class Api::ServersController < ApplicationController
+    before_action :require_current_user
+
     def index
         @servers = User.includes(:servers).find(params[:user][:id]).servers.where.not(owner_id: nil)
         render :index

@@ -14,11 +14,7 @@ class Api::SessionsController < ApplicationController
     end
 
     def destroy
-        if logged_in?
-            logout
-            render json: {}
-        else
-            render json: ["There is no current user to logout!"], status: 404
-        end
+        logout if logged_in?
+        render json: {}
     end
 end

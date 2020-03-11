@@ -169,10 +169,25 @@
     display: inline-block;
     width: 100px;
     height: 100px;
+    transition: background-color 0.1s;
 }
 
 .preview-icon-container:hover {
+    background-color: #4d5b8f;
     cursor: default;
+}
+
+.preview-icon-container:hover > .preview-icon {
+    display: none;
+}
+
+.preview-icon-container:hover:before {
+    position: absolute;
+    left: 2%;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: 1.2;
+    content: "Preview of what your server icon will look like";
 }
 
 .preview-icon {

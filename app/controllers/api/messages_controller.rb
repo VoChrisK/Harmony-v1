@@ -1,4 +1,6 @@
 class Api::MessagesController < ApplicationController
+    before_action :require_current_user
+
     def index
         if !params[:channel].nil?
             @messages = Channel.includes(:messages).find(params[:channel][:id]).messages

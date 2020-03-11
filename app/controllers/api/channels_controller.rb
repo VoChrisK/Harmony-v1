@@ -1,4 +1,6 @@
 class Api::ChannelsController < ApplicationController
+    before_action :require_current_user
+
     def index
         @channels = Server.find(params[:server][:id]).channels
         render :index

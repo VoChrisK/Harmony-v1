@@ -21,4 +21,8 @@ class ApplicationController < ActionController::Base
     def logged_in?
         !!current_user
     end
+
+    def require_current_user
+        render json: {} if current_user.nil?
+    end
 end
