@@ -4809,8 +4809,8 @@ function (_React$Component) {
       var _this4 = this;
 
       var demoUser = {
-        email: "TestUser@test.com",
-        password: "TestPassword"
+        email: "IAmTheBestDemoUser@demo.com",
+        password: "DemoPassword"
       };
       this.state = demoUser;
       var intervalLength = 75;

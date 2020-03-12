@@ -53,7 +53,7 @@ class SessionForm extends React.Component {
     }
 
     demoUser() {
-        const demoUser = { email: "TestUser@test.com", password: "TestPassword" };
+        const demoUser = { email: "IAmTheBestDemoUser@demo.com", password: "DemoPassword" };
         this.state = demoUser;
         const intervalLength = 75;
         const timer = demoUser.email.length * intervalLength;
