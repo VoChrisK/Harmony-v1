@@ -17,9 +17,10 @@ class UserIndexItem extends React.Component {
     }
 
     componentDidUpdate(preProps) {
-        if(this.props.match.params.serverId !== preProps.match.params.serverId) {
+        // uncomment later when I use AWS
+        // if(this.props.match.params.serverId !== preProps.match.params.serverId) {
             setIcons(this.props.user.id);
-        }
+        // }
     }
 
     showDropdown() {

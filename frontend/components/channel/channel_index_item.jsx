@@ -26,7 +26,11 @@ class ChannelIndexItem extends React.Component {
                 </div>
             )
         } else {
-            return null;
+            return (
+                <div className="channel-options">
+                    <i onClick={() => this.props.updateChannelModal()} className="fa fa-edit"></i>
+                </div>
+            )
         }
     }
 

@@ -39,7 +39,7 @@ class EditUser extends React.Component {
                     <li onClick={this.setStatus.bind(this)}>Online</li>
                     <li onClick={this.setStatus.bind(this)}>Away</li>
                     <li onClick={this.setStatus.bind(this)}>Do not disturb</li>
-                    <li onClick={this.setStatus.bind(this)}>Offline</li>
+                    <li onClick={this.setStatus.bind(this)}>Invisible</li>
                 </ul>
 
                 <div onClick={this.showDropdown.bind(this)} className={`user-icon icon-container ${chooseColor(this.props.currentUserId)}`}>

@@ -13,6 +13,10 @@ class FriendIndexItem extends React.Component {
         setIcons(this.props.friend.id);
     }
 
+    componentDidUpdate() {
+        setIcons(this.props.friend.id);        
+    }
+
     handlePrivateServer(event) {
         event.preventDefault();
         let users = [this.props.currentUser.id, this.props.friend.id].sort();

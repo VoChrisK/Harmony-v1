@@ -1091,7 +1091,14 @@ function (_React$Component) {
           className: "fa fa-trash"
         }));
       } else {
-        return null;
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-options"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          onClick: function onClick() {
+            return _this.props.updateChannelModal();
+          },
+          className: "fa fa-edit"
+        }));
       }
     }
   }, {
@@ -1338,6 +1345,11 @@ function (_React$Component) {
       Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_4__["default"])(this.props.friend.id);
     }
   }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_4__["default"])(this.props.friend.id);
+    }
+  }, {
     key: "handlePrivateServer",
     value: function handlePrivateServer(event) {
       var _this = this;
@@ -1545,7 +1557,7 @@ function (_React$Component) {
         onClick: this.setStatus.bind(this)
       }, "Do not disturb"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         onClick: this.setStatus.bind(this)
-      }, "Offline")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Invisible")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.showDropdown.bind(this),
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(this.props.currentUserId))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -4313,6 +4325,11 @@ function (_React$Component) {
       Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_3__["default"])(this.otherUserId);
     }
   }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_3__["default"])(this.otherUserId);
+    }
+  }, {
     key: "handleDelete",
     value: function handleDelete() {
       var _this2 = this;
@@ -5496,9 +5513,9 @@ function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(preProps) {
-      if (this.props.match.params.serverId !== preProps.match.params.serverId) {
-        Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_4__["default"])(this.props.user.id);
-      }
+      // uncomment later when I use AWS
+      // if(this.props.match.params.serverId !== preProps.match.params.serverId) {
+      Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_4__["default"])(this.props.user.id); // }
     }
   }, {
     key: "showDropdown",

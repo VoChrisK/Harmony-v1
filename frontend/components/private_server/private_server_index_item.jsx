@@ -14,6 +14,10 @@ class PrivateServerIndexItem extends React.Component {
         setIcons(this.otherUserId);
     }
 
+    componentDidUpdate() {
+        setIcons(this.otherUserId);
+    }
+
     handleDelete() {
         this.props.deleteServer(this.props.server.id).then(
             () => this.props.history.push("/servers/@me")
