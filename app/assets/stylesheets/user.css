@@ -63,6 +63,7 @@
     height: 6px;
     margin: 0 0 0 8px;
     cursor: default;
+    overflow: hidden;
 }
 
 .discord-icon {

@@ -1,5 +1,6 @@
 import React from 'react';
 import chooseColor from '../../util/choose_color';
+import setIcons from './../../util/set_icons';
 
 class MessageIndexItem extends React.Component {
     constructor(props) {
@@ -8,6 +9,10 @@ class MessageIndexItem extends React.Component {
             edit: false,
             body: this.props.message.body
         }
+    }
+
+    componentDidMount() {
+        setIcons(this.props.message.author_id);
     }
 
     toggleEdit() {
@@ -47,7 +52,7 @@ class MessageIndexItem extends React.Component {
         return (
             <div className="message-container">
                 <div className={`user-icon icon-container ${chooseColor(message.author_id)}`}>
-                    <img className="discord-icon" src={discordIcon} alt="" />
+                    <img className={`discord-icon ${message.author_id}`} src={discordIcon} alt="" />
                 </div>
                 <div className="message-info">
                         <h1 className="message-author">{message.name}</h1>

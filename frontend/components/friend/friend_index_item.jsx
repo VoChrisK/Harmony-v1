@@ -2,10 +2,15 @@ import React from 'react';
 import { createAffiliation } from './../../util/affiliation_api_util';
 import chooseColor from './../../util/choose_color';
 import { withRouter } from 'react-router-dom';
+import setIcons from '../../util/set_icons';
 
 class FriendIndexItem extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        setIcons(this.props.friend.id);
     }
 
     handlePrivateServer(event) {
@@ -38,7 +43,7 @@ class FriendIndexItem extends React.Component {
             <div onClick={this.handlePrivateServer.bind(this)} className="friend-container">
                 <div className="friend-info-container">
                     <div className={`user-icon icon-container ${chooseColor(friend.id)}`}>
-                        <img className="discord-icon" src={discordIcon} alt="" />
+                        <img className={`discord-icon ${friend.id}`} src={discordIcon} alt="" />
                     </div>
                     <i className={`fa fa-circle ${friend.status}`}></i>
                     <h1 className="username">{friend.username}</h1>

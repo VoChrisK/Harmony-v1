@@ -1291,6 +1291,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../util/affiliation_api_util */ "./frontend/util/affiliation_api_util.js");
 /* harmony import */ var _util_choose_color__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../util/choose_color */ "./frontend/util/choose_color.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _util_set_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/set_icons */ "./frontend/util/set_icons.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1314,6 +1315,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var FriendIndexItem =
 /*#__PURE__*/
 function (_React$Component) {
@@ -1326,6 +1328,11 @@ function (_React$Component) {
   }
 
   _createClass(FriendIndexItem, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_4__["default"])(this.props.friend.id);
+    }
+  }, {
     key: "handlePrivateServer",
     value: function handlePrivateServer(event) {
       var _this = this;
@@ -1362,7 +1369,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_2__["default"])(friend.id))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        className: "discord-icon",
+        className: "discord-icon ".concat(friend.id),
         src: discordIcon,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -1917,6 +1924,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _message_index_item_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./message_index_item_container */ "./frontend/components/message/message_index_item_container.js");
 /* harmony import */ var _util_channel_message_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../util/channel_message_api_util */ "./frontend/util/channel_message_api_util.js");
 /* harmony import */ var _util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../util/direct_message_api_util */ "./frontend/util/direct_message_api_util.js");
+/* harmony import */ var _util_set_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../util/set_icons */ "./frontend/util/set_icons.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1934,6 +1942,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -2036,6 +2045,10 @@ function (_React$Component) {
           processForm(this.props.input.id).then(function () {
             _this3.setState({
               messages: _this3.props.messages
+            });
+
+            _this3.props.messages.forEach(function (message) {
+              Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_4__["default"])(message.author_id);
             });
 
             _this3.checkChatLog();
@@ -2239,6 +2252,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util_choose_color__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/choose_color */ "./frontend/util/choose_color.js");
+/* harmony import */ var _util_set_icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../util/set_icons */ "./frontend/util/set_icons.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2256,6 +2270,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -2279,6 +2294,11 @@ function (_React$Component) {
   }
 
   _createClass(MessageIndexItem, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_2__["default"])(this.props.message.author_id);
+    }
+  }, {
     key: "toggleEdit",
     value: function toggleEdit() {
       this.setState({
@@ -2340,7 +2360,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(message.author_id))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        className: "discord-icon",
+        className: "discord-icon ".concat(message.author_id),
         src: discordIcon,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2402,6 +2422,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _message_index_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./message_index_item */ "./frontend/components/message/message_index_item.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
 
 
 
@@ -2426,7 +2448,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(_message_index_item__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(_message_index_item__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
 
@@ -3886,6 +3908,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../../util/affiliation_api_util */ "./frontend/util/affiliation_api_util.js");
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./../../actions/server_actions */ "./frontend/actions/server_actions.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _util_set_icons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./../../util/set_icons */ "./frontend/util/set_icons.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3914,6 +3937,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var UserProfile =
 /*#__PURE__*/
 function (_React$Component) {
@@ -3929,6 +3953,7 @@ function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       document.getElementsByClassName("modal-container")[0].classList.add("darker-modal");
+      Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_9__["default"])(this.props.user.id);
     }
   }, {
     key: "handlePrivateServer",
@@ -3964,7 +3989,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "big user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_3__["default"])(user.id))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        className: "discord-icon",
+        className: "huge discord-icon ".concat(user.id),
         src: discordIcon,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -4225,6 +4250,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util_choose_color__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../util/choose_color */ "./frontend/util/choose_color.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _util_set_icons__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../util/set_icons */ "./frontend/util/set_icons.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4247,51 +4273,58 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var PrivateServerIndexItem =
 /*#__PURE__*/
 function (_React$Component) {
   _inherits(PrivateServerIndexItem, _React$Component);
 
   function PrivateServerIndexItem(props) {
+    var _this;
+
     _classCallCheck(this, PrivateServerIndexItem);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(PrivateServerIndexItem).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(PrivateServerIndexItem).call(this, props));
+    _this.otherUserId = _this.props.server.userIds.filter(function (id) {
+      return id !== parseInt(_this.props.currentUserId);
+    })[0];
+    _this.otherUser = _this.props.users[_this.otherUserId] || _this.props.friends[_this.otherUserId];
+    return _this;
   }
 
   _createClass(PrivateServerIndexItem, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_3__["default"])(this.otherUserId);
+    }
+  }, {
     key: "handleDelete",
     value: function handleDelete() {
-      var _this = this;
+      var _this2 = this;
 
       this.props.deleteServer(this.props.server.id).then(function () {
-        return _this.props.history.push("/servers/@me");
+        return _this2.props.history.push("/servers/@me");
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
-      var otherUserId = this.props.server.userIds.filter(function (id) {
-        return id !== parseInt(_this2.props.currentUserId);
-      })[0];
-      var otherUser = this.props.users[otherUserId] || this.props.friends[otherUserId];
-      if (!otherUser) return null;
+      if (!this.otherUser) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/servers/@me/".concat(this.props.server.id),
         className: "user-info",
         id: "user-info-".concat(this.props.server.id)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(otherUserId))
+        className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(this.otherUserId))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        className: "discord-icon",
+        className: "discord-icon ".concat(this.otherUserId),
         src: discordIcon,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-circle ".concat(otherUser.status)
+        className: "fa fa-circle ".concat(this.otherUser.status)
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "username"
-      }, otherUser.username), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      }, this.otherUser.username), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         onClick: this.handleDelete.bind(this),
         className: "far fa-times-circle"
       }));
@@ -5392,6 +5425,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_choose_color__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/choose_color */ "./frontend/util/choose_color.js");
 /* harmony import */ var _util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../util/affiliation_api_util */ "./frontend/util/affiliation_api_util.js");
 /* harmony import */ var _util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../util/direct_message_api_util */ "./frontend/util/direct_message_api_util.js");
+/* harmony import */ var _util_set_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../util/set_icons */ "./frontend/util/set_icons.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5409,6 +5443,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -5433,6 +5468,18 @@ function (_React$Component) {
   }
 
   _createClass(UserIndexItem, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_4__["default"])(this.props.user.id);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(preProps) {
+      if (this.props.match.params.serverId !== preProps.match.params.serverId) {
+        Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_4__["default"])(this.props.user.id);
+      }
+    }
+  }, {
     key: "showDropdown",
     value: function showDropdown() {
       if (this.props.user.id !== this.props.currentUser.id) {
@@ -5490,7 +5537,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(user.id))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        className: "discord-icon",
+        className: "discord-icon ".concat(this.props.user.id),
         src: discordIcon,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -5504,7 +5551,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "big user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(user.id))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        className: "discord-icon",
+        className: "huge discord-icon ".concat(this.props.user.id),
         src: discordIcon,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -6202,7 +6249,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var configureStore = function configureStore() {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
@@ -6674,6 +6721,48 @@ var logout = function logout() {
     url: 'api/session'
   });
 };
+
+/***/ }),
+
+/***/ "./frontend/util/set_icons.js":
+/*!************************************!*\
+  !*** ./frontend/util/set_icons.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//this is only temporary - when I get to incorporating image upload, I will use AWS. For now, this'll do. I know that it's terribly inefficient.
+var setIcons = function setIcons(id) {
+  var ids = [2, 3, 4, 5, 6, 7, 8, 9];
+  var userIcons = document.getElementsByClassName("discord-icon ".concat(id));
+
+  if (ids.includes(id)) {
+    var icons = ["", "", tracerIcon, junkratIcon, meiIcon, winstonIcon, reaperIcon, hanzoIcon, genjiIcon, mccreeIcon];
+
+    for (var i = 0; i < userIcons.length; i++) {
+      userIcons[i].setAttribute("src", icons[id]);
+
+      if (userIcons[i].classList.contains("huge")) {
+        userIcons[i].style.width = "100px";
+        userIcons[i].style.height = "100px";
+      } else {
+        userIcons[i].style.width = "40px";
+        userIcons[i].style.height = "40px";
+      }
+    }
+  } else {
+    for (var _i = 0; _i < userIcons.length; _i++) {
+      userIcons[_i].setAttribute("src", discordIcon);
+
+      userIcons[_i].style.width = "30px";
+      userIcons[_i].style.height = "30px";
+    }
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (setIcons);
 
 /***/ }),
 

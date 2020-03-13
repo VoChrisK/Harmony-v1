@@ -7,6 +7,7 @@ import { closeModal } from '../../actions/modal_actions';
 import { createAffiliation } from './../../util/affiliation_api_util';
 import { createPrivateServer } from './../../actions/server_actions';
 import { withRouter } from 'react-router-dom';
+import setIcons from './../../util/set_icons';
 
 class UserProfile extends React.Component {
     constructor(props) {
@@ -15,6 +16,7 @@ class UserProfile extends React.Component {
 
     componentDidMount() {
         document.getElementsByClassName("modal-container")[0].classList.add("darker-modal");
+        setIcons(this.props.user.id);
     }
 
     handlePrivateServer(event) {
@@ -42,7 +44,7 @@ class UserProfile extends React.Component {
                 <section className="modal-section-1">
                     <div className="user-container">
                         <div className={`big user-icon icon-container ${chooseColor(user.id)}`}>
-                            <img className="discord-icon" src={discordIcon} alt="" />
+                            <img className={`huge discord-icon ${user.id}`} src={discordIcon} alt="" />
                         </div>
                         <h1 className="username">{user.username}</h1>
                     </div>

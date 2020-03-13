@@ -2,12 +2,23 @@ import React from 'react';
 import chooseColor from '../../util/choose_color';
 import { createAffiliation } from './../../util/affiliation_api_util';
 import { createDirectMessage } from './../../util/direct_message_api_util';
+import setIcons from './../../util/set_icons';
 
 class UserIndexItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             body: ""
+        }
+    }
+
+    componentDidMount() {
+        setIcons(this.props.user.id);
+    }
+
+    componentDidUpdate(preProps) {
+        if(this.props.match.params.serverId !== preProps.match.params.serverId) {
+            setIcons(this.props.user.id);
         }
     }
 
@@ -53,7 +64,7 @@ class UserIndexItem extends React.Component {
             <div onClick={this.showDropdown.bind(this)} className="user-info" tabIndex="0">
                 <div className="user-tab" onClick={this.focusTab.bind(this)}>
                     <div className={`user-icon icon-container ${chooseColor(user.id)}`}>
-                        <img className="discord-icon" src={discordIcon} alt=""/>
+                        <img className={`discord-icon ${this.props.user.id}`} src={discordIcon} alt=""/>
                     </div>
                     <i className={`fa fa-circle ${user.status}`}></i>
                     <h1 className="username">{user.username}</h1>
@@ -62,7 +73,7 @@ class UserIndexItem extends React.Component {
                 <div className="user-dropdown dropdown-menu">
                     <section className="dropdown-section-1">
                         <div className={`big user-icon icon-container ${chooseColor(user.id)}`}>
-                            <img className="discord-icon" src={discordIcon} alt="" />
+                            <img className={`huge discord-icon ${this.props.user.id}`} src={discordIcon} alt="" />
                         </div>
                         <h1 className="username">{user.username}</h1>
                     </section>

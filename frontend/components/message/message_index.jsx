@@ -2,6 +2,7 @@ import React from 'react';
 import MessageIndexItemContainer from './message_index_item_container';
 import { createChannelMessage } from './../../util/channel_message_api_util';
 import { createDirectMessage } from './../../util/direct_message_api_util';
+import setIcons from './../../util/set_icons';
 
 class MessageIndex extends React.Component {
     constructor(props) {
@@ -71,6 +72,9 @@ class MessageIndex extends React.Component {
                 processForm(this.props.input.id).then(
                     () => {
                         this.setState({ messages: this.props.messages });
+                        this.props.messages.forEach(message => {
+                            setIcons(message.author_id);
+                        })
                         this.checkChatLog();
                         this.expandMessages();
                     }

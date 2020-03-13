@@ -1,6 +1,7 @@
 import { updateMessage, deleteMessage } from "../../actions/message_actions";
 import { connect } from 'react-redux';
 import MessageIndexItem from './message_index_item';
+import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = (state, ownProps) => {
     return ({
@@ -18,4 +19,4 @@ const mapDispatchToProps = (dispatch) => {
     });
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MessageIndexItem);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MessageIndexItem));
