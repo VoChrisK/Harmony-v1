@@ -161,7 +161,7 @@ class SessionForm extends React.Component {
             return null;
         } else {
             return (
-                <div id="username-input" className="input-field">
+                <div id="username-input-2" className="input-field">
                     <label htmlFor="username" className="form-label">Username</label>
                     {this.renderSignupErrors("Username", true)}
                     <input type="text" name="username" id="username" autoComplete="off" value={this.state.username} className={`form-input ${Boolean(this.renderSignupErrors("Email", false)) ? "red-highlight" : ""}`} onChange={this.handleInput("username")}/>

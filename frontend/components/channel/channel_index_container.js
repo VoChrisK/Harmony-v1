@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { requestChannels } from '../../actions/channel_actions';
 import ChannelIndex from './channel_index';
 import { openModal } from './../../actions/modal_actions';
+import { requestServers } from '../../actions/server_actions';
 
 const mapStateToProps = (state, ownProps) => {
     return ({
@@ -15,6 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return ({
         requestChannels: serverId => dispatch(requestChannels(serverId)),
+        requestServers: currentUserId => dispatch(requestServers(currentUserId)),
         createChannelModal: () => dispatch(openModal("createChannel")),
         updateServerModal: () => dispatch(openModal("updateServer")),
         deleteServerModal: () => dispatch(openModal("deleteServer"))

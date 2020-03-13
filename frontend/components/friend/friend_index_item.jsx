@@ -23,12 +23,22 @@ class FriendIndexItem extends React.Component {
                 createAffiliation(this.props.friend.id, newServer.server.id).then(
                     () => {
                         this.props.requestPrivateServer(newServer.server.id).then(
-                            () => this.props.history.push(`/servers/@me/${newServer.server.id}`)
+                            () => {
+                                this.props.history.push(`/servers/@me/${newServer.server.id}`)
+                                setIcons(this.props.friend.id);
+                                document.getElementById(`user-info-${newServer.server.id}`).classList.add("focus");
+                            }
                         );
                     }
                 );
             }
         );
+    }
+
+    clearFocus() {
+        for (let i = 0; i < document.getElementsByClassName("user-info").length; i++) {
+            document.getElementsByClassName("user-info")[i].classList.remove("focus");
+        }
     }
 
     handleDelete(event) {

@@ -268,7 +268,7 @@
 
 .far.fa-times-circle {
     display: none;
-    margin-right: 5px;
+    margin-left: 40px;
     color: red;
     z-index: 1;
 }

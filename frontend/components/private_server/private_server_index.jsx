@@ -28,7 +28,7 @@ class PrivateServerIndex extends React.Component {
     componentDidUpdate(preProps) {
         if (this.props.match.params.serverId && this.props.match.params.serverId !== preProps.match.params.serverId) {
             this.clearFocus();
-            document.getElementById(`user-info-${this.props.match.params.serverId}`).classList.add("focus");            
+            document.getElementById(`user-info-${this.props.match.params.serverId}`).classList.add("focus");
         }
     }
 

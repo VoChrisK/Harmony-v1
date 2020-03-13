@@ -21,6 +21,8 @@ class PrivateServerIndexItem extends React.Component {
     }
 
     render() {
+        this.otherUserId = this.props.server.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0];
+        this.otherUser = this.props.users[this.otherUserId] || this.props.friends[this.otherUserId];
         if(!this.otherUser) return null;
 
         return (

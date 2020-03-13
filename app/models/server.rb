@@ -24,7 +24,8 @@ class Server < ApplicationRecord
     has_many :direct_messages,
     primary_key: :id,
     foreign_key: :server_id,
-    class_name: 'DirectMessage'
+    class_name: 'DirectMessage',
+    dependent: :destroy
 
     has_many :messages,
     through: :direct_messages,

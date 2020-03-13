@@ -974,6 +974,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.js");
 /* harmony import */ var _channel_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_index */ "./frontend/components/channel/channel_index.jsx");
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
+
 
 
 
@@ -992,6 +994,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     requestChannels: function requestChannels(serverId) {
       return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["requestChannels"])(serverId));
+    },
+    requestServers: function requestServers(currentUserId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_5__["requestServers"])(currentUserId));
     },
     createChannelModal: function createChannelModal() {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__["openModal"])("createChannel"));
@@ -1346,10 +1351,20 @@ function (_React$Component) {
         Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_1__["createAffiliation"])(_this.props.currentUser.id, newServer.server.id);
         Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_1__["createAffiliation"])(_this.props.friend.id, newServer.server.id).then(function () {
           _this.props.requestPrivateServer(newServer.server.id).then(function () {
-            return _this.props.history.push("/servers/@me/".concat(newServer.server.id));
+            _this.props.history.push("/servers/@me/".concat(newServer.server.id));
+
+            Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_4__["default"])(_this.props.friend.id);
+            document.getElementById("user-info-".concat(newServer.server.id)).classList.add("focus");
           });
         });
       });
+    }
+  }, {
+    key: "clearFocus",
+    value: function clearFocus() {
+      for (var i = 0; i < document.getElementsByClassName("user-info").length; i++) {
+        document.getElementsByClassName("user-info")[i].classList.remove("focus");
+      }
     }
   }, {
     key: "handleDelete",
@@ -4309,6 +4324,12 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
+      this.otherUserId = this.props.server.userIds.filter(function (id) {
+        return id !== parseInt(_this3.props.currentUserId);
+      })[0];
+      this.otherUser = this.props.users[this.otherUserId] || this.props.friends[this.otherUserId];
       if (!this.otherUser) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/servers/@me/".concat(this.props.server.id),
@@ -4976,7 +4997,7 @@ function (_React$Component) {
         return null;
       } else {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          id: "username-input",
+          id: "username-input-2",
           className: "input-field"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
           htmlFor: "username",
@@ -6249,7 +6270,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var configureStore = function configureStore() {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
