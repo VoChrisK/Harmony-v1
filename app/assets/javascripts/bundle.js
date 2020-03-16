@@ -649,12 +649,13 @@ var CLEAR_SESSION_ERRORS = "CLEAR_SESSION_ERRORS";
 /*!******************************************!*\
   !*** ./frontend/actions/user_actions.js ***!
   \******************************************/
-/*! exports provided: removeUser, requestUsers, requestUsersByIds, findUser, updateUser, deleteUser, RECEIVE_USERS, RECEIVE_USER, REMOVE_USER */
+/*! exports provided: removeUser, requestUserInfo, requestUsers, requestUsersByIds, findUser, updateUser, deleteUser, RECEIVE_USERS, RECEIVE_USER, REMOVE_USER, REQUEST_USER_INFO */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeUser", function() { return removeUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestUserInfo", function() { return requestUserInfo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestUsers", function() { return requestUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestUsersByIds", function() { return requestUsersByIds; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findUser", function() { return findUser; });
@@ -663,6 +664,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USERS", function() { return RECEIVE_USERS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USER", function() { return RECEIVE_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_USER", function() { return REMOVE_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REQUEST_USER_INFO", function() { return REQUEST_USER_INFO; });
 /* harmony import */ var _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../util/user_api_util */ "./frontend/util/user_api_util.js");
 /* harmony import */ var _session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.js");
@@ -690,6 +692,12 @@ var removeUser = function removeUser(userId) {
   return {
     type: "REMOVE_USER",
     userId: userId
+  };
+};
+var requestUserInfo = function requestUserInfo(user) {
+  return {
+    type: "REQUEST_USER_INFO",
+    user: user
   };
 };
 var requestUsers = function requestUsers(serverId) {
@@ -734,6 +742,7 @@ var deleteUser = function deleteUser(userId) {
 var RECEIVE_USERS = "RECEIVE_USERS";
 var RECEIVE_USER = "RECEIVE_USER";
 var REMOVE_USER = "REMOVE_USER";
+var REQUEST_USER_INFO = "REQUEST_USER_INFO";
 
 /***/ }),
 
@@ -1558,6 +1567,8 @@ function (_React$Component) {
       }, "Do not disturb"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         onClick: this.setStatus.bind(this)
       }, "Invisible")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-info-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.showDropdown.bind(this),
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(this.props.currentUserId))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -1568,15 +1579,15 @@ function (_React$Component) {
         className: "username-header"
       }, this.props.currentUser ? this.props.currentUser.username : ""), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "username-tooltip tooltip"
-      }, this.props.currentUser ? this.props.currentUser.username : ""), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      }, this.props.currentUser ? this.props.currentUser.username : "")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         onClick: function onClick() {
           return _this2.props.editUserModal();
         },
         className: "fa fa-cog"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "logout",
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-sign-out-alt",
         onClick: this.logout.bind(this)
-      }, "Logout"));
+      })));
     }
   }]);
 
@@ -5525,36 +5536,6 @@ function (_React$Component) {
       }
     }
   }, {
-    key: "handleMessage",
-    value: function handleMessage(event) {
-      this.setState({
-        body: event.target.value
-      });
-    }
-  }, {
-    key: "handlePrivateServer",
-    value: function handlePrivateServer(event) {
-      var _this2 = this;
-
-      event.preventDefault();
-      var message = Object.assign({}, this.state);
-      message["author_id"] = this.props.currentUser.id;
-      this.props.createMessage(message).then(function (newMessage) {
-        var users = [_this2.props.currentUser.id, _this2.props.user.id].sort();
-        var server = Object.assign({}, {
-          "name": "DM ".concat(users[0], " and ").concat(users[1])
-        });
-
-        _this2.props.createPrivateServer(server).then(function (newServer) {
-          Object(_util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_3__["createDirectMessage"])(newMessage.message.id, newServer.server.id);
-          Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(_this2.props.currentUser.id, newServer.server.id);
-          Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(_this2.props.user.id, newServer.server.id).then(function () {
-            return _this2.props.history.push("/servers/@me/".concat(newServer.server.id));
-          });
-        });
-      });
-    }
-  }, {
     key: "focusTab",
     value: function focusTab() {
       document.getElementsByClassName("user-info")[this.props.idx].focus();
@@ -5562,8 +5543,6 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
-
       var user = this.props.user;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.showDropdown.bind(this),
@@ -5582,36 +5561,7 @@ function (_React$Component) {
         className: "fa fa-circle ".concat(user.status)
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "username"
-      }, user.username)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "user-dropdown dropdown-menu"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-        className: "dropdown-section-1"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "big user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(user.id))
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        className: "huge discord-icon ".concat(this.props.user.id),
-        src: discordIcon,
-        alt: ""
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "username"
-      }, user.username)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-        className: "dropdown-section-2"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: function onClick() {
-          return _this3.props.userProfile(user);
-        },
-        className: "view-user-profile"
-      }, "View Profile"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "direct-message-input",
-        onSubmit: this.handlePrivateServer.bind(this)
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-input",
-        autoComplete: "off",
-        placeholder: "message @".concat(user.username),
-        value: this.state.message,
-        onChange: this.handleMessage.bind(this)
-      })))));
+      }, user.username)));
     }
   }]);
 

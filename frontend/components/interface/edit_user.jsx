@@ -42,13 +42,18 @@ class EditUser extends React.Component {
                     <li onClick={this.setStatus.bind(this)}>Invisible</li>
                 </ul>
 
-                <div onClick={this.showDropdown.bind(this)} className={`user-icon icon-container ${chooseColor(this.props.currentUserId)}`}>
-                    <img className="discord-icon" src={discordIcon} alt="" />
+                <div className="user-info-container">
+                    <div onClick={this.showDropdown.bind(this)} className={`user-icon icon-container ${chooseColor(this.props.currentUserId)}`}>
+                        <img className="discord-icon" src={discordIcon} alt="" />
+                    </div>
+                    <h1 className="username-header">{this.props.currentUser ? this.props.currentUser.username : ""}</h1>
+                    <h1 className="username-tooltip tooltip">{this.props.currentUser ? this.props.currentUser.username : ""}</h1>
                 </div>
-                <h1 className="username-header">{this.props.currentUser ? this.props.currentUser.username : ""}</h1>
-                <h1 className="username-tooltip tooltip">{this.props.currentUser ? this.props.currentUser.username : ""}</h1>
-                <i onClick={() => this.props.editUserModal()} className="fa fa-cog"></i>
-                <button className="logout" onClick={(this.logout.bind(this))}>Logout</button>
+
+                <div>
+                    <i onClick={() => this.props.editUserModal()} className="fa fa-cog"></i>
+                    <i className="fas fa-sign-out-alt" onClick={this.logout.bind(this)}></i>
+                </div>
             </div>
         );
     }

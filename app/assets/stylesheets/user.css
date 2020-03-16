@@ -88,12 +88,13 @@
     min-width: 15%;
     height: calc(100% - 47px);
     background-color: #2f3136;
+    overflow-y: auto;
 }
 
 .user-options {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
     position: absolute;
     bottom: 1px;
@@ -149,8 +150,9 @@
     top: 15%;
 }
 
-.fa.fa-cog {
+.fa.fa-cog, .fas.fa-sign-out-alt {
     font-size: 24px;
+    margin-right: 10px;
     cursor: pointer;
 }
 
@@ -158,8 +160,16 @@
     cursor: pointer;
 }
 
+.user-info-container {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+}
+
 .username-header {
-    width: 60px;
+    display: inline-block;
+    width: 110px;
+    margin-left: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

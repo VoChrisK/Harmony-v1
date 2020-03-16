@@ -102,13 +102,6 @@ aside::-webkit-scrollbar {
     outline: none;
 }
 
-.logout {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 70px;
-    height: 25px;
-}
-
 .poor-wumpus {
     position: absolute;
     top: 70%;

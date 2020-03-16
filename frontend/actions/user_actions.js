@@ -23,6 +23,13 @@ export const removeUser = userId => {
     });
 };
 
+export const requestUserInfo = (user) => {
+    return ({
+        type: "REQUEST_USER_INFO",
+        user
+    });
+};
+
 export const requestUsers = serverId => dispatch => {
     return UserApiUtil.fetchUsers(serverId).then(
         users => dispatch(receiveUsers(users))
@@ -58,3 +65,4 @@ export const deleteUser = userId => dispatch => {
 export const RECEIVE_USERS = "RECEIVE_USERS";
 export const RECEIVE_USER = "RECEIVE_USER";
 export const REMOVE_USER = "REMOVE_USER";
+export const REQUEST_USER_INFO = "REQUEST_USER_INFO";

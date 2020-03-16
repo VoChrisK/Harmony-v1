@@ -6,8 +6,8 @@
     color: gray;
     border-radius: 5px;
     left: 30%;
-    transform: translateX(-30%);
-    top: 20%;
+    top: 50%;
+    transform: translateX(-30%) translateY(-50%);
     padding: 35px;
     box-shadow: 0 2px 2px black;
 }
