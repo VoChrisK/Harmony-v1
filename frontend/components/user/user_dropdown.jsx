@@ -16,6 +16,7 @@ class UserDropdown extends React.Component {
         if(Object.keys(this.props.userInfo).length > 0 && this.state.body.length <= 0) {
             const dropdown = document.getElementsByClassName("user-dropdown")[0];
             const dropdownBound = this.props.userInfo.y + dropdown.getBoundingClientRect().height;
+            dropdown.style.left = (this.props.userInfo.x - 280) + "px" 
             dropdown.style.top = dropdownBound <= window.innerHeight ? this.props.userInfo.y + "px" : window.innerHeight - dropdown.getBoundingClientRect().height + "px";
             setIcons(this.props.userInfo.user.id);
         }

@@ -2414,12 +2414,26 @@ function (_React$Component) {
       }
     }
   }, {
+    key: "showUserInfo",
+    value: function showUserInfo() {
+      var coordinates = document.getElementsByClassName("user-icon")[this.props.idx + 1].getBoundingClientRect();
+      var userInfo = {
+        user: this.props.users[this.props.message.author_id],
+        x: coordinates.x,
+        y: coordinates.y
+      };
+      this.props.requestUserInfo(userInfo);
+    }
+  }, {
     key: "render",
     value: function render() {
-      var message = this.props.message;
+      var _this$props = this.props,
+          currentUserId = _this$props.currentUserId,
+          message = _this$props.message;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.showUserInfo.bind(this),
         className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(message.author_id))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "discord-icon ".concat(message.author_id),
@@ -2433,10 +2447,10 @@ function (_React$Component) {
         className: "message-date"
       }, message.date), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
         className: "message-time"
-      }, " at ", message.time), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      }, " at ", message.time), parseInt(currentUserId) === message.author_id ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         onClick: this.showDropdown.bind(this),
         className: "fa fa-ellipsis-v"
-      }), this.renderInput()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      }) : null, this.renderInput()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "message-dropdown dropdown-menu"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         onClick: this.toggleEdit.bind(this)
@@ -2485,6 +2499,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _message_index_item__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./message_index_item */ "./frontend/components/message/message_index_item.jsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
+
 
 
 
@@ -2506,6 +2522,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     deleteMessage: function deleteMessage(messageId) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_0__["deleteMessage"])(messageId));
+    },
+    requestUserInfo: function requestUserInfo(userInfo) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_4__["requestUserInfo"])(userInfo));
     }
   };
 };
@@ -5233,14 +5252,14 @@ function (_React$Component) {
       }, "CV"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         id: "login-link",
         to: "/login"
-      }, "Login")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+      }, window.localStorage.getItem("currentUserId") ? "Open" : "Login")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         id: "splash-content"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "It's time to ditch Discord."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "All-in-one text chat for everyone who wants to communicate with other people. Stop using Discord. Rejoice and harmonize with each other in this app instead.")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "splash-buttons"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "open-browser form-submit",
         to: "/servers/@me"
-      }, "Open in browser"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, "Open in browser"), window.localStorage.getItem("currentUserId") ? null : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "login form-submit",
         to: "/signup"
       }, "Signup")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -5396,6 +5415,7 @@ function (_React$Component) {
       if (Object.keys(this.props.userInfo).length > 0 && this.state.body.length <= 0) {
         var dropdown = document.getElementsByClassName("user-dropdown")[0];
         var dropdownBound = this.props.userInfo.y + dropdown.getBoundingClientRect().height;
+        dropdown.style.left = this.props.userInfo.x - 280 + "px";
         dropdown.style.top = dropdownBound <= window.innerHeight ? this.props.userInfo.y + "px" : window.innerHeight - dropdown.getBoundingClientRect().height + "px";
         Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_4__["default"])(this.props.userInfo.user.id);
       }

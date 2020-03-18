@@ -24,7 +24,7 @@ class Splash extends React.Component {
                         <li><a className="cv-website" target="_blank" href="https://chrisvo.dev/">CV</a></li>
                     </ul>
 
-                    <Link id="login-link" to="/login">Login</Link>
+                    <Link id="login-link" to="/login">{window.localStorage.getItem("currentUserId") ? "Open" : "Login"}</Link>
                 </header>
 
                 <section id="splash-content">
@@ -34,7 +34,7 @@ class Splash extends React.Component {
 
                 <div className="splash-buttons">
                     <Link className="open-browser form-submit" to="/servers/@me">Open in browser</Link>
-                    <Link className="login form-submit" to="/signup">Signup</Link>
+                    {window.localStorage.getItem("currentUserId") ? null : <Link className="login form-submit" to="/signup">Signup</Link>}
                 </div>
 
                 <section className="bundle-images">

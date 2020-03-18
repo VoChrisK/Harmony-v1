@@ -15,6 +15,7 @@ user5 = User.create(username: "Reaper", email: "reaper@gmail.com", password: "pa
 user6 = User.create(username: "Hanzo", email: "hanzo@gmail.com", password: "password", status: "Offline")
 user7 = User.create(username: "Genji", email: "genji@gmail.com", password: "password", status: "Offline")
 user8 = User.create(username: "McCree", email: "mccree@gmail.com", password: "password", status: "Offline")
+user9 = User.create(username: "I'm always away!", email: "incrediblylongemail123@gmail.com", password: "passwordpassword", status: "Away")
 
 server1 = Server.create(name: "Overwatch", owner_id: user1.id)
 server2 = Server.create(name: "Shimada", owner_id: user6.id)
@@ -190,3 +191,6 @@ friend13 = Friend.create(user_id_1: user5.id, user_id_2: demo_user.id)
 friend14 = Friend.create(user_id_1: user6.id, user_id_2: demo_user.id)
 friend15 = Friend.create(user_id_1: user7.id, user_id_2: demo_user.id)
 friend16 = Friend.create(user_id_1: user8.id, user_id_2: demo_user.id)
+
+friend17 = Friend.create(user_id_1: demo_user.id, user_id_2: user9.id)
+friend18 = Friend.create(user_id_1: user9.id, user_id_2: demo_user.id)

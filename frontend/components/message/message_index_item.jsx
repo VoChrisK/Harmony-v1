@@ -47,18 +47,28 @@ class MessageIndexItem extends React.Component {
         }
     }
 
+    showUserInfo() {
+        const coordinates = document.getElementsByClassName("user-icon")[this.props.idx + 1].getBoundingClientRect();
+        const userInfo = {
+            user: this.props.users[this.props.message.author_id],
+            x: coordinates.x,
+            y: coordinates.y
+        };
+        this.props.requestUserInfo(userInfo);
+    }
+
     render() {
-        const { message } = this.props;
+        const { currentUserId, message } = this.props;
         return (
             <div className="message-container">
-                <div className={`user-icon icon-container ${chooseColor(message.author_id)}`}>
+                <div onClick={this.showUserInfo.bind(this)} className={`user-icon icon-container ${chooseColor(message.author_id)}`}>
                     <img className={`discord-icon ${message.author_id}`} src={discordIcon} alt="" />
                 </div>
                 <div className="message-info">
                         <h1 className="message-author">{message.name}</h1>
                         <strong className="message-date">{message.date}</strong>
                         <strong className="message-time"> at {message.time}</strong>
-                        <i onClick={this.showDropdown.bind(this)} className="fa fa-ellipsis-v"></i>
+                        {parseInt(currentUserId) === message.author_id ? <i onClick={this.showDropdown.bind(this)} className="fa fa-ellipsis-v"></i> : null}
                        {this.renderInput()}
                 </div>
     

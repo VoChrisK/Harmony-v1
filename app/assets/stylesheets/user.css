@@ -156,6 +156,10 @@
     cursor: pointer;
 }
 
+.fas.fa-sign-out-alt {
+    color: red;
+}
+
 .user-options > .user-icon.icon-container {
     cursor: pointer;
 }
@@ -221,10 +225,10 @@
 
 .user-dropdown {
     position: absolute;
-    right: 250px;
     width: 250px;
     height: 300px;
     text-align: center;
+    color: white;
 }
 
 .big.user-icon {
