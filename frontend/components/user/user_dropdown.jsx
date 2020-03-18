@@ -1,10 +1,23 @@
 import React from 'react';
+import { createAffiliation } from './../../util/affiliation_api_util';
+import { createDirectMessage } from './../../util/direct_message_api_util';
+import chooseColor from './../../util/choose_color'; 
+import setIcons from '../../util/set_icons';
 
 class UserDropdown extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             body: ""
+        }
+    }
+
+    componentDidUpdate() {
+        if(Object.keys(this.props.userInfo).length > 0 && this.state.body.length <= 0) {
+            const dropdown = document.getElementsByClassName("user-dropdown")[0];
+            const dropdownBound = this.props.userInfo.y + dropdown.getBoundingClientRect().height;
+            dropdown.style.top = dropdownBound <= window.innerHeight ? this.props.userInfo.y + "px" : window.innerHeight - dropdown.getBoundingClientRect().height + "px";
+            setIcons(this.props.userInfo.user.id);
         }
     }
 
@@ -15,16 +28,17 @@ class UserDropdown extends React.Component {
     handlePrivateServer(event) {
         event.preventDefault();
         let message = Object.assign({}, this.state);
-        message["author_id"] = this.props.currentUser.id;
+        const { userInfo, currentUser } = this.props;
+        message["author_id"] = currentUser.id;
         this.props.createMessage(message).then(
             newMessage => {
-                let users = [this.props.currentUser.id, this.props.user.id].sort();
+                let users = [currentUser.id, userInfo.user.id].sort();
                 const server = Object.assign({}, { "name": `DM ${users[0]} and ${users[1]}` });
                 this.props.createPrivateServer(server).then(
                     newServer => {
                         createDirectMessage(newMessage.message.id, newServer.server.id);
-                        createAffiliation(this.props.currentUser.id, newServer.server.id);
-                        createAffiliation(this.props.user.id, newServer.server.id).then(
+                        createAffiliation(currentUser.id, newServer.server.id);
+                        createAffiliation(userInfo.user.id, newServer.server.id).then(
                             () => this.props.history.push(`/servers/@me/${newServer.server.id}`)
                         );
                     }
@@ -33,13 +47,15 @@ class UserDropdown extends React.Component {
         )
     }
 
-
     render() {
+        if(Object.keys(this.props.userInfo).length === 0) return null;
+        const { user } = this.props.userInfo;      
+
         return (
-            <div className="user-dropdown dropdown-menu">
+            <div className="user-dropdown">
                 <section className="dropdown-section-1">
                     <div className={`big user-icon icon-container ${chooseColor(user.id)}`}>
-                        <img className={`huge discord-icon ${this.props.user.id}`} src={discordIcon} alt="" />
+                        <img className={`huge discord-icon ${user.id}`} src={discordIcon} alt="" />
                     </div>
                     <h1 className="username">{user.username}</h1>
                 </section>

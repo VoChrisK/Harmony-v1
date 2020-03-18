@@ -1,7 +1,5 @@
 import React from 'react';
 import chooseColor from '../../util/choose_color';
-import { createAffiliation } from './../../util/affiliation_api_util';
-import { createDirectMessage } from './../../util/direct_message_api_util';
 import setIcons from './../../util/set_icons';
 
 class UserIndexItem extends React.Component {
@@ -25,7 +23,13 @@ class UserIndexItem extends React.Component {
 
     showDropdown() {
         if(this.props.user.id !== this.props.currentUser.id) {
-            document.getElementsByClassName("user-dropdown")[this.props.idx].classList.toggle("is-showing");
+            const coordinates = document.getElementsByClassName("user-info")[this.props.idx].getBoundingClientRect();
+            const userInfo = {
+                user: this.props.user,
+                x: coordinates.x,
+                y: coordinates.y
+            };
+            this.props.requestUserInfo(userInfo);
         }
     }
 

@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { openModal } from '../../actions/modal_actions';
 import { filterOnline } from '../../actions/online_actions';
+import UserDropdownContainer from './../user/user_dropdown_container';
 
 class MainContent extends React.Component {
     constructor(props) {
@@ -23,6 +24,7 @@ class MainContent extends React.Component {
                 </header>
                 {this.renderMainContent()}
                 {this.renderUserIndex()}
+                <UserDropdownContainer />
             </main>
         )
     }

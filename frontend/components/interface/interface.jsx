@@ -21,6 +21,14 @@ class Interface extends React.Component {
                 }
             }
         });
+
+        document.getElementsByClassName("harmony-app")[0].addEventListener("click", event => {
+            if(document.getElementsByClassName("user-dropdown").length > 0) {
+                if (!document.getElementsByClassName("user-dropdown")[0].contains(event.target)) {
+                    this.props.clearUserInfo();
+                }
+            }
+        });
     }
     
     render() {

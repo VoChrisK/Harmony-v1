@@ -23,12 +23,18 @@ export const removeUser = userId => {
     });
 };
 
-export const requestUserInfo = (user) => {
+export const requestUserInfo = (userInfo) => {
     return ({
         type: "REQUEST_USER_INFO",
-        user
+        userInfo
     });
 };
+
+export const clearUserInfo = () => {
+    return ({
+        type: "CLEAR_USER_INFO"
+    })
+}
 
 export const requestUsers = serverId => dispatch => {
     return UserApiUtil.fetchUsers(serverId).then(
@@ -66,3 +72,4 @@ export const RECEIVE_USERS = "RECEIVE_USERS";
 export const RECEIVE_USER = "RECEIVE_USER";
 export const REMOVE_USER = "REMOVE_USER";
 export const REQUEST_USER_INFO = "REQUEST_USER_INFO";
+export const CLEAR_USER_INFO = "CLEAR_USER_INFO";

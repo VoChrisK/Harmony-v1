@@ -5,6 +5,7 @@ import { openModal } from '../../actions/modal_actions';
 import { receiveCurrentUserId } from '../../actions/session_actions';
 import { withRouter } from 'react-router-dom';
 import { requestFriends } from '../../actions/friend_actions';
+import { clearUserInfo } from '../../actions/user_actions';
 
 const mapStateToProps = (state, ownProps) => {
     return ({
@@ -20,7 +21,8 @@ const mapDispatchToProps = (dispatch) => {
         requestServers: userId => dispatch(requestServers(userId)),
         requestFriends: userId => dispatch(requestFriends(userId)),
         optionsModal: () => dispatch(openModal("options")),
-        receiveCurrentUserId: userId => dispatch(receiveCurrentUserId(userId))
+        receiveCurrentUserId: userId => dispatch(receiveCurrentUserId(userId)),
+        clearUserInfo: () => dispatch(clearUserInfo())
     });
 };
 
