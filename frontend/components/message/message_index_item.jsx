@@ -47,12 +47,13 @@ class MessageIndexItem extends React.Component {
         }
     }
 
-    showUserInfo() {
-        const coordinates = document.getElementsByClassName("user-icon")[this.props.idx + 1].getBoundingClientRect();
+    showUserInfo(flag) {
+        const coordinates = flag ? document.getElementsByClassName("message user-icon")[this.props.idx].getBoundingClientRect() : document.getElementsByClassName("message-author")[this.props.idx].getBoundingClientRect() ;
         const userInfo = {
             user: this.props.users[this.props.message.author_id],
             x: coordinates.x,
-            y: coordinates.y
+            y: coordinates.y,
+            alignment: "right"
         };
         this.props.requestUserInfo(userInfo);
     }
@@ -61,11 +62,11 @@ class MessageIndexItem extends React.Component {
         const { currentUserId, message } = this.props;
         return (
             <div className="message-container">
-                <div onClick={this.showUserInfo.bind(this)} className={`user-icon icon-container ${chooseColor(message.author_id)}`}>
+                <div onClick={() => this.showUserInfo(true)} className={`message user-icon icon-container ${chooseColor(message.author_id)}`}>
                     <img className={`discord-icon ${message.author_id}`} src={discordIcon} alt="" />
                 </div>
                 <div className="message-info">
-                        <h1 className="message-author">{message.name}</h1>
+                    <h1 onClick={() => this.showUserInfo(false)} className="message-author">{message.name}</h1>
                         <strong className="message-date">{message.date}</strong>
                         <strong className="message-time"> at {message.time}</strong>
                         {parseInt(currentUserId) === message.author_id ? <i onClick={this.showDropdown.bind(this)} className="fa fa-ellipsis-v"></i> : null}

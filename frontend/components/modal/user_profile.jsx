@@ -36,6 +36,23 @@ class UserProfile extends React.Component {
         );
     }
 
+    renderMutualServers() {
+        if(this.props.currentUser.id !== this.props.user.id) {
+            return (
+                <section className="modal-section-2">
+                    <h1 className="server-header">Mutual Servers</h1>
+                    <ul className="mutual-servers">
+                        {
+                            this.props.user.serverIds.map((id, idx) => this.renderServerIcon(id, idx))
+                        }
+                    </ul>
+                </section>
+            );
+        } else {
+            return null;
+        }
+    }
+
     render() {
         const { user } = this.props;
 
@@ -48,21 +65,12 @@ class UserProfile extends React.Component {
                         </div>
                         <h1 className="username">{user.username}</h1>
                     </div>
-                    
-                    <div className="buttons-group">
-                        <button className={this.props.friends[user.id] ? "dropdown-menu add-friend" : "add-friend"} onClick={event => this.props.createFriend(this.props.currentUser, user)}>Add Friend</button>
+                    <div className={`buttons-group ${this.props.currentUser.id === user.id ? "hide" : ""}`}>
+                        <button className={this.props.friends[user.id] ? "hide add-friend" : "add-friend"} onClick={event => this.props.createFriend(this.props.currentUser, user)}>Add Friend</button>
                         <button onClick={this.handlePrivateServer.bind(this)} className="message-button">Message</button>
                     </div>
                 </section>
-
-                <section className="modal-section-2">
-                    <h1 className="server-header">Mutual Servers</h1>
-                    <ul className="mutual-servers">
-                        {
-                            user.serverIds.map((id, idx) => this.renderServerIcon(id, idx))
-                        }
-                    </ul>
-                </section>
+                {this.renderMutualServers()}
             </div>
         );
     }

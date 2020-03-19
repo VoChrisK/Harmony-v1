@@ -17,8 +17,10 @@ const setIcons = (id) => {
     } else {
         for (let i = 0; i < userIcons.length; i++) {
             userIcons[i].setAttribute("src", discordIcon);
-            userIcons[i].style.width = "30px";
-            userIcons[i].style.height = "30px";
+            if (!userIcons[i].classList.contains("huge")) {
+                userIcons[i].style.width = "30px";
+                userIcons[i].style.height = "30px";
+            }
         }
     }
 }

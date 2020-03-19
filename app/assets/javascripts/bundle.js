@@ -2415,26 +2415,31 @@ function (_React$Component) {
     }
   }, {
     key: "showUserInfo",
-    value: function showUserInfo() {
-      var coordinates = document.getElementsByClassName("user-icon")[this.props.idx + 1].getBoundingClientRect();
+    value: function showUserInfo(flag) {
+      var coordinates = flag ? document.getElementsByClassName("message user-icon")[this.props.idx].getBoundingClientRect() : document.getElementsByClassName("message-author")[this.props.idx].getBoundingClientRect();
       var userInfo = {
         user: this.props.users[this.props.message.author_id],
         x: coordinates.x,
-        y: coordinates.y
+        y: coordinates.y,
+        alignment: "right"
       };
       this.props.requestUserInfo(userInfo);
     }
   }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       var _this$props = this.props,
           currentUserId = _this$props.currentUserId,
           message = _this$props.message;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: this.showUserInfo.bind(this),
-        className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(message.author_id))
+        onClick: function onClick() {
+          return _this4.showUserInfo(true);
+        },
+        className: "message user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(message.author_id))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "discord-icon ".concat(message.author_id),
         src: discordIcon,
@@ -2442,6 +2447,9 @@ function (_React$Component) {
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        onClick: function onClick() {
+          return _this4.showUserInfo(false);
+        },
         className: "message-author"
       }, message.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
         className: "message-date"
@@ -2684,13 +2692,13 @@ function (_React$Component) {
           _this2.props.createPrivateServer(server).then(function (newServer) {
             Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(users[0], newServer.server.id);
             Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__["createAffiliation"])(users[1], newServer.server.id).then(function () {
-              _this2.props.requestPrivateServer(newServer.server.id);
+              _this2.props.requestPrivateServer(newServer.server.id).then(function () {
+                _this2.props.clearErrors();
 
-              _this2.props.clearErrors();
+                _this2.props.closeModal();
 
-              _this2.props.closeModal();
-
-              _this2.props.history.push("/servers/@me/".concat(newServer.server.id));
+                _this2.props.history.push("/servers/@me/".concat(newServer.server.id));
+              });
             });
           });
         });
@@ -4056,9 +4064,28 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "renderMutualServers",
+    value: function renderMutualServers() {
+      var _this2 = this;
+
+      if (this.props.currentUser.id !== this.props.user.id) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+          className: "modal-section-2"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+          className: "server-header"
+        }, "Mutual Servers"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          className: "mutual-servers"
+        }, this.props.user.serverIds.map(function (id, idx) {
+          return _this2.renderServerIcon(id, idx);
+        })));
+      } else {
+        return null;
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var user = this.props.user;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4076,24 +4103,16 @@ function (_React$Component) {
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "username"
       }, user.username)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "buttons-group"
+        className: "buttons-group ".concat(this.props.currentUser.id === user.id ? "hide" : "")
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: this.props.friends[user.id] ? "dropdown-menu add-friend" : "add-friend",
+        className: this.props.friends[user.id] ? "hide add-friend" : "add-friend",
         onClick: function onClick(event) {
-          return _this2.props.createFriend(_this2.props.currentUser, user);
+          return _this3.props.createFriend(_this3.props.currentUser, user);
         }
       }, "Add Friend"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handlePrivateServer.bind(this),
         className: "message-button"
-      }, "Message"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-        className: "modal-section-2"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "server-header"
-      }, "Mutual Servers"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-        className: "mutual-servers"
-      }, user.serverIds.map(function (id, idx) {
-        return _this2.renderServerIcon(id, idx);
-      }))));
+      }, "Message"))), this.renderMutualServers());
     }
   }, {
     key: "renderServerIcon",
@@ -5398,42 +5417,31 @@ function (_React$Component) {
   _inherits(UserDropdown, _React$Component);
 
   function UserDropdown(props) {
-    var _this;
-
     _classCallCheck(this, UserDropdown);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(UserDropdown).call(this, props));
-    _this.state = {
-      body: ""
-    };
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(UserDropdown).call(this, props));
   }
 
   _createClass(UserDropdown, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      if (Object.keys(this.props.userInfo).length > 0 && this.state.body.length <= 0) {
+      if (Object.keys(this.props.userInfo).length > 0) {
         var dropdown = document.getElementsByClassName("user-dropdown")[0];
         var dropdownBound = this.props.userInfo.y + dropdown.getBoundingClientRect().height;
-        dropdown.style.left = this.props.userInfo.x - 280 + "px";
+        dropdown.style.left = this.props.userInfo.alignment === "left" ? this.props.userInfo.x - 280 + "px" : this.props.userInfo.x + 60 + "px";
         dropdown.style.top = dropdownBound <= window.innerHeight ? this.props.userInfo.y + "px" : window.innerHeight - dropdown.getBoundingClientRect().height + "px";
         Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_4__["default"])(this.props.userInfo.user.id);
       }
     }
   }, {
-    key: "handleMessage",
-    value: function handleMessage(event) {
-      this.setState({
-        body: event.target.value
-      });
-    }
-  }, {
     key: "handlePrivateServer",
     value: function handlePrivateServer(event) {
-      var _this2 = this;
+      var _this = this;
 
       event.preventDefault();
-      var message = Object.assign({}, this.state);
+      var message = {
+        body: document.getElementsByClassName("dm-input")[0].value
+      };
       var _this$props = this.props,
           userInfo = _this$props.userInfo,
           currentUser = _this$props.currentUser;
@@ -5444,11 +5452,11 @@ function (_React$Component) {
           "name": "DM ".concat(users[0], " and ").concat(users[1])
         });
 
-        _this2.props.createPrivateServer(server).then(function (newServer) {
+        _this.props.createPrivateServer(server).then(function (newServer) {
           Object(_util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_2__["createDirectMessage"])(newMessage.message.id, newServer.server.id);
           Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_1__["createAffiliation"])(currentUser.id, newServer.server.id);
           Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_1__["createAffiliation"])(userInfo.user.id, newServer.server.id).then(function () {
-            return _this2.props.history.push("/servers/@me/".concat(newServer.server.id));
+            return _this.props.history.push("/servers/@me/".concat(newServer.server.id));
           });
         });
       });
@@ -5456,7 +5464,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       if (Object.keys(this.props.userInfo).length === 0) return null;
       var user = this.props.userInfo.user;
@@ -5476,19 +5484,17 @@ function (_React$Component) {
         className: "dropdown-section-2"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
-          return _this3.props.userProfile(user);
+          return _this2.props.userProfile(user);
         },
         className: "view-user-profile"
       }, "View Profile"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "direct-message-input",
+        className: "direct-message-input ".concat(this.props.currentUser.id === user.id ? "hide" : ""),
         onSubmit: this.handlePrivateServer.bind(this)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        className: "form-input",
+        className: "form-input dm-input",
         autoComplete: "off",
-        placeholder: "message @".concat(user.username),
-        value: this.state.message,
-        onChange: this.handleMessage.bind(this)
+        placeholder: "message @".concat(user.username)
       }))));
     }
   }]);
@@ -5764,15 +5770,14 @@ function (_React$Component) {
   }, {
     key: "showDropdown",
     value: function showDropdown() {
-      if (this.props.user.id !== this.props.currentUser.id) {
-        var coordinates = document.getElementsByClassName("user-info")[this.props.idx].getBoundingClientRect();
-        var userInfo = {
-          user: this.props.user,
-          x: coordinates.x,
-          y: coordinates.y
-        };
-        this.props.requestUserInfo(userInfo);
-      }
+      var coordinates = document.getElementsByClassName("user-info")[this.props.idx].getBoundingClientRect();
+      var userInfo = {
+        user: this.props.user,
+        x: coordinates.x,
+        y: coordinates.y,
+        alignment: "left"
+      };
+      this.props.requestUserInfo(userInfo);
     }
   }, {
     key: "focusTab",
@@ -7009,8 +7014,10 @@ var setIcons = function setIcons(id) {
     for (var _i = 0; _i < userIcons.length; _i++) {
       userIcons[_i].setAttribute("src", discordIcon);
 
-      userIcons[_i].style.width = "30px";
-      userIcons[_i].style.height = "30px";
+      if (!userIcons[_i].classList.contains("huge")) {
+        userIcons[_i].style.width = "30px";
+        userIcons[_i].style.height = "30px";
+      }
     }
   }
 };

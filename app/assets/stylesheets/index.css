@@ -114,3 +114,7 @@
 .red-label {
     color: red !important;
 }
+
+.hide {
+    visibility: hidden;
+}

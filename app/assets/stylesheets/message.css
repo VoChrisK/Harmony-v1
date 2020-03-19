@@ -31,6 +31,11 @@
 .message-author {
     display: inline;
     font-size: 20px;
+    cursor: pointer;
+}
+
+.message-author:hover {
+    text-decoration: underline;
 }
 
 .message-date {
@@ -81,4 +86,8 @@
 
 .message-dropdown > li:hover {
     background-color: rgba(46, 46, 46, 0.9);
+}
+
+.message.user-icon.icon-container {
+    cursor: pointer;
 }

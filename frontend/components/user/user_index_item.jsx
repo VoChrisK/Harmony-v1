@@ -22,15 +22,14 @@ class UserIndexItem extends React.Component {
     }
 
     showDropdown() {
-        if(this.props.user.id !== this.props.currentUser.id) {
-            const coordinates = document.getElementsByClassName("user-info")[this.props.idx].getBoundingClientRect();
-            const userInfo = {
-                user: this.props.user,
-                x: coordinates.x,
-                y: coordinates.y
-            };
-            this.props.requestUserInfo(userInfo);
-        }
+        const coordinates = document.getElementsByClassName("user-info")[this.props.idx].getBoundingClientRect();
+        const userInfo = {
+            user: this.props.user,
+            x: coordinates.x,
+            y: coordinates.y,
+            alignment: "left"
+        };
+        this.props.requestUserInfo(userInfo);
     }
 
     focusTab() {

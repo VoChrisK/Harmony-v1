@@ -54,10 +54,13 @@ class AddName extends React.Component {
                             createAffiliation(users[0], newServer.server.id);
                             createAffiliation(users[1], newServer.server.id).then(
                                 () => {
-                                    this.props.requestPrivateServer(newServer.server.id);
-                                    this.props.clearErrors();
-                                    this.props.closeModal();
-                                    this.props.history.push(`/servers/@me/${newServer.server.id}`);
+                                    this.props.requestPrivateServer(newServer.server.id).then(
+                                        () => {
+                                            this.props.clearErrors();
+                                            this.props.closeModal();
+                                            this.props.history.push(`/servers/@me/${newServer.server.id}`);
+                                        }
+                                    );
                                 }
                             )
                         }

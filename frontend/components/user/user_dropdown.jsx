@@ -7,28 +7,21 @@ import setIcons from '../../util/set_icons';
 class UserDropdown extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            body: ""
-        }
     }
 
     componentDidUpdate() {
-        if(Object.keys(this.props.userInfo).length > 0 && this.state.body.length <= 0) {
+        if(Object.keys(this.props.userInfo).length > 0) {
             const dropdown = document.getElementsByClassName("user-dropdown")[0];
             const dropdownBound = this.props.userInfo.y + dropdown.getBoundingClientRect().height;
-            dropdown.style.left = (this.props.userInfo.x - 280) + "px" 
+            dropdown.style.left = this.props.userInfo.alignment === "left" ? (this.props.userInfo.x - 280) + "px" : (this.props.userInfo.x + 60) + "px"
             dropdown.style.top = dropdownBound <= window.innerHeight ? this.props.userInfo.y + "px" : window.innerHeight - dropdown.getBoundingClientRect().height + "px";
             setIcons(this.props.userInfo.user.id);
         }
     }
 
-    handleMessage(event) {
-        this.setState({ body: event.target.value });
-    }
-
     handlePrivateServer(event) {
         event.preventDefault();
-        let message = Object.assign({}, this.state);
+        let message = { body: document.getElementsByClassName("dm-input")[0].value }
         const { userInfo, currentUser } = this.props;
         message["author_id"] = currentUser.id;
         this.props.createMessage(message).then(
@@ -50,7 +43,7 @@ class UserDropdown extends React.Component {
 
     render() {
         if(Object.keys(this.props.userInfo).length === 0) return null;
-        const { user } = this.props.userInfo;      
+        const { user } = this.props.userInfo;
 
         return (
             <div className="user-dropdown">
@@ -63,8 +56,8 @@ class UserDropdown extends React.Component {
 
                 <section className="dropdown-section-2">
                     <button onClick={() => this.props.userProfile(user)} className="view-user-profile">View Profile</button>
-                    <form className="direct-message-input" onSubmit={this.handlePrivateServer.bind(this)}>
-                        <input type="text" className="form-input" autoComplete="off" placeholder={`message @${user.username}`} value={this.state.message} onChange={this.handleMessage.bind(this)} />
+                    <form className={`direct-message-input ${this.props.currentUser.id === user.id ? "hide" : ""}`} onSubmit={this.handlePrivateServer.bind(this)}>
+                        <input type="text" className="form-input dm-input" autoComplete="off" placeholder={`message @${user.username}`} />
                     </form>
                 </section>
             </div>
