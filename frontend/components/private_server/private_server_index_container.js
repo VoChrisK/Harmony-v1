@@ -3,6 +3,7 @@ import PrivateServerIndex from './private_server_index';
 import { requestPrivateServers } from './../../actions/server_actions';
 import { requestUsersByIds } from './../../actions/user_actions';
 import { openModal } from '../../actions/modal_actions';
+import { clearSession } from '../../actions/session_actions';
 
 const mapStateToProps = (state) => {
     return ({
@@ -15,7 +16,8 @@ const mapDispatchToProps = (dispatch) => {
     return ({
         requestPrivateServers: currentUserId => dispatch(requestPrivateServers(currentUserId)),
         requestUsersByIds: userIds => dispatch(requestUsersByIds(userIds)),
-        newDirectMessage: () => dispatch(openModal("newDM"))
+        newDirectMessage: () => dispatch(openModal("newDM")),
+        clearSession: () => dispatch(clearSession())
     });
 };
 

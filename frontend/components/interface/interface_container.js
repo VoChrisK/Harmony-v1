@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Interface from './interface';
 import { requestServers } from '../../actions/server_actions';
 import { openModal } from '../../actions/modal_actions';
-import { receiveCurrentUserId } from '../../actions/session_actions';
+import { receiveCurrentUserId, clearSession } from '../../actions/session_actions';
 import { withRouter } from 'react-router-dom';
 import { requestFriends } from '../../actions/friend_actions';
 import { clearUserInfo } from '../../actions/user_actions';
@@ -22,7 +22,8 @@ const mapDispatchToProps = (dispatch) => {
         requestFriends: userId => dispatch(requestFriends(userId)),
         optionsModal: () => dispatch(openModal("options")),
         receiveCurrentUserId: userId => dispatch(receiveCurrentUserId(userId)),
-        clearUserInfo: () => dispatch(clearUserInfo())
+        clearUserInfo: () => dispatch(clearUserInfo()),
+        clearSession: () => dispatch(clearSession())
     });
 };
 

@@ -1,4 +1,6 @@
 class Api::FriendsController < ApplicationController
+    before_action :require_current_user
+
     def index
         user_friends = User.includes(:friends).find(params[:friend][:user_id_1]).friends
         friends_indices = user_friends.map do |friend|

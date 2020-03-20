@@ -80,7 +80,7 @@
     transform: translateY(-60px);
 }
 
-.server-icon-container:hover + .name-tooltip {
+.server-index-item:hover + .name-tooltip {
     visibility: visible;
 }
 
@@ -90,6 +90,15 @@
 }
 
 .username-header:hover + .username-tooltip {
+    visibility: visible;
+}
+
+.logout-tooltip {
+    top: -30px;
+    right: -12px;
+}
+
+.fas.fa-sign-out-alt:hover + .logout-tooltip {
     visibility: visible;
 }
 
@@ -117,4 +126,8 @@
 
 .hide {
     visibility: hidden;
+}
+
+.disabled {
+    cursor: not-allowed;
 }

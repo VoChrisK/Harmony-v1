@@ -23,6 +23,6 @@ class ApplicationController < ActionController::Base
     end
 
     def require_current_user
-        render json: {} if current_user.nil?
+        render json: ["Invalid Credentials"] if current_user.nil?
     end
 end

@@ -43,7 +43,7 @@ class EditUser extends React.Component {
                 </ul>
 
                 <div className="user-info-container">
-                    <div onClick={this.showDropdown.bind(this)} className={`user-icon icon-container ${chooseColor(this.props.currentUserId)}`}>
+                    <div onClick={this.showDropdown.bind(this)} className={`profile user-icon icon-container ${chooseColor(this.props.currentUserId)}`}>
                         <img className="discord-icon" src={discordIcon} alt="" />
                     </div>
                     <h1 className="username-header">{this.props.currentUser ? this.props.currentUser.username : ""}</h1>
@@ -53,6 +53,7 @@ class EditUser extends React.Component {
                 <div>
                     <i onClick={() => this.props.editUserModal()} className="fa fa-cog"></i>
                     <i className="fas fa-sign-out-alt" onClick={this.logout.bind(this)}></i>
+                    <h1 className="logout-tooltip tooltip">Logout</h1>
                 </div>
             </div>
         );

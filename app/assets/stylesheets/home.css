@@ -28,7 +28,6 @@ aside::-webkit-scrollbar {
     width: 238px;
     min-width: 238px;
     height: 100%;
-    overflow: auto;
 }
 
 .main-content {

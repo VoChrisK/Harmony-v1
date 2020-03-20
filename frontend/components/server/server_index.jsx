@@ -20,7 +20,12 @@ class ServerIndex extends React.Component {
                 <Link id="home-server" className="server-icon-container icon-container" to="/servers/@me"></Link>
                 <div className="line"></div>
                 {
-                    this.props.servers.map((server, idx) => <ServerIndexItem key={idx} server={server} />)
+                    this.props.servers.map((server, idx) => (
+                        <div key={idx}>
+                            <ServerIndexItem server={server} />
+                            <h1 className="name-tooltip tooltip">{server.name}</h1>
+                        </div>
+                    ))
                 }
                 <div onClick={() => this.props.optionsModal()} className="add-server icon-container"><h1 className="server-icon">+</h1></div>
             </aside>

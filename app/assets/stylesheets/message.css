@@ -88,6 +88,6 @@
     background-color: rgba(46, 46, 46, 0.9);
 }
 
-.message.user-icon.icon-container {
+.message.user-icon.icon-container, .profile.user-icon.icon-container {
     cursor: pointer;
 }

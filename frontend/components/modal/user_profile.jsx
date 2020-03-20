@@ -36,6 +36,13 @@ class UserProfile extends React.Component {
         );
     }
 
+    handleFriend(event) {
+        event.target.innerHTML = "Added!";
+        event.target.classList.add("disabled");
+        event.target.setAttribute("disabled", "true");
+        window.setTimeout(() => this.props.createFriend(this.props.currentUser, this.props.user), 1000);
+    }
+
     renderMutualServers() {
         if(this.props.currentUser.id !== this.props.user.id) {
             return (
@@ -66,7 +73,7 @@ class UserProfile extends React.Component {
                         <h1 className="username">{user.username}</h1>
                     </div>
                     <div className={`buttons-group ${this.props.currentUser.id === user.id ? "hide" : ""}`}>
-                        <button className={this.props.friends[user.id] ? "hide add-friend" : "add-friend"} onClick={event => this.props.createFriend(this.props.currentUser, user)}>Add Friend</button>
+                        <button className={this.props.friends[user.id] ? "hide add-friend" : "add-friend"} onClick={this.handleFriend.bind(this)}>Add Friend</button>
                         <button onClick={this.handlePrivateServer.bind(this)} className="message-button">Message</button>
                     </div>
                 </section>

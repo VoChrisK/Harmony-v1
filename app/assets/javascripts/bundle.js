@@ -561,13 +561,14 @@ var RECEIVE_SERVER_ERRORS = "RECEIVE_SERVER_ERRORS";
 /*!*********************************************!*\
   !*** ./frontend/actions/session_actions.js ***!
   \*********************************************/
-/*! exports provided: receiveCurrentUserId, receiveCurrentUser, clearSessionErrors, login, logout, signup, RECEIVE_CURRENT_USER, RECEIVE_CURRENT_USER_ID, LOGOUT_CURRENT_USER, RECEIVE_SESSION_ERRORS, CLEAR_SESSION_ERRORS */
+/*! exports provided: receiveCurrentUserId, receiveCurrentUser, clearSession, clearSessionErrors, login, logout, signup, RECEIVE_CURRENT_USER, RECEIVE_CURRENT_USER_ID, LOGOUT_CURRENT_USER, RECEIVE_SESSION_ERRORS, CLEAR_SESSION_ERRORS */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveCurrentUserId", function() { return receiveCurrentUserId; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveCurrentUser", function() { return receiveCurrentUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearSession", function() { return clearSession; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearSessionErrors", function() { return clearSessionErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
@@ -605,6 +606,11 @@ var receiveSessionErrors = function receiveSessionErrors(errors) {
   };
 };
 
+var clearSession = function clearSession() {
+  return {
+    type: "LOGOUT_CURRENT_USER"
+  };
+};
 var clearSessionErrors = function clearSessionErrors() {
   return {
     type: "CLEAR_SESSION_ERRORS"
@@ -1578,7 +1584,7 @@ function (_React$Component) {
         className: "user-info-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: this.showDropdown.bind(this),
-        className: "user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(this.props.currentUserId))
+        className: "profile user-icon icon-container ".concat(Object(_util_choose_color__WEBPACK_IMPORTED_MODULE_1__["default"])(this.props.currentUserId))
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         className: "discord-icon",
         src: discordIcon,
@@ -1595,7 +1601,9 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-sign-out-alt",
         onClick: this.logout.bind(this)
-      })));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "logout-tooltip tooltip"
+      }, "Logout")));
     }
   }]);
 
@@ -1704,7 +1712,13 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      if (!this.props.currentUserId) return null;
+      if (this.props.servers.length === 0) return null;
+
+      if (this.props.servers[0] === "Invalid Credentials") {
+        this.props.clearSession();
+        return null;
+      }
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "home-interface"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modal_modal__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_server_index__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -1772,6 +1786,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     clearUserInfo: function clearUserInfo() {
       return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_7__["clearUserInfo"])());
+    },
+    clearSession: function clearSession() {
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_4__["clearSession"])());
     }
   };
 };
@@ -4064,9 +4081,21 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "handleFriend",
+    value: function handleFriend(event) {
+      var _this2 = this;
+
+      event.target.innerHTML = "Added!";
+      event.target.classList.add("disabled");
+      event.target.setAttribute("disabled", "true");
+      window.setTimeout(function () {
+        return _this2.props.createFriend(_this2.props.currentUser, _this2.props.user);
+      }, 1000);
+    }
+  }, {
     key: "renderMutualServers",
     value: function renderMutualServers() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.props.currentUser.id !== this.props.user.id) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
@@ -4076,7 +4105,7 @@ function (_React$Component) {
         }, "Mutual Servers"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
           className: "mutual-servers"
         }, this.props.user.serverIds.map(function (id, idx) {
-          return _this2.renderServerIcon(id, idx);
+          return _this3.renderServerIcon(id, idx);
         })));
       } else {
         return null;
@@ -4085,8 +4114,6 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
-
       var user = this.props.user;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-profile-container"
@@ -4106,9 +4133,7 @@ function (_React$Component) {
         className: "buttons-group ".concat(this.props.currentUser.id === user.id ? "hide" : "")
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: this.props.friends[user.id] ? "hide add-friend" : "add-friend",
-        onClick: function onClick(event) {
-          return _this3.props.createFriend(_this3.props.currentUser, user);
-        }
+        onClick: this.handleFriend.bind(this)
       }, "Add Friend"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handlePrivateServer.bind(this),
         className: "message-button"
@@ -4306,6 +4331,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../actions/server_actions */ "./frontend/actions/server_actions.js");
 /* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../actions/user_actions */ "./frontend/actions/user_actions.js");
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 
@@ -4329,6 +4356,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     newDirectMessage: function newDirectMessage() {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__["openModal"])("newDM"));
+    },
+    clearSession: function clearSession() {
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_5__["clearSession"])());
     }
   };
 };
@@ -4583,10 +4613,13 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "line"
       }), this.props.servers.map(function (server, idx) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          key: idx,
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: idx
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           server: server
-        });
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+          className: "name-tooltip tooltip"
+        }, server.name));
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
           return _this.props.optionsModal();
@@ -4666,9 +4699,7 @@ function (_React$Component) {
         className: "server-icon"
       }, this.props.server.name.substring(0, 1))), Boolean(this.props.closeModal) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "server-name show"
-      }, this.props.server.name) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "name-tooltip tooltip"
-      }, this.props.server.name));
+      }, this.props.server.name) : null);
     }
   }]);
 

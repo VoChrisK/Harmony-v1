@@ -157,7 +157,7 @@
 }
 
 .fas.fa-sign-out-alt {
-    color: red;
+    color: white;
 }
 
 .user-options > .user-icon.icon-container {
@@ -321,3 +321,4 @@
     width: 90px;
     height: 25px;
 }
+

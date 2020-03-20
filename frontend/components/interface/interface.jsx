@@ -32,7 +32,12 @@ class Interface extends React.Component {
     }
     
     render() {
-        if(!this.props.currentUserId) return null;
+        if(this.props.servers.length === 0) return null;
+        if(this.props.servers[0] === "Invalid Credentials") {
+            this.props.clearSession();
+            return null;
+        }
+
         return (
             <div className="home-interface">
                 <Modal />
