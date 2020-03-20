@@ -3,6 +3,7 @@ import MessageIndexItemContainer from './message_index_item_container';
 import { createChannelMessage } from './../../util/channel_message_api_util';
 import { createDirectMessage } from './../../util/direct_message_api_util';
 import setIcons from './../../util/set_icons';
+import { checkSession } from '../../util/session_check_util';
 
 class MessageIndex extends React.Component {
     constructor(props) {
@@ -70,7 +71,7 @@ class MessageIndex extends React.Component {
                 }
     
                 processForm(this.props.input.id).then(
-                    () => {
+                    data => {
                         this.setState({ messages: this.props.messages });
                         this.props.messages.forEach(message => {
                             setIcons(message.author_id);
@@ -89,7 +90,7 @@ class MessageIndex extends React.Component {
                     }
 
                     processForm(this.props.input.id).then(
-                        () => {
+                        data => {
                             this.setState({ messages: this.props.messages });
                             this.checkChatLog();
                         }
@@ -117,13 +118,16 @@ class MessageIndex extends React.Component {
         message["author_id"] = this.props.currentUserId;
         this.props.createMessage(message).then(
             newMessage => {
-                if(this.props.inputType === "channel") {
-                    createChannelMessage(newMessage.message.id, this.props.input.id);
-                } else {
-                    createDirectMessage(newMessage.message.id, this.props.input.id);
+                checkSession(newMessage.message[0], this.props.clearSession);
+                if(newMessage.message[0] !== "Invalid Credentials") {
+                    if(this.props.inputType === "channel") {
+                        createChannelMessage(newMessage.message.id, this.props.input.id);
+                    } else {
+                        createDirectMessage(newMessage.message.id, this.props.input.id);
+                    }
+                    App.cable.subscriptions.subscriptions[0].speak({ message: newMessage.message, method: 'create' });
+                    this.setState({ body: "" });
                 }
-                App.cable.subscriptions.subscriptions[0].speak({ message: newMessage.message, method: 'create' });
-                this.setState({ body: "" });
             }
         );
     }

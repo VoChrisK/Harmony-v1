@@ -828,6 +828,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _channel_index_item_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./channel_index_item_container */ "./frontend/components/channel/channel_index_item_container.js");
 /* harmony import */ var _util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../util/affiliation_api_util */ "./frontend/util/affiliation_api_util.js");
+/* harmony import */ var _util_session_check_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/session_check_util */ "./frontend/util/session_check_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -850,6 +851,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var ChannelIndex =
 /*#__PURE__*/
 function (_React$Component) {
@@ -867,7 +869,9 @@ function (_React$Component) {
       var _this = this;
 
       this.props.requestChannels(this.props.match.params.serverId).then(function () {
-        return document.getElementById("channel-info-".concat(_this.props.match.params.channelId)).classList.add("focus");
+        if (_this.props.channels[0] !== "Invalid Credentials") {
+          document.getElementById("channel-info-".concat(_this.props.match.params.channelId)).classList.add("focus");
+        }
       });
     }
   }, {
@@ -877,9 +881,11 @@ function (_React$Component) {
 
       if (this.props.match.params.serverId !== preProps.match.params.serverId || this.props.match.params.channelId !== preProps.match.params.channelId) {
         this.props.requestChannels(this.props.match.params.serverId).then(function () {
-          _this2.clearFocus();
+          if (_this2.props.channels[0] !== "Invalid Credentials") {
+            _this2.clearFocus();
 
-          document.getElementById("channel-info-".concat(_this2.props.match.params.channelId)).classList.add("focus");
+            document.getElementById("channel-info-".concat(_this2.props.match.params.channelId)).classList.add("focus");
+          }
         });
       }
     }
@@ -945,6 +951,7 @@ function (_React$Component) {
       if (this.props.channels.length === 0) return null;
       var server = this.props.server;
       var flag = this.props.channels.length === 1;
+      Object(_util_session_check_util__WEBPACK_IMPORTED_MODULE_3__["checkSession"])(this.props.channels[0], this.props.clearSession);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-index-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -998,6 +1005,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _channel_index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_index */ "./frontend/components/channel/channel_index.jsx");
 /* harmony import */ var _actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../actions/modal_actions */ "./frontend/actions/modal_actions.js");
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 
@@ -1029,6 +1038,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     deleteServerModal: function deleteServerModal() {
       return dispatch(Object(_actions_modal_actions__WEBPACK_IMPORTED_MODULE_4__["openModal"])("deleteServer"));
+    },
+    clearSession: function clearSession() {
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_6__["clearSession"])());
     }
   };
 };
@@ -1650,6 +1662,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _server_sidebar_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../server/sidebar_container */ "./frontend/components/server/sidebar_container.js");
 /* harmony import */ var _modal_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modal */ "./frontend/components/modal/modal.jsx");
 /* harmony import */ var _main_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./main_content */ "./frontend/components/interface/main_content.jsx");
+/* harmony import */ var _util_session_check_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../util/session_check_util */ "./frontend/util/session_check_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1667,6 +1680,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -1712,12 +1726,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      if (this.props.servers[0] === "Invalid Credentials") {
-        this.props.clearSession();
-        window.localStorage.clear();
-        return null;
-      }
-
+      Object(_util_session_check_util__WEBPACK_IMPORTED_MODULE_5__["checkSession"])(this.props.servers[0], this.props.clearSession);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "home-interface"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modal_modal__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_server_index__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -2003,6 +2012,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_channel_message_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../util/channel_message_api_util */ "./frontend/util/channel_message_api_util.js");
 /* harmony import */ var _util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../util/direct_message_api_util */ "./frontend/util/direct_message_api_util.js");
 /* harmony import */ var _util_set_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../util/set_icons */ "./frontend/util/set_icons.js");
+/* harmony import */ var _util_session_check_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/session_check_util */ "./frontend/util/session_check_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2020,6 +2030,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -2120,7 +2131,7 @@ function (_React$Component) {
             processForm = this.props.requestChannelMessages;
           }
 
-          processForm(this.props.input.id).then(function () {
+          processForm(this.props.input.id).then(function (data) {
             _this3.setState({
               messages: _this3.props.messages
             });
@@ -2143,7 +2154,7 @@ function (_React$Component) {
               _processForm = this.props.requestChannelMessages;
             }
 
-            _processForm(this.props.input.id).then(function () {
+            _processForm(this.props.input.id).then(function (data) {
               _this3.setState({
                 messages: _this3.props.messages
               });
@@ -2179,20 +2190,24 @@ function (_React$Component) {
       var message = Object.assign({}, this.state);
       message["author_id"] = this.props.currentUserId;
       this.props.createMessage(message).then(function (newMessage) {
-        if (_this4.props.inputType === "channel") {
-          Object(_util_channel_message_api_util__WEBPACK_IMPORTED_MODULE_2__["createChannelMessage"])(newMessage.message.id, _this4.props.input.id);
-        } else {
-          Object(_util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_3__["createDirectMessage"])(newMessage.message.id, _this4.props.input.id);
+        Object(_util_session_check_util__WEBPACK_IMPORTED_MODULE_5__["checkSession"])(newMessage.message[0], _this4.props.clearSession);
+
+        if (newMessage.message[0] !== "Invalid Credentials") {
+          if (_this4.props.inputType === "channel") {
+            Object(_util_channel_message_api_util__WEBPACK_IMPORTED_MODULE_2__["createChannelMessage"])(newMessage.message.id, _this4.props.input.id);
+          } else {
+            Object(_util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_3__["createDirectMessage"])(newMessage.message.id, _this4.props.input.id);
+          }
+
+          App.cable.subscriptions.subscriptions[0].speak({
+            message: newMessage.message,
+            method: 'create'
+          });
+
+          _this4.setState({
+            body: ""
+          });
         }
-
-        App.cable.subscriptions.subscriptions[0].speak({
-          message: newMessage.message,
-          method: 'create'
-        });
-
-        _this4.setState({
-          body: ""
-        });
       });
     }
   }, {
@@ -2285,6 +2300,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _message_index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./message_index */ "./frontend/components/message/message_index.jsx");
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../actions/message_actions */ "./frontend/actions/message_actions.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 
@@ -2310,6 +2327,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     createMessage: function createMessage(message) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["createMessage"])(message));
+    },
+    clearSession: function clearSession() {
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_4__["clearSession"])());
     }
   };
 };
@@ -4236,28 +4256,32 @@ function (_React$Component) {
       var _this = this;
 
       this.props.requestPrivateServers(this.props.currentUserId).then(function (data) {
-        var userIds = Object.values(data.servers).map(function (server) {
-          return server.userIds.filter(function (id) {
-            return id !== parseInt(_this.props.currentUserId);
-          })[0];
-        });
-        userIds.push(_this.props.currentUserId);
+        if (data.servers[0] !== "Invalid Credentials") {
+          var userIds = Object.values(data.servers).map(function (server) {
+            return server.userIds.filter(function (id) {
+              return id !== parseInt(_this.props.currentUserId);
+            })[0];
+          });
+          userIds.push(_this.props.currentUserId);
 
-        _this.props.requestUsersByIds(userIds).then(function () {
-          if (_this.props.location.pathname === "/servers/@me") {
-            document.getElementsByClassName("user-info")[0].classList.add("focus");
-          } else {
-            document.getElementById("user-info-".concat(_this.props.match.params.serverId)).classList.add("focus");
-          }
-        });
+          _this.props.requestUsersByIds(userIds).then(function () {
+            if (_this.props.location.pathname === "/servers/@me") {
+              document.getElementsByClassName("user-info")[0].classList.add("focus");
+            } else {
+              document.getElementById("user-info-".concat(_this.props.match.params.serverId)).classList.add("focus");
+            }
+          });
+        }
       });
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(preProps) {
       if (this.props.match.params.serverId && this.props.match.params.serverId !== preProps.match.params.serverId) {
-        this.clearFocus();
-        document.getElementById("user-info-".concat(this.props.match.params.serverId)).classList.add("focus");
+        if (this.props.servers[0] !== "Invalid Credentials") {
+          this.clearFocus();
+          document.getElementById("user-info-".concat(this.props.match.params.serverId)).classList.add("focus");
+        }
       }
     }
   }, {
@@ -4277,6 +4301,12 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var _this2 = this;
+
+      if (this.props.servers[0] === "Invalid Credentials") {
+        this.props.clearSession();
+        window.localStorage.clear();
+        return null;
+      }
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "private-servers-container"
@@ -6542,7 +6572,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var configureStore = function configureStore() {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
@@ -6974,6 +7004,28 @@ var deleteServer = function deleteServer(serverId) {
     method: "DELETE",
     url: "api/servers/".concat(serverId)
   });
+};
+
+/***/ }),
+
+/***/ "./frontend/util/session_check_util.js":
+/*!*********************************************!*\
+  !*** ./frontend/util/session_check_util.js ***!
+  \*********************************************/
+/*! exports provided: checkSession */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkSession", function() { return checkSession; });
+var checkSession = function checkSession(element, callback) {
+  if (element === "Invalid Credentials") {
+    callback();
+    window.localStorage.clear();
+    return null;
+  }
+
+  return true;
 };
 
 /***/ }),

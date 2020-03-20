@@ -10,25 +10,29 @@ class PrivateServerIndex extends React.Component {
     componentDidMount() {
         this.props.requestPrivateServers(this.props.currentUserId).then(
             data => {
-                const userIds = Object.values(data.servers).map(server => server.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0]);
-                userIds.push(this.props.currentUserId);
-                this.props.requestUsersByIds(userIds).then(
-                    () => {
-                        if(this.props.location.pathname === "/servers/@me") {
-                            document.getElementsByClassName("user-info")[0].classList.add("focus");
-                        } else {
-                            document.getElementById(`user-info-${this.props.match.params.serverId}`).classList.add("focus");
+                if (data.servers[0] !== "Invalid Credentials") {
+                    const userIds = Object.values(data.servers).map(server => server.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0]);
+                    userIds.push(this.props.currentUserId);
+                    this.props.requestUsersByIds(userIds).then(
+                        () => {
+                            if (this.props.location.pathname === "/servers/@me") {
+                                document.getElementsByClassName("user-info")[0].classList.add("focus");
+                            } else {
+                                document.getElementById(`user-info-${this.props.match.params.serverId}`).classList.add("focus");
+                            }
                         }
-                    }
-                );
+                    );
+                }
             }
         );
     }
 
     componentDidUpdate(preProps) {
         if (this.props.match.params.serverId && this.props.match.params.serverId !== preProps.match.params.serverId) {
-            this.clearFocus();
-            document.getElementById(`user-info-${this.props.match.params.serverId}`).classList.add("focus");
+            if (this.props.servers[0] !== "Invalid Credentials") {
+                this.clearFocus();
+                document.getElementById(`user-info-${this.props.match.params.serverId}`).classList.add("focus");
+            }
         }
     }
 
@@ -44,6 +48,12 @@ class PrivateServerIndex extends React.Component {
     }
     
     render() {
+        if(this.props.servers[0] === "Invalid Credentials") {
+            this.props.clearSession();
+            window.localStorage.clear();
+            return null;
+        }
+
         return (
             <aside className="private-servers-container">
                 <Link to="/servers/@me" onClick={this.addFocus.bind(this)} className="friends-tab user-info">

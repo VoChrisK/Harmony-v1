@@ -3,6 +3,7 @@ import ServerIndex from '../server/server_index';
 import SidebarContainer from '../server/sidebar_container';
 import Modal from '../modal/modal';
 import MainContent from './main_content';
+import { checkSession } from './../../util/session_check_util';
 
 class Interface extends React.Component {
     constructor(props) {
@@ -32,11 +33,7 @@ class Interface extends React.Component {
     }
     
     render() {
-        if(this.props.servers[0] === "Invalid Credentials") {
-            this.props.clearSession();
-            window.localStorage.clear();
-            return null;
-        }
+        checkSession(this.props.servers[0], this.props.clearSession);
 
         return (
             <div className="home-interface">

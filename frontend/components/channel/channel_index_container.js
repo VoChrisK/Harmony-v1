@@ -4,6 +4,7 @@ import { requestChannels } from '../../actions/channel_actions';
 import ChannelIndex from './channel_index';
 import { openModal } from './../../actions/modal_actions';
 import { requestServers } from '../../actions/server_actions';
+import { clearSession } from '../../actions/session_actions';
 
 const mapStateToProps = (state, ownProps) => {
     return ({
@@ -19,7 +20,8 @@ const mapDispatchToProps = (dispatch) => {
         requestServers: currentUserId => dispatch(requestServers(currentUserId)),
         createChannelModal: () => dispatch(openModal("createChannel")),
         updateServerModal: () => dispatch(openModal("updateServer")),
-        deleteServerModal: () => dispatch(openModal("deleteServer"))
+        deleteServerModal: () => dispatch(openModal("deleteServer")),
+        clearSession: () => dispatch(clearSession())
     });
 };
 

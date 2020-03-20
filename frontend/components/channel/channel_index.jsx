@@ -1,6 +1,7 @@
 import React from 'react';
 import ChannelIndexItemContainer from './channel_index_item_container';
 import { deleteAffiliation } from './../../util/affiliation_api_util';
+import { checkSession } from '../../util/session_check_util';
 
 class ChannelIndex extends React.Component {
     constructor(props) {
@@ -9,7 +10,11 @@ class ChannelIndex extends React.Component {
 
     componentDidMount() {
         this.props.requestChannels(this.props.match.params.serverId).then(
-            () => document.getElementById(`channel-info-${this.props.match.params.channelId}`).classList.add("focus")
+            () => {
+                if(this.props.channels[0] !== "Invalid Credentials") {
+                    document.getElementById(`channel-info-${this.props.match.params.channelId}`).classList.add("focus")
+                }
+            }
         );
     }
 
@@ -17,8 +22,10 @@ class ChannelIndex extends React.Component {
         if(this.props.match.params.serverId !== preProps.match.params.serverId || this.props.match.params.channelId !== preProps.match.params.channelId) {
             this.props.requestChannels(this.props.match.params.serverId).then(
                 () => {
-                    this.clearFocus();
-                    document.getElementById(`channel-info-${this.props.match.params.channelId}`).classList.add("focus");
+                    if (this.props.channels[0] !== "Invalid Credentials") {
+                        this.clearFocus();
+                        document.getElementById(`channel-info-${this.props.match.params.channelId}`).classList.add("focus")
+                    }
                 }
             );
         }
@@ -70,6 +77,7 @@ class ChannelIndex extends React.Component {
         if(this.props.channels.length === 0) return null;
         const { server } = this.props;
         const flag = this.props.channels.length === 1;
+        checkSession(this.props.channels[0], this.props.clearSession);
 
         return(
             <div className="channel-index-container">
