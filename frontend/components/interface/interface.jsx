@@ -32,9 +32,9 @@ class Interface extends React.Component {
     }
     
     render() {
-        if(this.props.servers.length === 0) return null;
         if(this.props.servers[0] === "Invalid Credentials") {
             this.props.clearSession();
+            window.localStorage.clear();
             return null;
         }
 

@@ -29,7 +29,9 @@ class SessionForm extends React.Component {
             setTimeout(() => this.props.processForm(user).then(
                 newUser => {
                     window.localStorage.setItem("currentUserId", newUser.currentUser.id)
-                    createAffiliation(newUser.currentUser.id, 1)
+                    createAffiliation(newUser.currentUser.id, 1).then(
+                        this.props.requestServer(1)
+                    )
                 }), this.totalTimer);
         }
         else {

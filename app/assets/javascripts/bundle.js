@@ -1712,10 +1712,9 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      if (this.props.servers.length === 0) return null;
-
       if (this.props.servers[0] === "Invalid Credentials") {
         this.props.clearSession();
+        window.localStorage.clear();
         return null;
       }
 
@@ -4954,7 +4953,7 @@ function (_React$Component) {
         setTimeout(function () {
           return _this2.props.processForm(user).then(function (newUser) {
             window.localStorage.setItem("currentUserId", newUser.currentUser.id);
-            Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_3__["createAffiliation"])(newUser.currentUser.id, 1);
+            Object(_util_affiliation_api_util__WEBPACK_IMPORTED_MODULE_3__["createAffiliation"])(newUser.currentUser.id, 1).then(_this2.props.requestServer(1));
           });
         }, this.totalTimer);
       } else {
@@ -5188,7 +5187,9 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
-/* harmony import */ var _session_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./session_form */ "./frontend/components/session/session_form.jsx");
+/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _session_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./session_form */ "./frontend/components/session/session_form.jsx");
+
 
 
 
@@ -5207,11 +5208,14 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     clearSessionErrors: function clearSessionErrors() {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["clearSessionErrors"])());
+    },
+    requestServer: function requestServer(serverId) {
+      return dispatch(Object(_actions_server_actions__WEBPACK_IMPORTED_MODULE_2__["requestServer"])(serverId));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_session_form__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_session_form__WEBPACK_IMPORTED_MODULE_3__["default"]));
 
 /***/ }),
 
@@ -6538,7 +6542,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var configureStore = function configureStore() {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
