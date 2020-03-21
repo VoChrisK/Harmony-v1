@@ -41,7 +41,7 @@ let users = [this.props.currentUser.id, this.props.user.id].sort();
 const server = Object.assign({}, { "name": `DM ${users[0]} and ${users[1]}` });
 ```
 
-* **Channels*
+* **Channels**
 
 Users have the ability to create channels within servers. Channels are essentially chatrooms that accomondate messages. Each channel contains its own set of messages so any time a user navigates to a different channel, that channel's messages will load and overwrite the previous channel's message. Users can hover on a channel and click on the icons to edit and delete it.
 
@@ -56,6 +56,10 @@ When there is only one channel, users cannot delete it. Servers must have at lea
 Users are able to interact with one another in real-time. A user can send a message and other users will immediately see the message. Users can also update and delete messages in real-time and only users can modify their own messages. They can interact with one another via channel messages and direct messages.
 
 Users can write, send, and modify messages in a specific channel and others users in the _same channel_ will immediately see the messages. The messages persist even if users navigate away from the channel.
+
+| |   |
+| ----------- |:---------:|
+| ![chat 1](https://github.com/VoChrisK/Harmony/blob/master/app/assets/images/harmony-chat-1.gif) | ![chat 2](https://github.com/VoChrisK/Harmony/blob/master/app/assets/images/harmony-chat-2.gif)   |
 
 Users can also send direct messages to other users individually. The same principle of real-time interaction applies to direct messages. They can start a direct message session with any user and there are multiple ways to start them:
 
