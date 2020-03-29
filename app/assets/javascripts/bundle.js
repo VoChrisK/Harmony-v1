@@ -1662,7 +1662,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modal_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modal */ "./frontend/components/modal/modal.jsx");
 /* harmony import */ var _main_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./main_content */ "./frontend/components/interface/main_content.jsx");
 /* harmony import */ var _util_session_check_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../util/session_check_util */ "./frontend/util/session_check_util.js");
-/* harmony import */ var _spinner_interface_load_spinner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../spinner/interface_load_spinner */ "./frontend/components/spinner/interface_load_spinner.jsx");
+/* harmony import */ var _spinner_load_spinner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../spinner/load_spinner */ "./frontend/components/spinner/load_spinner.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1743,7 +1743,9 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       if (!Object(_util_session_check_util__WEBPACK_IMPORTED_MODULE_5__["checkSession"])(this.props.servers[0], this.props.clearSession)) return null;
-      if (!this.state.isLoaded) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_spinner_interface_load_spinner__WEBPACK_IMPORTED_MODULE_6__["default"], null);
+      if (!this.state.isLoaded) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_spinner_load_spinner__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        type: "interface"
+      });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "home-interface"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modal_modal__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_server_index__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -2030,6 +2032,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_direct_message_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../util/direct_message_api_util */ "./frontend/util/direct_message_api_util.js");
 /* harmony import */ var _util_set_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../util/set_icons */ "./frontend/util/set_icons.js");
 /* harmony import */ var _util_session_check_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/session_check_util */ "./frontend/util/session_check_util.js");
+/* harmony import */ var _spinner_load_spinner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../spinner/load_spinner */ "./frontend/components/spinner/load_spinner.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2047,6 +2050,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -2245,7 +2249,9 @@ function (_React$Component) {
         className: "chat-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         id: "chat-log"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_spinner_load_spinner__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        type: "message"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "message-input-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
@@ -5260,10 +5266,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
-/***/ "./frontend/components/spinner/interface_load_spinner.jsx":
-/*!****************************************************************!*\
-  !*** ./frontend/components/spinner/interface_load_spinner.jsx ***!
-  \****************************************************************/
+/***/ "./frontend/components/spinner/load_spinner.jsx":
+/*!******************************************************!*\
+  !*** ./frontend/components/spinner/load_spinner.jsx ***!
+  \******************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5273,16 +5279,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 
-var InterfaceLoadSpinner = function InterfaceLoadSpinner() {
+var LoadSpinner = function LoadSpinner(_ref) {
+  var type = _ref.type;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "interface-spinner"
+    className: "".concat(type === "interface" ? "interface" : "", " spinner")
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    className: "spinner-gif",
-    src: discordSpinner
+    className: "".concat(type === "message" ? "message" : "", " spinner-gif"),
+    src: type === "interface" ? interfaceSpinner : messageSpinner
   }));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (InterfaceLoadSpinner);
+/* harmony default export */ __webpack_exports__["default"] = (LoadSpinner);
 
 /***/ }),
 
@@ -6618,7 +6625,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var configureStore = function configureStore() {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);

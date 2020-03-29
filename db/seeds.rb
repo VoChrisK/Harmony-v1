@@ -74,7 +74,7 @@ channel_message9 = ChannelMessage.create(message_id: message9.id, channel_id: ch
 channel_message10 = ChannelMessage.create(message_id: message10.id, channel_id: channel1.id)
 channel_message11 = ChannelMessage.create(message_id: message11.id, channel_id: channel1.id)
 
-message58 = Message.create(body: "Party time! Need some fireworks?", author_id: user2.id, Time.now + 47)
+message58 = Message.create(body: "Party time! Need some fireworks?", author_id: user2.id, created_at: Time.now + 47)
 message12 = Message.create(body: "Party mode engaged!", author_id: user4.id, created_at: Time.now + 61)
 message13 = Message.create(body: "Oh, Winston! *giggles* Got your favorite!", author_id: user1.id, created_at: Time.now + 94)
 message14 = Message.create(body: "For the last time, no more bananas!", author_id: user4.id, created_at: Time.now + 116)

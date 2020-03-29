@@ -4,6 +4,7 @@ import { createChannelMessage } from './../../util/channel_message_api_util';
 import { createDirectMessage } from './../../util/direct_message_api_util';
 import setIcons from './../../util/set_icons';
 import { checkSession } from '../../util/session_check_util';
+import LoadSpinner from '../spinner/load_spinner';
 
 class MessageIndex extends React.Component {
     constructor(props) {
@@ -146,7 +147,7 @@ class MessageIndex extends React.Component {
             <section className="chat-container">
 
                 <section id="chat-log">
-                    
+                    <LoadSpinner type={"message"} />
                 </section>
 
                 <form className="message-input-container">

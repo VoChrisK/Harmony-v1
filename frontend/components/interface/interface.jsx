@@ -4,7 +4,7 @@ import SidebarContainer from '../server/sidebar_container';
 import Modal from '../modal/modal';
 import MainContent from './main_content';
 import { checkSession } from './../../util/session_check_util';
-import InterfaceLoadSpinner from './../spinner/interface_load_spinner';
+import LoadSpinner from '../spinner/load_spinner';
 
 class Interface extends React.Component {
     constructor(props) {
@@ -46,7 +46,7 @@ class Interface extends React.Component {
     
     render() {
         if (!checkSession(this.props.servers[0], this.props.clearSession)) return null;
-        if (!this.state.isLoaded) return <InterfaceLoadSpinner />;
+        if (!this.state.isLoaded) return <LoadSpinner type={"interface"} />;
 
         return (
             <div className="home-interface">

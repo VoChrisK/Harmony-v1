@@ -31,7 +31,7 @@ aside::-webkit-scrollbar {
 }
 
 .main-content {
-    background-color: #36393f;
+    background-color: #363a3f;
     height: calc(100% - 0px);
     width: calc(100% - 238px - 80px);
     /* width: 1603px; */
@@ -109,11 +109,14 @@ aside::-webkit-scrollbar {
     color: #72767d;
 }
 
-.interface-spinner {
+.spinner {
     position: relative;
-    background-color: #282c2f;
     width: 100%;
     height: 100%;
+}
+
+.interface {
+    background-color: #282c2f;
 }
 
 .spinner-gif {
@@ -121,4 +124,8 @@ aside::-webkit-scrollbar {
     left: 50%;
     top: 50%;
     transform: translateX(-50%) translateY(-50%) scale(0.4);
+}
+
+.message.spinner-gif {
+    top: 10%;
 }
