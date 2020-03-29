@@ -4,15 +4,27 @@ import SidebarContainer from '../server/sidebar_container';
 import Modal from '../modal/modal';
 import MainContent from './main_content';
 import { checkSession } from './../../util/session_check_util';
+import InterfaceLoadSpinner from './../spinner/interface_load_spinner';
 
 class Interface extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            isLoaded: false
+        };
     }
 
     componentDidMount() {
-        this.props.requestServers(this.props.currentUserId);
-        this.props.requestFriends(this.props.currentUserId);
+        setTimeout(() => {
+            this.props.requestServers(this.props.currentUserId).then(
+                data => {
+                    if(data.servers[0] !== "Invalid Credentials") {
+                        this.props.requestFriends(this.props.currentUserId);
+                        this.setState({ isLoaded: true });
+                    }
+                }
+            );
+        }, 1000);
 
         document.getElementsByClassName("harmony-app")[0].addEventListener("click", () => {
             const dropdown = document.getElementsByClassName("dropdown-menu");
@@ -33,7 +45,8 @@ class Interface extends React.Component {
     }
     
     render() {
-        checkSession(this.props.servers[0], this.props.clearSession);
+        if (!checkSession(this.props.servers[0], this.props.clearSession)) return null;
+        if (!this.state.isLoaded) return <InterfaceLoadSpinner />;
 
         return (
             <div className="home-interface">

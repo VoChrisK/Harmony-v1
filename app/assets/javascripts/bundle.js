@@ -948,10 +948,9 @@ function (_React$Component) {
     value: function render() {
       var _this5 = this;
 
-      if (this.props.channels.length === 0) return null;
+      if (this.props.channels.length === 0 || !Object(_util_session_check_util__WEBPACK_IMPORTED_MODULE_3__["checkSession"])(this.props.channels[0], this.props.clearSession)) return null;
       var server = this.props.server;
       var flag = this.props.channels.length === 1;
-      Object(_util_session_check_util__WEBPACK_IMPORTED_MODULE_3__["checkSession"])(this.props.channels[0], this.props.clearSession);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-index-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1663,6 +1662,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modal_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modal */ "./frontend/components/modal/modal.jsx");
 /* harmony import */ var _main_content__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./main_content */ "./frontend/components/interface/main_content.jsx");
 /* harmony import */ var _util_session_check_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./../../util/session_check_util */ "./frontend/util/session_check_util.js");
+/* harmony import */ var _spinner_interface_load_spinner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./../spinner/interface_load_spinner */ "./frontend/components/spinner/interface_load_spinner.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1688,24 +1688,40 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var Interface =
 /*#__PURE__*/
 function (_React$Component) {
   _inherits(Interface, _React$Component);
 
   function Interface(props) {
+    var _this;
+
     _classCallCheck(this, Interface);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Interface).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Interface).call(this, props));
+    _this.state = {
+      isLoaded: false
+    };
+    return _this;
   }
 
   _createClass(Interface, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this = this;
+      var _this2 = this;
 
-      this.props.requestServers(this.props.currentUserId);
-      this.props.requestFriends(this.props.currentUserId);
+      setTimeout(function () {
+        _this2.props.requestServers(_this2.props.currentUserId).then(function (data) {
+          if (data.servers[0] !== "Invalid Credentials") {
+            _this2.props.requestFriends(_this2.props.currentUserId);
+
+            _this2.setState({
+              isLoaded: true
+            });
+          }
+        });
+      }, 1000);
       document.getElementsByClassName("harmony-app")[0].addEventListener("click", function () {
         var dropdown = document.getElementsByClassName("dropdown-menu");
 
@@ -1718,7 +1734,7 @@ function (_React$Component) {
       document.getElementsByClassName("harmony-app")[0].addEventListener("click", function (event) {
         if (document.getElementsByClassName("user-dropdown").length > 0) {
           if (!document.getElementsByClassName("user-dropdown")[0].contains(event.target)) {
-            _this.props.clearUserInfo();
+            _this2.props.clearUserInfo();
           }
         }
       });
@@ -1726,7 +1742,8 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      Object(_util_session_check_util__WEBPACK_IMPORTED_MODULE_5__["checkSession"])(this.props.servers[0], this.props.clearSession);
+      if (!Object(_util_session_check_util__WEBPACK_IMPORTED_MODULE_5__["checkSession"])(this.props.servers[0], this.props.clearSession)) return null;
+      if (!this.state.isLoaded) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_spinner_interface_load_spinner__WEBPACK_IMPORTED_MODULE_6__["default"], null);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "home-interface"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modal_modal__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_server_server_index__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -4217,6 +4234,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _private_server_index_item_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./private_server_index_item_container */ "./frontend/components/private_server/private_server_index_item_container.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _util_session_check_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../util/session_check_util */ "./frontend/util/session_check_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4234,6 +4252,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -4302,12 +4321,7 @@ function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      if (this.props.servers[0] === "Invalid Credentials") {
-        this.props.clearSession();
-        window.localStorage.clear();
-        return null;
-      }
-
+      if (!Object(_util_session_check_util__WEBPACK_IMPORTED_MODULE_3__["checkSession"])(this.props.servers[0], this.props.clearSession)) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("aside", {
         className: "private-servers-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
@@ -4439,16 +4453,10 @@ function (_React$Component) {
   _inherits(PrivateServerIndexItem, _React$Component);
 
   function PrivateServerIndexItem(props) {
-    var _this;
-
     _classCallCheck(this, PrivateServerIndexItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(PrivateServerIndexItem).call(this, props));
-    _this.otherUserId = _this.props.server.userIds.filter(function (id) {
-      return id !== parseInt(_this.props.currentUserId);
-    })[0];
-    _this.otherUser = _this.props.users[_this.otherUserId] || _this.props.friends[_this.otherUserId];
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(PrivateServerIndexItem).call(this, props)); // this.otherUserId = this.props.server.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0];
+    // this.otherUser = this.props.users[this.otherUserId] || this.props.friends[this.otherUserId];
   }
 
   _createClass(PrivateServerIndexItem, [{
@@ -4459,26 +4467,29 @@ function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
-      Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_3__["default"])(this.otherUserId);
+      if (!this.otherUserId) {
+        Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_3__["default"])(this.otherUserId);
+      }
     }
   }, {
     key: "handleDelete",
     value: function handleDelete() {
-      var _this2 = this;
+      var _this = this;
 
       this.props.deleteServer(this.props.server.id).then(function () {
-        return _this2.props.history.push("/servers/@me");
+        return _this.props.history.push("/servers/@me");
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       this.otherUserId = this.props.server.userIds.filter(function (id) {
-        return id !== parseInt(_this3.props.currentUserId);
+        return id !== parseInt(_this2.props.currentUserId);
       })[0];
       this.otherUser = this.props.users[this.otherUserId] || this.props.friends[this.otherUserId];
+      Object(_util_set_icons__WEBPACK_IMPORTED_MODULE_3__["default"])(this.otherUserId);
       if (!this.otherUser) return null;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
         to: "/servers/@me/".concat(this.props.server.id),
@@ -5249,6 +5260,32 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
+/***/ "./frontend/components/spinner/interface_load_spinner.jsx":
+/*!****************************************************************!*\
+  !*** ./frontend/components/spinner/interface_load_spinner.jsx ***!
+  \****************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var InterfaceLoadSpinner = function InterfaceLoadSpinner() {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "interface-spinner"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "spinner-gif",
+    src: discordSpinner
+  }));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (InterfaceLoadSpinner);
+
+/***/ }),
+
 /***/ "./frontend/components/splash.jsx":
 /*!****************************************!*\
   !*** ./frontend/components/splash.jsx ***!
@@ -5933,13 +5970,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
-/* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./actions/server_actions */ "./frontend/actions/server_actions.js");
 
 
 
-
- //add the localStorage stuff here and populate preloadedstate and pass it to the store.
-//might want to store session token too and have an expiration date
 
 document.addEventListener('DOMContentLoaded', function () {
   var preloadedState = {};
@@ -5954,8 +5987,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var store = Object(_store_store__WEBPACK_IMPORTED_MODULE_2__["default"])(preloadedState);
   var root = document.getElementById("root");
-  window.store = store;
-  window.requestServers = _actions_server_actions__WEBPACK_IMPORTED_MODULE_4__["requestServers"];
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_3__["default"], {
     store: store
   }), root);
@@ -5973,6 +6004,8 @@ document.addEventListener('DOMContentLoaded', function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../actions/channel_actions */ "./frontend/actions/channel_actions.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 var channelsReducer = function channelsReducer() {
@@ -5994,6 +6027,9 @@ var channelsReducer = function channelsReducer() {
       nextState = Object.assign({}, state);
       delete nextState[action.channelId];
       return nextState;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["LOGOUT_CURRENT_USER"]:
+      return {};
 
     default:
       return state;
@@ -6261,6 +6297,8 @@ var onlineReducer = function onlineReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 var privateServersReducer = function privateServersReducer() {
@@ -6282,6 +6320,9 @@ var privateServersReducer = function privateServersReducer() {
       nextState = Object.assign({}, state);
       delete nextState[action.serverId];
       return nextState;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["LOGOUT_CURRENT_USER"]:
+      return {};
 
     default:
       return state;
@@ -6331,6 +6372,8 @@ var RootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_server_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../actions/server_actions */ "./frontend/actions/server_actions.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 var serversReducer = function serversReducer() {
@@ -6352,6 +6395,9 @@ var serversReducer = function serversReducer() {
       nextState = Object.assign({}, state);
       delete nextState[action.serverId];
       return nextState;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["LOGOUT_CURRENT_USER"]:
+      return {};
 
     default:
       return state;
@@ -6572,7 +6618,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var configureStore = function configureStore() {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"]));
+  return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_1__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_2___default.a));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);

@@ -1,6 +1,7 @@
 import React from 'react';
 import PrivateServerIndexItemContainer from './private_server_index_item_container';
 import { Link, withRouter } from 'react-router-dom';
+import { checkSession } from './../../util/session_check_util';
 
 class PrivateServerIndex extends React.Component {
     constructor(props) {
@@ -48,11 +49,7 @@ class PrivateServerIndex extends React.Component {
     }
     
     render() {
-        if(this.props.servers[0] === "Invalid Credentials") {
-            this.props.clearSession();
-            window.localStorage.clear();
-            return null;
-        }
+        if(!checkSession(this.props.servers[0], this.props.clearSession)) return null;
 
         return (
             <aside className="private-servers-container">

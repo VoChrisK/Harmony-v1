@@ -6,8 +6,8 @@ import setIcons from './../../util/set_icons';
 class PrivateServerIndexItem extends React.Component {
     constructor(props) {
         super(props);
-        this.otherUserId = this.props.server.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0];
-        this.otherUser = this.props.users[this.otherUserId] || this.props.friends[this.otherUserId];
+        // this.otherUserId = this.props.server.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0];
+        // this.otherUser = this.props.users[this.otherUserId] || this.props.friends[this.otherUserId];
     }
     
     componentDidMount() {
@@ -15,7 +15,9 @@ class PrivateServerIndexItem extends React.Component {
     }
 
     componentDidUpdate() {
-        setIcons(this.otherUserId);
+        if(!this.otherUserId) {
+            setIcons(this.otherUserId);
+        }
     }
 
     handleDelete() {
@@ -27,6 +29,7 @@ class PrivateServerIndexItem extends React.Component {
     render() {
         this.otherUserId = this.props.server.userIds.filter(id => id !== parseInt(this.props.currentUserId))[0];
         this.otherUser = this.props.users[this.otherUserId] || this.props.friends[this.otherUserId];
+        setIcons(this.otherUserId);
         if(!this.otherUser) return null;
 
         return (

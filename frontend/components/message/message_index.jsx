@@ -30,8 +30,7 @@ class MessageIndex extends React.Component {
                     this.setState({ messages: this.props.messages })
                     this.expandMessages();
                 }
-            );
-            
+            );   
         }
 
         App.cable.subscriptions.create(

@@ -74,10 +74,9 @@ class ChannelIndex extends React.Component {
     }
 
     render() {
-        if(this.props.channels.length === 0) return null;
+        if (this.props.channels.length === 0 || !checkSession(this.props.channels[0], this.props.clearSession)) return null;
         const { server } = this.props;
         const flag = this.props.channels.length === 1;
-        checkSession(this.props.channels[0], this.props.clearSession);
 
         return(
             <div className="channel-index-container">
